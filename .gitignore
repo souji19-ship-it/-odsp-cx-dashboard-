@@ -1,0 +1,49 @@
+node_modules/
+logs/
+
+# All CSV data files — stored in SharePoint during publish, not in git
+*.csv
+data/
+
+# All log files
+*.log
+
+# Generated dashboard data (rebuild with: node generate-dashboard-data.js)
+dashboard-data.js
+dashboard-data.json
+
+# Publish state (tracks what's already been uploaded to SharePoint)
+publish-manifest.json
+
+# Generated report artifacts (produced by scrapers at runtime)
+kav2-full-summary-*.json
+kav2-kav2-*.json
+kav2-kav2-growth-analytics-*.json
+kav2-complete-*.json
+ai-all-up-*.json
+fab-report-*.json
+sharepoint-ai-report-*.json
+sharepoint-ai-comparison-*.csv
+status-email-draft.html
+
+# Generated wiki/summary outputs
+wiki-usage-summary.md
+wiki-content-escaped.txt
+
+# Debug screenshots
+*.png
+
+# Claude Code session files (skills/ is committed; local settings are not)
+.claude/settings.local.json
+.playwright-mcp/
+
+# Generated report outputs (text/JSON dumps in root)
+sharepoint-ai-report-*.txt
+page-full-text.txt
+
+# Windows artifacts
+Thumbs.db
+Desktop.ini
+
+# Per-tag scraper duration stats (used for LPT scheduling)
+.scrape-stats.json

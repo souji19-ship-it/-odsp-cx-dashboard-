@@ -1,0 +1,62 @@
+{
+  "generatedAt": "2026-06-15T13:22:53-07:00",
+  "reportWindow": "V0 scorecard shape from SG & AB Sync, cross-checked with Luca's canvas/tool/root-cause guidance",
+  "executiveMetrics": [
+    { "metric": "Thumbs Volume", "value": "Available for OCV surfaces", "description": "Total SharePoint tool-related feedback/interactions", "status": "partial" },
+    { "metric": "Thumbs Up %", "value": "Available where OCV mapped", "description": "Customer satisfaction", "status": "partial" },
+    { "metric": "DSAT %", "value": "Available where OCV mapped", "description": "Dissatisfaction rate", "status": "partial" },
+    { "metric": "Tool Calls", "value": "Partial via AppData/Augloop", "description": "Volume of SharePoint tool executions", "status": "partial" },
+    { "metric": "Tool Success Rate", "value": "Partial via kaToolDetails", "description": "% successful tool executions; not the same as task success", "status": "partial" },
+    { "metric": "Active Surfaces", "value": "7 target surfaces", "description": "Integrations to track weekly", "status": "defined" },
+    { "metric": "Weekly Active Users", "value": "Access pending", "description": "Reach/adoption", "status": "gap" },
+    { "metric": "Latency", "value": "Access pending", "description": "Performance / response quality indicator", "status": "gap" },
+    { "metric": "Top DSAT Driver", "value": "Needs theme pipeline", "description": "Biggest customer issue this week", "status": "gap" },
+    { "metric": "Biggest Opportunity", "value": "Needs growth + DSAT", "description": "Highest-growth surface with PM action", "status": "gap" }
+  ],
+  "surfaces": [
+    { "surface": "CoWork", "thumbsVolume": 22438, "thumbsUpPct": 88.2, "dsat": 11.8, "toolCalls": null, "toolSuccessRate": null, "wau": null, "latency": null, "usageGrowth": null, "ownerPm": "Roger", "ownerEm": "TBD", "status": "In progress", "gaDate": "Jun 15", "dataAccess": "OCV available; tool telemetry pending", "recommendedAction": "Confirm SharePoint attribution and connect CoWork/Augloop tool streams." },
+    { "surface": "Scout", "thumbsVolume": null, "thumbsUpPct": null, "dsat": null, "toolCalls": null, "toolSuccessRate": null, "wau": null, "latency": null, "usageGrowth": null, "ownerPm": "TBD", "ownerEm": "TBD", "status": "Planned", "gaDate": "TBD", "dataAccess": "Missing", "recommendedAction": "Identify source tables, owners, and access path." },
+    { "surface": "MCS", "thumbsVolume": null, "thumbsUpPct": null, "dsat": null, "toolCalls": null, "toolSuccessRate": null, "wau": null, "latency": null, "usageGrowth": null, "ownerPm": "TBD", "ownerEm": "TBD", "status": "Planned", "gaDate": "TBD", "dataAccess": "Missing", "recommendedAction": "Confirm whether Lobster/MCS telemetry has SharePoint tool attribution." },
+    { "surface": "Deepwork", "thumbsVolume": null, "thumbsUpPct": null, "dsat": null, "toolCalls": null, "toolSuccessRate": null, "wau": null, "latency": null, "usageGrowth": null, "ownerPm": "TBD", "ownerEm": "TBD", "status": "Discovery", "gaDate": "TBD", "dataAccess": "Missing", "recommendedAction": "Add to integration inventory and confirm telemetry owner." },
+    { "surface": "Spark", "thumbsVolume": null, "thumbsUpPct": null, "dsat": null, "toolCalls": null, "toolSuccessRate": null, "wau": null, "latency": null, "usageGrowth": null, "ownerPm": "TBD", "ownerEm": "TBD", "status": "Reference", "gaDate": "TBD", "dataAccess": "Source mapping pending", "recommendedAction": "Use as benchmark for what mature SharePoint agent integration should expose." },
+    { "surface": "ClawPilot", "thumbsVolume": null, "thumbsUpPct": null, "dsat": null, "toolCalls": null, "toolSuccessRate": null, "wau": null, "latency": null, "usageGrowth": null, "ownerPm": "TBD", "ownerEm": "TBD", "status": "Discovery", "gaDate": "TBD", "dataAccess": "Missing", "recommendedAction": "Confirm naming, scope, owners, and whether SharePoint tools are integrated." },
+    { "surface": "Copilot in SharePoint", "thumbsVolume": 596, "thumbsUpPct": 63.9, "dsat": 36.1, "toolCalls": 1136, "toolSuccessRate": 90.9, "wau": null, "latency": null, "usageGrowth": null, "ownerPm": "SPAI", "ownerEm": "TBD", "status": "Live", "gaDate": "Live", "dataAccess": "OCV + partial AppData available", "recommendedAction": "Treat as SharePoint-native baseline; compare same tools against CoWork, Scout, and MCS." }
+  ],
+  "toolFamilies": [
+    { "tool": "Search", "calls": null, "successRate": null, "dsat": null, "surfacesUsing": "CoWork, Scout, MCS, Spark, Copilot in SharePoint", "family": "SharePoint Tools", "action": "Define canonical search tool names across surfaces." },
+    { "tool": "File Retrieval", "calls": null, "successRate": null, "dsat": null, "surfacesUsing": "CoWork, MCS, Copilot in SharePoint", "family": "SharePoint Tools", "action": "Confirm telemetry fields for file retrieval success/failure." },
+    { "tool": "List Retrieval", "calls": null, "successRate": null, "dsat": null, "surfacesUsing": "Copilot in SharePoint, MCS", "family": "SharePoint Tools", "action": "Map list tools into SharePoint vs Graph taxonomy." },
+    { "tool": "Page Search", "calls": null, "successRate": null, "dsat": null, "surfacesUsing": "Copilot in SharePoint, Spark", "family": "SharePoint Tools", "action": "Benchmark against native CP-in-SP page scenarios." },
+    { "tool": "Knowledge Search", "calls": 201, "successRate": 87.5, "dsat": null, "surfacesUsing": "Copilot in SharePoint", "family": "SharePoint Tools", "action": "Track as one of the first tool-level rows with partial data." },
+    { "tool": "Save Content", "calls": null, "successRate": null, "dsat": null, "surfacesUsing": "CoWork, Spark", "family": "SharePoint Tools", "action": "Confirm success criteria: tool fired vs workflow completed." },
+    { "tool": "Create Content", "calls": 26, "successRate": 42.3, "dsat": null, "surfacesUsing": "Copilot in SharePoint", "family": "SharePoint Tools", "action": "High-priority investigation because tool execution success is low in seed data." }
+  ],
+  "mainDimensions": [
+    { "dimension": "Customer Satisfaction", "signals": "Thumbs, DSAT, feedback themes", "availableNow": "OCV thumbs and verbatims for mapped surfaces", "gap": "Reliable SharePoint attribution across non-SP surfaces" },
+    { "dimension": "Reliability", "signals": "Tool success, failures, exceptions", "availableNow": "Partial kaToolDetails for Copilot in SharePoint", "gap": "Canvas/Augloop tool streams for CoWork, Scout, MCS, Spark" },
+    { "dimension": "Adoption", "signals": "Users, sessions, retention", "availableNow": "Tenant/user counts possible in OCV slices", "gap": "WAU and session source of truth" },
+    { "dimension": "Performance", "signals": "Latency, completion rate", "availableNow": "Not available in current OCV-only dashboard", "gap": "Latency source and workflow completion schema" },
+    { "dimension": "Business Impact", "signals": "Workflow success, agent task completion", "availableNow": "Not available", "gap": "End-to-end task completion definition and owner" }
+  ],
+  "benchmarking": [
+    { "capability": "Search Tool", "coworkDsat": "11.8% surface DSAT proxy", "coworkSuccess": null, "scoutDsat": null, "scoutSuccess": null, "mcsDsat": null, "mcsSuccess": null, "rootCauseUse": "Determine whether search dissatisfaction is a tool issue or a canvas orchestration issue." },
+    { "capability": "Create Content", "coworkDsat": null, "coworkSuccess": null, "scoutDsat": null, "scoutSuccess": null, "mcsDsat": null, "mcsSuccess": null, "rootCauseUse": "Compare same create flow across surfaces before assigning ownership." },
+    { "capability": "File Retrieval", "coworkDsat": null, "coworkSuccess": null, "scoutDsat": null, "scoutSuccess": null, "mcsDsat": null, "mcsSuccess": null, "rootCauseUse": "Separate SharePoint file retrieval problems from canvas prompt/orchestration problems." }
+  ],
+  "surfaceTabs": [
+    { "surface": "CoWork", "summary": "High feedback volume and low surface-level DSAT, but SharePoint attribution and tool telemetry are not yet connected.", "usage": "22,438 thumbs in seed OCV slice", "quality": "11.8% DSAT surface-level proxy", "adoption": "WAU pending", "toolHealth": "Tool calls/success pending", "topComplaints": "Needs theme extraction after attribution is confirmed", "successfulScenarios": "Needs scenario taxonomy from Roger", "recommendedActions": "Confirm attribution, request telemetry streams, and validate top SharePoint scenarios." },
+    { "surface": "Scout", "summary": "Planned row in scorecard; telemetry source unknown.", "usage": "Pending", "quality": "Pending", "adoption": "Pending", "toolHealth": "Pending", "topComplaints": "Pending", "successfulScenarios": "Pending", "recommendedActions": "Identify PM/EM, status, data owner, and SharePoint tool list." },
+    { "surface": "MCS", "summary": "Planned row in scorecard; likely needs Lobster/MCS data stream access.", "usage": "Pending", "quality": "Pending", "adoption": "Pending", "toolHealth": "Pending", "topComplaints": "Pending", "successfulScenarios": "Pending", "recommendedActions": "Confirm MCS/Lobster telemetry and whether SharePoint tool calls are captured." },
+    { "surface": "Spark", "summary": "Reference surface for Luca's question: how do we make every canvas as powerful as Spark for SharePoint?", "usage": "Pending", "quality": "Pending", "adoption": "Pending", "toolHealth": "Pending", "topComplaints": "Pending", "successfulScenarios": "Pending", "recommendedActions": "Use Spark architecture and telemetry as target model for other canvases." },
+    { "surface": "Deepwork", "summary": "Discovery surface; ownership and telemetry unknown.", "usage": "Pending", "quality": "Pending", "adoption": "Pending", "toolHealth": "Pending", "topComplaints": "Pending", "successfulScenarios": "Pending", "recommendedActions": "Confirm whether SharePoint tools are integrated and add data source." },
+    { "surface": "ClawPilot", "summary": "Discovery surface; naming/scope needs confirmation.", "usage": "Pending", "quality": "Pending", "adoption": "Pending", "toolHealth": "Pending", "topComplaints": "Pending", "successfulScenarios": "Pending", "recommendedActions": "Confirm official surface name, owners, status, and telemetry availability." },
+    { "surface": "Copilot in SharePoint", "summary": "SharePoint-native baseline with OCV and partial tool-call data available.", "usage": "596 thumbs in seed slice", "quality": "36.1% DSAT", "adoption": "WAU pending", "toolHealth": "1,136 parsed tool calls; 90.9% execution success", "topComplaints": "Needs recurring DSAT driver extraction", "successfulScenarios": "Needs scenario rollup by tool and prompt intent", "recommendedActions": "Use as baseline for same-tool cross-surface benchmarking." }
+  ],
+  "actionCenter": [
+    { "issue": "Define source of truth for each surface", "owner": "Ankit/team", "surface": "All", "impact": "Blocks automated weekly scorecard", "dueDate": "This week" },
+    { "issue": "Confirm SharePoint attribution field for CoWork/MCS/Scout", "owner": "Sentiment dashboard team + Luca", "surface": "CoWork/MCS/Scout", "impact": "Blocks SharePoint-specific thumbs and DSAT", "dueDate": "This week" },
+    { "issue": "Create tool-family taxonomy", "owner": "Luca", "surface": "All", "impact": "Blocks SharePoint vs Graph vs Other comparison", "dueDate": "This week" },
+    { "issue": "Identify latency and workflow completion telemetry", "owner": "Luca + telemetry owners", "surface": "All", "impact": "Blocks quality-of-integration dimensions", "dueDate": "This week" },
+    { "issue": "Turn dashboard into weekly PM/EM action loop", "owner": "Soujanya + Ambal", "surface": "All", "impact": "Ensures output answers what PMs/EMs should do next", "dueDate": "Friday" }
+  ]
+}

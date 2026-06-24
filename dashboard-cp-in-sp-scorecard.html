@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SharePoint Agentic Health Scorecard</title>
+  <script src="chart.umd.min.js"></script>
+  <style>
+    *{box-sizing:border-box}
+    :root{--blue:#0078d4;--navy:#0f172a;--slate:#64748b;--border:#e2e8f0;--bg:#f1f5f9;--green:#16a34a;--red:#dc2626;--orange:#c55a11;--purple:#6b3fa0}
+    body{margin:0;background:var(--bg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;color:#1e293b}
+    .shell{display:flex;height:100vh;overflow:hidden}aside{width:250px;background:var(--navy);color:#fff;flex-shrink:0;overflow-y:auto}
+    .brand{padding:20px;border-bottom:1px solid #334155}.brand-mark{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:7px;background:var(--blue);font-weight:700;margin-right:8px}
+    .brand-title{font-weight:800;font-size:14px}.brand-sub{color:#94a3b8;font-size:12px;margin-left:42px;margin-top:2px}
+    nav{padding:14px}.nav-label{color:#64748b;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin:8px 10px}
+    .nav-btn{width:100%;border:0;background:transparent;color:#cbd5e1;text-align:left;padding:9px 12px;border-radius:8px;cursor:pointer;font-size:13px;margin-bottom:3px}
+    .nav-btn:hover,.nav-btn.active{background:var(--blue);color:#fff}
+    main{flex:1;overflow-y:auto}.topbar{background:#fff;border-bottom:1px solid var(--border);padding:16px 24px;display:flex;justify-content:space-between;align-items:center}
+    h1{font-size:22px;margin:0;color:#0f172a}.subtle{color:var(--slate);font-size:12px}.content{padding:22px}
+    .panel{display:none}.panel.active{display:block}.grid{display:grid;gap:16px}.cols-2{grid-template-columns:1.1fr .9fr}.cols-3{grid-template-columns:repeat(3,1fr)}.cols-5{grid-template-columns:repeat(5,1fr)}
+    .card,.kpi{background:#fff;border:1px solid var(--border);border-radius:12px;box-shadow:0 1px 3px rgba(15,23,42,.06)}
+    .card{padding:18px}.kpi{padding:16px}.kpi-label{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--slate);font-weight:700}.kpi-value{font-size:24px;font-weight:800;color:#0f172a;margin-top:6px}.kpi-note{font-size:12px;color:var(--slate);margin-top:4px}
+    .card h2{font-size:16px;color:#0f172a;margin:0 0 12px}table{width:100%;border-collapse:collapse;font-size:13px}th{background:#0f172a;color:#fff;text-align:left;padding:9px;white-space:nowrap}td{border-bottom:1px solid var(--border);padding:9px;vertical-align:top}tr:nth-child(even) td{background:#f8fafc}
+    .na{color:#94a3b8;font-style:italic}.callout{background:#e8f1fa;border-left:4px solid var(--blue);border-radius:10px;padding:12px;color:#1e3a5f;font-size:13px;line-height:1.45}
+    .tag{display:inline-block;border-radius:999px;padding:3px 8px;font-size:11px;font-weight:700;background:#e2e8f0;color:#475569}.tag.ok{background:#dcfce7;color:#166534}.tag.warn{background:#fff3df;color:var(--orange)}.tag.bad{background:#fde8e8;color:var(--red)}
+    canvas{max-height:310px}.surface-card{display:grid;grid-template-columns:180px 1fr;gap:8px;font-size:13px}.surface-card div:nth-child(odd){font-weight:700;color:#475569}
+  </style>
+</head>
+<body>
+<div class="shell">
+  <aside>
+    <div class="brand"><span class="brand-mark">SP</span><span class="brand-title">Agentic Health</span><div class="brand-sub">PM/EM weekly scorecard</div></div>
+    <nav>
+      <div class="nav-label">Scorecard Pages</div>
+      <button class="nav-btn active" onclick="showTab('executive', this)">1. Executive Scorecard</button>
+      <button class="nav-btn" onclick="showTab('inventory', this)">2. Integration Inventory</button>
+      <button class="nav-btn" onclick="showTab('workloads', this)">3. Workloads View</button>
+      <button class="nav-btn" onclick="showTab('comparison', this)">4. Cross-Surface Comparison</button>
+      <button class="nav-btn" onclick="showTab('dimensions', this)">5. Main Dimensions</button>
+      <button class="nav-btn" onclick="showTab('tools', this)">6. Tool Family View</button>
+      <button class="nav-btn" onclick="showTab('benchmarking', this)">7. Benchmarking View</button>
+      <button class="nav-btn" onclick="showTab('surfaces', this)">Surface Tabs</button>
+      <button class="nav-btn" onclick="showTab('actions', this)">Action Center</button>
+    </nav>
+  </aside>
+  <main>
+    <div class="topbar">
+      <div><h1>SharePoint Agentic Health Scorecard</h1><div class="subtle">Answers: where SP tools are integrated, whether customers use them, whether they succeed, and what PMs/EMs should do next.</div></div>
+      <div class="subtle" id="generatedAt"></div>
+    </div>
+    <div class="content">
+      <section id="executive" class="panel active">
+        <div class="grid cols-5" id="execKpis"></div>
+        <div class="grid cols-2" style="margin-top:16px">
+          <div class="card"><h2>Surface health snapshot</h2><canvas id="surfaceHealthChart"></canvas></div>
+          <div class="card"><h2>Executive readout</h2><div class="callout">This landing page is intended to be the weekly page Adam, Cory, Roger, and Zach can review first. It intentionally combines available data with explicit gaps so the dashboard becomes an operating scorecard, not just a metrics dump.</div></div>
+        </div>
+      </section>
+
+      <section id="inventory" class="panel"><div class="card"><h2>Integration Inventory: where SharePoint is integrated and who owns it</h2><table id="inventoryTable"></table></div></section>
+      <section id="workloads" class="panel"><div class="card"><h2>Workloads View: where SharePoint tools are showing up</h2><table id="workloadsTable"></table></div></section>
+      <section id="comparison" class="panel">
+        <div class="grid cols-2">
+          <div class="card"><h2>Cross-Surface Comparison: best/worst surfaces</h2><table id="comparisonTable"></table></div>
+          <div class="card"><h2>Ranked DSAT / adoption view</h2><canvas id="comparisonChart"></canvas></div>
+        </div>
+      </section>
+      <section id="dimensions" class="panel"><div class="card"><h2>Main Dimensions: measuring quality of integrations</h2><table id="dimensionsTable"></table></div></section>
+      <section id="tools" class="panel"><div class="card"><h2>Tool Family View: which SharePoint tools matter most</h2><table id="toolsTable"></table></div></section>
+      <section id="benchmarking" class="panel"><div class="card"><h2>Benchmarking View: same SharePoint capability across surfaces</h2><table id="benchmarkingTable"></table></div></section>
+      <section id="surfaces" class="panel">
+        <div class="grid cols-2" id="surfaceCards"></div>
+      </section>
+      <section id="actions" class="panel"><div class="card"><h2>Action Center: what PMs and EMs should do this week</h2><table id="actionTable"></table></div></section>
+    </div>
+  </main>
+</div>
+
+<script>
+const DEFAULT_DATA = null;
+let DATA;
+async function loadData(){
+  try {
+    const response = await fetch('cp-in-sp-scorecard-data.json', {cache:'no-store'});
+    DATA = response.ok ? await response.json() : null;
+  } catch {
+    DATA = null;
+  }
+  if (!DATA) {
+    document.querySelector('.content').innerHTML = '<div class="card"><h2>Data file not loaded</h2><div class="callout">Open the standalone HTML version or keep cp-in-sp-scorecard-data.json beside this file.</div></div>';
+    return;
+  }
+  render();
+}
+function fmt(v, suffix=''){ return v === null || v === undefined ? '<span class="na">Missing</span>' : `${v}${suffix}`; }
+function tag(status){
+  const s = String(status || '').toLowerCase();
+  const cls = s.includes('missing') || s.includes('gap') ? 'bad' : s.includes('partial') || s.includes('pending') ? 'warn' : 'ok';
+  return `<span class="tag ${cls}">${status}</span>`;
+}
+function showTab(id, btn){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
+function render(){
+  document.getElementById('generatedAt').textContent = `Generated: ${DATA.generatedAt}`;
+  const surfaces = DATA.surfaces;
+  document.getElementById('execKpis').innerHTML = DATA.executiveMetrics.slice(0,10).map(m=>`<div class="kpi"><div class="kpi-label">${m.metric}</div><div class="kpi-value">${m.value}</div><div class="kpi-note">${m.description}<br>${tag(m.status)}</div></div>`).join('');
+  document.getElementById('inventoryTable').innerHTML = '<tr><th>Surface</th><th>PM</th><th>EM</th><th>Status</th><th>GA Date</th><th>Data Access Status</th><th>Next action</th></tr>' + surfaces.map(s=>`<tr><td><b>${s.surface}</b></td><td>${s.ownerPm}</td><td>${s.ownerEm}</td><td>${tag(s.status)}</td><td>${s.gaDate}</td><td>${s.dataAccess}</td><td>${s.recommendedAction}</td></tr>`).join('');
+  document.getElementById('workloadsTable').innerHTML = '<tr><th>Surface</th><th>Thumbs Volume</th><th>Thumbs Up %</th><th>DSAT</th><th>Tool Calls</th><th>Tool Success Rate</th><th>WAU</th><th>Latency</th></tr>' + surfaces.map(s=>`<tr><td><b>${s.surface}</b></td><td>${fmt(s.thumbsVolume)}</td><td>${fmt(s.thumbsUpPct,'%')}</td><td>${fmt(s.dsat,'%')}</td><td>${fmt(s.toolCalls)}</td><td>${fmt(s.toolSuccessRate,'%')}</td><td>${fmt(s.wau)}</td><td>${fmt(s.latency)}</td></tr>`).join('');
+  document.getElementById('comparisonTable').innerHTML = '<tr><th>Surface</th><th>DSAT</th><th>Tool Success</th><th>Usage Growth</th><th>WAU</th><th>Interpretation</th></tr>' + surfaces.map(s=>`<tr><td><b>${s.surface}</b></td><td>${fmt(s.dsat,'%')}</td><td>${fmt(s.toolSuccessRate,'%')}</td><td>${fmt(s.usageGrowth)}</td><td>${fmt(s.wau)}</td><td>${s.recommendedAction}</td></tr>`).join('');
+  document.getElementById('dimensionsTable').innerHTML = '<tr><th>Dimension</th><th>Signals</th><th>Available now</th><th>Gap to close</th></tr>' + DATA.mainDimensions.map(d=>`<tr><td><b>${d.dimension}</b></td><td>${d.signals}</td><td>${d.availableNow}</td><td>${d.gap}</td></tr>`).join('');
+  document.getElementById('toolsTable').innerHTML = '<tr><th>Tool</th><th>Family</th><th>Calls</th><th>Success Rate</th><th>DSAT</th><th>Surfaces Using</th><th>PM/EM action</th></tr>' + DATA.toolFamilies.map(t=>`<tr><td><b>${t.tool}</b></td><td>${t.family}</td><td>${fmt(t.calls)}</td><td>${fmt(t.successRate,'%')}</td><td>${fmt(t.dsat,'%')}</td><td>${t.surfacesUsing}</td><td>${t.action}</td></tr>`).join('');
+  document.getElementById('benchmarkingTable').innerHTML = '<tr><th>Capability</th><th>CoWork DSAT</th><th>CoWork Success</th><th>Scout DSAT</th><th>Scout Success</th><th>MCS DSAT</th><th>MCS Success</th><th>Root-cause use</th></tr>' + DATA.benchmarking.map(b=>`<tr><td><b>${b.capability}</b></td><td>${fmt(b.coworkDsat)}</td><td>${fmt(b.coworkSuccess)}</td><td>${fmt(b.scoutDsat)}</td><td>${fmt(b.scoutSuccess)}</td><td>${fmt(b.mcsDsat)}</td><td>${fmt(b.mcsSuccess)}</td><td>${b.rootCauseUse}</td></tr>`).join('');
+  document.getElementById('surfaceCards').innerHTML = DATA.surfaceTabs.map(s=>`<div class="card"><h2>${s.surface}</h2><div class="surface-card"><div>Executive Summary</div><div>${s.summary}</div><div>Usage</div><div>${s.usage}</div><div>Quality</div><div>${s.quality}</div><div>Adoption</div><div>${s.adoption}</div><div>Tool Health</div><div>${s.toolHealth}</div><div>Top Complaints</div><div>${s.topComplaints}</div><div>Successful Scenarios</div><div>${s.successfulScenarios}</div><div>Recommended Actions</div><div>${s.recommendedActions}</div></div></div>`).join('');
+  document.getElementById('actionTable').innerHTML = '<tr><th>Issue</th><th>Owner</th><th>Surface</th><th>Impact</th><th>Due Date</th></tr>' + DATA.actionCenter.map(a=>`<tr><td><b>${a.issue}</b></td><td>${a.owner}</td><td>${a.surface}</td><td>${a.impact}</td><td>${tag(a.dueDate)}</td></tr>`).join('');
+
+  new Chart(document.getElementById('surfaceHealthChart'), {
+    type:'bar',
+    data:{labels:surfaces.map(s=>s.surface),datasets:[{label:'Thumbs Volume',data:surfaces.map(s=>s.thumbsVolume||0),backgroundColor:'#0078d477'},{type:'line',label:'DSAT %',data:surfaces.map(s=>s.dsat||0),borderColor:'#6b3fa0',backgroundColor:'#6b3fa0',yAxisID:'y1'}]},
+    options:{plugins:{legend:{position:'bottom'}},scales:{y:{beginAtZero:true},y1:{beginAtZero:true,position:'right',grid:{drawOnChartArea:false}}}}
+  });
+  new Chart(document.getElementById('comparisonChart'), {
+    type:'bar',
+    data:{labels:surfaces.map(s=>s.surface),datasets:[{label:'DSAT %',data:surfaces.map(s=>s.dsat||0),backgroundColor:'#dc262677'},{label:'Tool Success %',data:surfaces.map(s=>s.toolSuccessRate||0),backgroundColor:'#16a34a77'}]},
+    options:{plugins:{legend:{position:'bottom'}},scales:{y:{beginAtZero:true}}}
+  });
+}
+loadData();
+</script>
+</body>
+</html>

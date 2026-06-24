@@ -1,0 +1,35 @@
+{
+  "name": "msft-reporting",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node scrape-all-dashboards.js",
+    "scrape-all": "node scrape-all-dashboards.js",
+    "scrape-kav2": "node scrape-dashboard-tabs.js",
+    "scrape-competition": "node scrape-copilot-by-content.js",
+    "scrape-legacy": "node scrape-all-metrics.js",
+    "scrape": "node scrape-with-profile.js",
+    "scrape-work": "node scrape-with-work-profile.js",
+    "auth": "node authenticate.js",
+    "scrape-saved": "node scrape-report.js",
+    "report": "node generate-sharepoint-ai-report.js",
+    "email": "powershell -ExecutionPolicy Bypass -File send-report-email.ps1",
+    "email-draft": "powershell -ExecutionPolicy Bypass -File send-report-email.ps1 -Test",
+    "open:cp-sp-scorecard": "powershell -ExecutionPolicy Bypass -Command \"Start-Process dashboard-cp-in-sp-scorecard.html\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@azure/identity": "^4.13.1",
+    "azure-kusto-data": "^7.1.0",
+    "csv-parse": "^6.1.0",
+    "playwright": "^1.58.2",
+    "playwriter": "^0.0.89"
+  },
+  "devDependencies": {
+    "ws": "^8.19.0"
+  }
+}
