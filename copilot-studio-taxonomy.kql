@@ -30,12 +30,13 @@
 //     customDimensions -> needs an agent-classification lookup / registry.
 //   * Non-Prod: meeting scope = eval + test + auto-provisioned + first-person/system.
 //     IsDesignMode==True is a first-cut proxy (design-mode / authoring & test).
-//   * Active Users/Tenants are gated on KnowledgeSourceLatency per Sandeep's query
-//     (knowledge-active proxy). Active Agents was moved to AgenticLoopTurnLatency
-//     (agents that ran >=1 task): This-wk 52.4K per-region sum reconciles with
-//     Sandeep's cited ~48.5K (KnowledgeSourceLatency basis undercounted to ~26K).
-//     NOTE: for Agents, Total is an INDEPENDENT distinct (not Prod+NonProd), because
-//     an agent can run turns in both design and non-design mode.
+//   * Active Users/Tenants/Agents are ALL gated on AgenticLoopTurnLatency (turn-active),
+//     a single consistent basis. Active Agents on this basis (This-wk 52.4K per-region /
+//     52.1K global) reconciles with Sandeep's cited ~48.5K; the earlier
+//     KnowledgeSourceLatency basis undercounted Agents to ~26K. Users/Tenants likewise
+//     moved to turn basis (Users 27K->49K, Tenants 10K->11.5K global, This-wk).
+//     NOTE: all-up Total is an INDEPENDENT distinct (not Prod+NonProd), because an
+//     entity can be active in both design and non-design mode.
 // =====================================================================================
 
 // -------------------------------------------------------------------------------------
@@ -61,13 +62,36 @@ cluster('<ISLAND>.kusto.windows.net').database('CAPAnalytics').TraceEvents
          ConvId   = tostring(meta.ConversationId),
          Env      = iff(tostring(meta.IsDesignMode) == 'True', 'NonProd', 'Prod')
 | summarize
-    ActiveUsers   = dcountif(UserId,   eventName == 'KnowledgeSourceLatency' and isnotempty(UserId)),
-    ActiveTenants = dcountif(TenantId, eventName == 'KnowledgeSourceLatency' and isnotempty(TenantId)),
+    ActiveUsers   = dcountif(UserId,   eventName == 'AgenticLoopTurnLatency' and isnotempty(UserId)),   // turn-active (consistent basis)
+    ActiveTenants = dcountif(TenantId, eventName == 'AgenticLoopTurnLatency' and isnotempty(TenantId)),
     ActiveAgents  = dcountif(AgentId,  eventName == 'AgenticLoopTurnLatency' and isnotempty(AgentId)),  // agents that ran >=1 task; reconciles with Sandeep ~48.5K
     Tasks         = dcountif(ConvId,   eventName == 'AgenticLoopTurnLatency'  and isnotempty(ConvId)),
     ToolCalls     = countif(eventName == 'AgenticLoopToolCallLatency')
   by wk, Env
-// Driver: sum each metric across all islands, by (wk, Env); Total = Prod + NonProd.
+// Driver: sum each metric across all islands, by (wk, Env). NOTE: for distinct metrics
+// (Users/Tenants/Agents), the all-up Total is an INDEPENDENT distinct, NOT Prod+NonProd
+// (an entity can appear in both modes). Per-region sum ~= true global distinct: verified
+// within <1% for Users & Agents (Tenants ~5% higher) against the single-union dcount below.
+
+// -------------------------------------------------------------------------------------
+// GLOBAL DISTINCT (headline totals) – single lean union across all 19 clusters. This
+// COMPLETES (~minutes) because it filters to turn events only and projects just the ids.
+// (Union list abbreviated; include all 19 cluster('<ISLAND>.kusto.windows.net') refs.)
+// -------------------------------------------------------------------------------------
+// union
+//   cluster('fdislandsus.centralus.kusto.windows.net').database('CAPAnalytics').TraceEvents,
+//   cluster('fdislandseu.westeurope.kusto.windows.net').database('CAPAnalytics').TraceEvents,
+//   ... (all 19 islands) ...
+// | where env_time > ago(14d)
+// | where applicationName in ("fabric:/CopilotStudio.AgenticRuntime", "fabric:/CopilotStudio.AgenticLoopApp")
+// | where eventName == 'AgenticLoopTurnLatency'
+// | extend meta = parse_json(customDimensions)
+// | project UserId = tostring(principalObjectId), TenantId = tostring(meta.TenantId),
+//           AgentId = tostring(meta.CdsBotId), last7 = env_time > ago(7d)
+// | summarize
+//     U_This = dcountif(UserId,   last7 and isnotempty(UserId)),   U_Last = dcountif(UserId,   not(last7) and isnotempty(UserId)),
+//     T_This = dcountif(TenantId, last7 and isnotempty(TenantId)), T_Last = dcountif(TenantId, not(last7) and isnotempty(TenantId)),
+//     A_This = dcountif(AgentId,  last7 and isnotempty(AgentId)),  A_Last = dcountif(AgentId,  not(last7) and isnotempty(AgentId))
 
 // -------------------------------------------------------------------------------------
 // MAINLINE view: identical, but replace the applicationName filter with everything NOT
@@ -83,17 +107,27 @@ cluster('<ISLAND>.kusto.windows.net').database('CAPAnalytics').TraceEvents
 // -------------------------------------------------------------------------------------
 
 // -------------------------------------------------------------------------------------
-// LIVE RESULT (pulled 2026-07-16, all-up Dracarys, summed per-region):
-//   Last wk (Jul 2-9)   Prod / NonProd / Total
-//     Active Users     15,649 /  4,327 /  19,976
-//     Active Tenants    4,849 /  2,142 /   6,991
-//     Active Agents    35,777 / 15,292 /  47,004   (turn-based; Total = independent distinct)
-//     Tasks           649,714 / 76,161 / 725,875
-//     Tool Calls    2,856,132 /257,207 /3,113,339
-//   This wk (Jul 9-16)  Prod / NonProd / Total
-//     Active Users     13,991 / 13,075 /  27,066
-//     Active Tenants    3,793 /  6,272 /  10,065
-//     Active Agents    21,030 / 40,690 /  52,367   (turn-based; ~= Sandeep's ~48.5K)
-//     Tasks           510,565 /236,446 / 747,011
-//     Tool Calls    3,651,330 /882,991 /4,534,321
+// LIVE RESULT (pulled 2026-07-16, all-up Dracarys, TURN-BASED, summed per-region).
+// Total-column caveat: for Users/Tenants/Agents the true all-up is an independent global
+// distinct (see GLOBAL section), not Prod+NonProd.
+//   Last wk (Jul 2-9)   Prod / NonProd  (per-region sum)
+//     Active Users     32,509 /  8,344
+//     Active Tenants    8,456 /  3,732
+//     Active Agents    35,777 / 15,292
+//     Tasks           649,714 / 76,161
+//     Tool Calls    2,856,132 /257,207
+//   This wk (Jul 9-16)  Prod / NonProd  (per-region sum)
+//     Active Users     29,642 / 25,093
+//     Active Tenants    6,663 / 10,641
+//     Active Agents    21,030 / 40,690
+//     Tasks           510,565 /236,446
+//     Tool Calls    3,651,330 /882,991
+//
+// TRUE GLOBAL DISTINCT (single union across all 19 clusters, turn basis) -- headline totals:
+//                     Last wk / This wk
+//     Active Users    38,011 / 49,097
+//     Active Tenants   9,368 / 11,500
+//     Active Agents   47,070 / 52,061   (~= Sandeep's ~48.5K)
+// The lean single-union dcount (turn events only, project 3 ids) DOES complete (~minutes);
+// prefer it for headline totals. Prod/NonProd split still comes from the per-region pull.
 // -------------------------------------------------------------------------------------
