@@ -1,0 +1,136 @@
+// =====================================================================================
+// Copilot Studio – ODSP-in-Agentic-Work Scorecard (Level 201 + 301)
+// Kusto queries derived from the "ODSP + Copilot Studio Data Sync" working session
+// (Sandeep Yerra, 2026-07-16). These implement the taxonomy Ambal proposed:
+//   Prod / Non-Prod  x  C1 / C2 / Total  x  {Active Users, Active Tenants,
+//   Active Agents, Tasks, Tool Calls}  for Last-wk vs This-wk.
+//
+// STATUS: DRAFT. Column/event/connector names below are Sandeep's described LOGIC
+// mapped onto the current dashboard's known source (DB CAPAnalytics, table
+// TraceEvents, Dracarys apps CopilotStudio.AgenticRuntime / AgenticLoopApp).
+// Items tagged  <<CONFIRM>>  must be reconciled against the ADX dashboard "View Query"
+// (dashboard 7bec563a-def0-4f41-a66f-545a006c932a) before publishing numbers.
+//
+// Source model (from meeting):
+//   * CAP Analytics  – ~30d retention, HAS user-level data. Cluster = FDA Island
+//     Central US + 18 regional peer clusters (fan-out union). Use for Active Users.
+//   * Silver Tables  – eval platform, NO user data (PIA). Good for tools/turns/tasks.
+//   * Dracarys       – filter to Agentic Runtime + Agentic Loop App apps.
+//   * Mainline       – legacy; everything NOT in the Dracarys app filter.
+//   * event name column = primary taxonomy mechanism (tool / turn / task / knowledge).
+//   * C1 = builder / enterprise (global, shared) agents.
+//   * C2 = end-user self-created agents.  Report C1, C2, Total (do NOT exclude C1).
+//   * Prod = real / published agents. Non-Prod = eval, test, auto-provisioned,
+//     first-person / system agents. Apply the SAME filter to ALL five metrics
+//     (fixes prior "agents filtered, tasks/tool-calls raw" inconsistency).
+//   * ODSP tools = SharePoint / OneDrive connectors (e.g. Get File Item, Get File
+//     Content, shared_sharepointonline, onedriveforbusiness, ...).
+// =====================================================================================
+
+// ------------------------------------------------------------------------------------
+// 0. PARAMETERS  – 7-day CST windows (Sunday–Saturday). Adjust dates per report run.
+// ------------------------------------------------------------------------------------
+let tz          = "US/Central";                 // CST windows per meeting
+let thisWkStart = datetime(2026-07-05);
+let thisWkEnd   = datetime(2026-07-12);         // exclusive
+let lastWkStart = datetime(2026-06-28);
+let lastWkEnd   = datetime(2026-07-05);         // exclusive
+//
+// Dracarys app identifiers                       <<CONFIRM exact AppName values>>
+let dracarysApps = dynamic(["CopilotStudio.AgenticRuntime", "AgenticLoopApp"]);
+//
+// Event-name taxonomy                            <<CONFIRM exact EventName tokens>>
+let toolEvents  = dynamic(["ToolInvoked","ToolCall","ConnectorAction","PluginInvoked"]);
+let taskEvents  = dynamic(["TaskCompleted","ConversationStarted","TurnCompleted"]);
+let agentEvents = dynamic(["AgentInvoked","BotInvoked","AgentActivated"]);
+//
+// ODSP (SharePoint / OneDrive) connectors / tools   <<CONFIRM connector IDs>>
+let odspConnectors = dynamic([
+    "shared_sharepointonline","workiqsharepoint","workiqonedrive","onedriveforbusiness"
+]);
+let odspTools = dynamic(["Get File Item","Get File Content"]);   // examples from meeting
+
+// ------------------------------------------------------------------------------------
+// 1. BASE  – TraceEvents scoped to a window, classified into cohort (C1/C2) + env
+//    (Prod/Non-Prod) + orchestrator (Dracarys/Mainline). Reused by every metric.
+//    NOTE: for cross-cluster totals, wrap TraceEvents in union across the FDA Island
+//    Central US cluster + 18 regional peers, e.g.
+//        union cluster('fdaisland-centralus.kusto.windows.net').database('CAPAnalytics').TraceEvents,
+//              cluster('<peer-1>').database('CAPAnalytics').TraceEvents, ...   <<CONFIRM cluster URIs>>
+// ------------------------------------------------------------------------------------
+let Base = (wStart:datetime, wEnd:datetime) {
+    TraceEvents
+    | where Timestamp >= wStart and Timestamp < wEnd                 // <<CONFIRM ts col>>
+    // orchestrator classification
+    | extend Orchestrator = iff(AppName in (dracarysApps), "Dracarys", "Mainline")  // <<CONFIRM AppName col>>
+    // C1 vs C2  – builder/enterprise vs end-user-created                <<CONFIRM col>>
+    | extend Cohort = case(
+        AgentCreatorType == "Builder"  or AgentScope == "Enterprise", "C1",
+        AgentCreatorType == "EndUser"  or AgentScope == "User",       "C2",
+        "Unknown")
+    // Prod vs Non-Prod                                                 <<CONFIRM cols>>
+    | extend Env = case(
+        AgentLifecycle in ("Eval","Test","AutoProvisioned","FirstParty","System"), "NonProd",
+        IsPublished == true or AgentLifecycle == "Published",                       "Prod",
+        "Prod")
+    // event class
+    | extend EvtClass = case(
+        EventName in (toolEvents),  "Tool",
+        EventName in (taskEvents),  "Task",
+        EventName in (agentEvents), "Agent",
+        "Other")
+};
+
+// ------------------------------------------------------------------------------------
+// 2. TAXONOMY METRICS (201)  – one row per Metric x Cohort x Env for a given window.
+//    Run with (lastWkStart,lastWkEnd) for "Last wk" and (thisWkStart,thisWkEnd) for
+//    "This wk". Filter Orchestrator=="Dracarys" for the Dracarys view, or drop that
+//    filter for all-up, or =="Mainline" for the legacy view.
+// ------------------------------------------------------------------------------------
+let Taxonomy = (wStart:datetime, wEnd:datetime, orch:string) {
+    let b = Base(wStart, wEnd)
+        | where orch == "All" or Orchestrator == orch
+        | where Cohort in ("C1","C2");                 // Total = C1 + C2
+    union
+      (b | summarize Value = dcount(UserId)   by Cohort, Env | extend Metric = "Active Users"),   // CAP only (user data)
+      (b | summarize Value = dcount(TenantId) by Cohort, Env | extend Metric = "Active Tenants"),
+      (b | where EvtClass == "Agent" | summarize Value = dcount(AgentId) by Cohort, Env | extend Metric = "Active Agents"),
+      (b | where EvtClass == "Task"  | summarize Value = count()          by Cohort, Env | extend Metric = "Tasks"),
+      (b | where EvtClass == "Tool"  | summarize Value = count()          by Cohort, Env | extend Metric = "Tool Calls")
+    | project Metric, Env, Cohort, Value
+};
+// Dashboard-ready pivot (C1 / C2 / Total per Env) for THIS week – Dracarys view:
+Taxonomy(thisWkStart, thisWkEnd, "Dracarys")
+| evaluate pivot(Cohort, sum(Value), Metric, Env)
+| extend Total = coalesce(C1,0) + coalesce(C2,0)
+| order by Env asc, Metric asc;
+
+// ------------------------------------------------------------------------------------
+// 3. LAST-WEEK pivot (same shape) – for the "Last wk" columns:
+// ------------------------------------------------------------------------------------
+// Taxonomy(lastWkStart, lastWkEnd, "Dracarys")
+// | evaluate pivot(Cohort, sum(Value), Metric, Env)
+// | extend Total = coalesce(C1,0) + coalesce(C2,0)
+// | order by Env asc, Metric asc;
+
+// ------------------------------------------------------------------------------------
+// 4. MAINLINE view – identical, just swap the orchestrator argument:
+// ------------------------------------------------------------------------------------
+// Taxonomy(thisWkStart, thisWkEnd, "Mainline") | evaluate pivot(Cohort, sum(Value), Metric, Env) ...
+
+// ------------------------------------------------------------------------------------
+// 5. ODSP-IN-COPILOT-STUDIO FOOTPRINT (301)  – numerator = events whose connector/tool
+//    is SharePoint/OneDrive. % of CS = ODSP footprint / CS all-up per metric.
+//    (Meeting: tool calls / ODSP tool calls / turns matched within ~1%.)
+// ------------------------------------------------------------------------------------
+let OdspFootprint = (wStart:datetime, wEnd:datetime) {
+    let b = Base(wStart, wEnd)
+        | where ConnectorId in (odspConnectors) or ToolName in (odspTools);  // <<CONFIRM cols>>
+    union
+      (b | summarize Value = dcount(UserId)   | extend Metric = "Active Users"),
+      (b | summarize Value = dcount(TenantId) | extend Metric = "Active Tenants"),
+      (b | where EvtClass == "Task" | summarize Value = dcount(TaskId)     | extend Metric = "Tasks"),   // tasks invoking >=1 ODSP tool
+      (b | where EvtClass == "Tool" | summarize Value = count()           | extend Metric = "Tool Calls")
+    | project Metric, Value
+};
+// OdspFootprint(thisWkStart, thisWkEnd) | order by Metric asc;
