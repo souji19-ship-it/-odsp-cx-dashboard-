@@ -30,9 +30,12 @@
 //     customDimensions -> needs an agent-classification lookup / registry.
 //   * Non-Prod: meeting scope = eval + test + auto-provisioned + first-person/system.
 //     IsDesignMode==True is a first-cut proxy (design-mode / authoring & test).
-//   * Active Users/Tenants/Agents are gated on KnowledgeSourceLatency per Sandeep's query
-//     (knowledge-active proxy); this undercounts agents with no knowledge search
-//     (e.g. dashboard 28.3K vs Sandeep's registry-based ~48.5K).
+//   * Active Users/Tenants are gated on KnowledgeSourceLatency per Sandeep's query
+//     (knowledge-active proxy). Active Agents was moved to AgenticLoopTurnLatency
+//     (agents that ran >=1 task): This-wk 52.4K per-region sum reconciles with
+//     Sandeep's cited ~48.5K (KnowledgeSourceLatency basis undercounted to ~26K).
+//     NOTE: for Agents, Total is an INDEPENDENT distinct (not Prod+NonProd), because
+//     an agent can run turns in both design and non-design mode.
 // =====================================================================================
 
 // -------------------------------------------------------------------------------------
@@ -60,7 +63,7 @@ cluster('<ISLAND>.kusto.windows.net').database('CAPAnalytics').TraceEvents
 | summarize
     ActiveUsers   = dcountif(UserId,   eventName == 'KnowledgeSourceLatency' and isnotempty(UserId)),
     ActiveTenants = dcountif(TenantId, eventName == 'KnowledgeSourceLatency' and isnotempty(TenantId)),
-    ActiveAgents  = dcountif(AgentId,  eventName == 'KnowledgeSourceLatency' and isnotempty(AgentId)),
+    ActiveAgents  = dcountif(AgentId,  eventName == 'AgenticLoopTurnLatency' and isnotempty(AgentId)),  // agents that ran >=1 task; reconciles with Sandeep ~48.5K
     Tasks         = dcountif(ConvId,   eventName == 'AgenticLoopTurnLatency'  and isnotempty(ConvId)),
     ToolCalls     = countif(eventName == 'AgenticLoopToolCallLatency')
   by wk, Env
@@ -84,13 +87,13 @@ cluster('<ISLAND>.kusto.windows.net').database('CAPAnalytics').TraceEvents
 //   Last wk (Jul 2-9)   Prod / NonProd / Total
 //     Active Users     15,649 /  4,327 /  19,976
 //     Active Tenants    4,849 /  2,142 /   6,991
-//     Active Agents    16,158 /  8,317 /  24,475
+//     Active Agents    35,777 / 15,292 /  47,004   (turn-based; Total = independent distinct)
 //     Tasks           649,714 / 76,161 / 725,875
 //     Tool Calls    2,856,132 /257,207 /3,113,339
 //   This wk (Jul 9-16)  Prod / NonProd / Total
 //     Active Users     13,991 / 13,075 /  27,066
 //     Active Tenants    3,793 /  6,272 /  10,065
-//     Active Agents     9,633 / 20,765 /  30,398
+//     Active Agents    21,030 / 40,690 /  52,367   (turn-based; ~= Sandeep's ~48.5K)
 //     Tasks           510,565 /236,446 / 747,011
 //     Tool Calls    3,651,330 /882,991 /4,534,321
 // -------------------------------------------------------------------------------------
