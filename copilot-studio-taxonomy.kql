@@ -267,3 +267,91 @@ TraceEvents
 //   WorkIQ OneDrive      99.2 -> 99.8 ;  1.0%   OneDrive for Bus.  85.5 -> 86.1 ;  0.3%
 //   Total ODSP calls: 45,327 -> 213,980.
 // =====================================================================================
+
+// #####################################################################################
+// ## SUPERSEDED BY THE SECTION BELOW (Sandeep answers, 2026-07-17).                   ##
+// ## The 2026-07-16 ODSP filter above used the /apim/ connector segment + direct-URL  ##
+// ## regex AND included WorkIQ MCP remotes, and summed per-region distincts. Sandeep  ##
+// ## corrected: (1) ODSP tool = message.ConnectorId in shared_sharepointonline /      ##
+// ## shared_onedriveforbusiness ONLY (WorkIQ MCP is a separate surface); (2) ODSP also ##
+// ## includes a KNOWLEDGE surface = KnowledgeSourceLatency, KnowledgeSource in         ##
+// ## SharePoint/SharePointList; (3) global de-dup via HLL, not per-region sum;         ##
+// ## (4) Tenants = native principalTenantId; (5) C1/C2 = channel tier via ChannelId.   ##
+// #####################################################################################
+
+// =====================================================================================
+// ODSP IN COPILOT STUDIO -- SANDEEP-ALIGNED (2026-07-17)  [201 all-up + 301 + 401]
+// Metric defs (Sandeep Yerra, ODSP+CS Data Sync 2026-07-16):
+//   Users   = dcount(principalObjectId)   (native col) on AgenticLoopTurnLatency
+//   Tenants = dcount(principalTenantId)   (native col) on AgenticLoopTurnLatency
+//   Agents  = dcount(CdsBotId) ; Tasks = dcount(ConversationId)
+//   C1/C2   = CHANNEL TIER via ChannelId off AgenticLoopConversationIdentityValidation
+//             (present inline on turn/tool events): C1 = pva-studio | pva-maker-evaluation ;
+//             C2 = everything else.
+//   Prod/NonProd = IsDesignMode False/True. Per Sandeep all agents currently prod ->
+//             All-up is the v1 headline; NonProd (mostly C1 maker authoring) folded in.
+//   ODSP = TWO surfaces:
+//     Tool      : AgenticLoopToolCallLatency, message.ConnectorId in
+//                 (shared_sharepointonline, shared_onedriveforbusiness)
+//     Knowledge : KnowledgeSourceLatency, message.KnowledgeSource in
+//                 (SharePoint, SharePointList)   (OneDrive federates via SharePoint)
+//   De-dup  : ONE global distinct -- HLL push-down hll(id) per cluster -> hll_merge ->
+//             dcount_hll (~1.6% err). Do NOT sum per-region distincts. (Exact variant:
+//             return make_set(id) per cluster, union client-side.)
+//   Windows : Sun-Sat calendar weeks; Last=Jun28-Jul4, This=Jul5-11. Pulled 2026-07-17.
+//   NOTE    : no per-turn thumbs/quality by knowledge source in CAP (feedback is
+//             per-agent/day only) -> no ODSP-attributed DSAT for CS.
+// -------------------------------------------------------------------------------------
+// Single pass; run per regional cluster; sum additive counts, HLL-merge the id sketches.
+TraceEvents
+| where env_time >= datetime(2026-06-28) and env_time < datetime(2026-07-12)
+| where applicationName in ("fabric:/CopilotStudio.AgenticRuntime","fabric:/CopilotStudio.AgenticLoopApp")
+| where eventName in ('AgenticLoopTurnLatency','AgenticLoopToolCallLatency','KnowledgeSourceLatency')
+| extend wk = iff(env_time >= datetime(2026-07-05),'This','Last')
+| extend meta = parse_json(customDimensions), msg = parse_json(message)
+| extend UserId=tostring(principalObjectId), TenantId=tostring(principalTenantId),
+         ConvId=tostring(meta.ConversationId), BotId=tostring(meta.CdsBotId),
+         Ms=todouble(meta.TotalMilliseconds),
+         ChannelId=tolower(coalesce(tostring(meta.ChannelId), tostring(msg.ChannelId))),
+         Conn=tolower(tostring(msg.ConnectorId)), KS=tostring(msg.KnowledgeSource),
+         DM=iff(tostring(meta.IsDesignMode)=='True','NonProd','Prod')
+| extend Tier = iff(ChannelId in ('pva-studio','pva-maker-evaluation'),'C1','C2')
+| extend Success = iff(isnotempty(tostring(meta.Success)), tostring(meta.Success), tostring(msg.Success))
+| extend IsTurn = eventName=='AgenticLoopTurnLatency', IsToolEv = eventName=='AgenticLoopToolCallLatency'
+| extend IsODSPtool = IsToolEv and Conn in ('shared_sharepointonline','shared_onedriveforbusiness')
+| extend IsODSPknow = eventName=='KnowledgeSourceLatency' and KS in ('SharePoint','SharePointList')
+| extend IsODSP = IsODSPtool or IsODSPknow
+| summarize
+    CS_Turns=countif(IsTurn), CS_TurnSucc=countif(IsTurn and Success=='True'),
+    CS_ToolCalls=countif(IsToolEv), CS_Tasks=dcountif(ConvId, IsTurn),
+    ODSP_ToolCalls=countif(IsODSPtool), ODSP_ToolSucc=countif(IsODSPtool and Success=='True'),
+    ODSP_MsSum=sumif(Ms, IsODSPtool and isnotnull(Ms)), ODSP_MsCnt=countif(IsODSPtool and isnotnull(Ms)),
+    ODSP_Know=countif(IsODSPknow), ODSP_Tasks=dcountif(ConvId, IsODSP),
+    // HLL sketches for global de-dup (hll_merge across clusters, then dcount_hll):
+    CS_Users_hll=hll(UserId), CS_Tens_hll=hll(TenantId), CS_Agents_hll=hll(BotId),
+    ODSP_Users_hll=hll(iff(IsODSP,UserId,'')), ODSP_Tens_hll=hll(iff(IsODSP,TenantId,''))
+  by wk, Tier, DM
+// per-connector (401 tool health) -- the two authoritative connectors, by tier:
+//   | where eventName=='AgenticLoopToolCallLatency'
+//   | where tolower(tostring(parse_json(message).ConnectorId)) in ('shared_sharepointonline','shared_onedriveforbusiness')
+//   | summarize Calls=count(), Succ=countif(Success=='True'), MsSum=sumif(Ms,isnotnull(Ms)),
+//               MsCnt=countif(isnotnull(Ms)) by wk, Conn, Tier
+// =====================================================================================
+// LIVE RESULT (pulled 2026-07-17, Sun-Sat; Last=Jun28-Jul4 -> This=Jul5-11):
+// -- 201 CS ALL-UP (de-duplicated Total ; C1 | C2 shown):
+//    Users   28,642 -> 40,090   (C1 20,340 | C2 24,627)
+//    Tenants  7,905 ->  9,894   (C1  8,588 | C2  5,685)
+//    Agents  39,404 -> 48,518   (C1 37,727 | C2 18,881)   [matches Sandeep ~48.5K]
+//    Tasks  481,777 ->713,468   ToolCalls 1,516,416 -> 3,629,388
+// -- 301 ODSP FOOTPRINT (Total ; C1 | C2):
+//    Users    8,641 -> 12,312   (C1  6,757 | C2  6,810)
+//    Tenants  3,195 ->  4,003   (C1  3,499 | C2  2,063)
+//    Tasks   69,498 ->107,765   Tool calls 68,096 -> 169,040   Knowledge 117,782 -> 209,403
+// -- 301 % of CS (Total):  Users 30.2->30.7 | Tenants 40.4->40.5 | Tasks 14.4->15.1 | ToolCalls 4.5->4.7
+// -- 401 PERFORMANCE:  ODSP tool succ 86.7% -> 67.1% (v19.6pp) | Turn succ 97.6->98.3 |
+//                      Avg tool latency 791ms -> 495ms (faster 37.4%)
+// -- PER-CONNECTOR (share this ; Last succ -> This succ):
+//    SharePoint Online       92.6% ; 86.3 -> 65.0   [C1 80.3->84.7 | C2 92.9->58.2 <== driver]
+//    OneDrive for Business    7.4% ; 90.9 -> 93.6
+//    ==> the tool-success drop is isolated to C2 (end-user runtime) SharePoint.
+// =====================================================================================
