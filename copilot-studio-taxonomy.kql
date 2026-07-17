@@ -108,26 +108,31 @@ cluster('<ISLAND>.kusto.windows.net').database('CAPAnalytics').TraceEvents
 
 // -------------------------------------------------------------------------------------
 // LIVE RESULT (pulled 2026-07-16, all-up Dracarys, TURN-BASED, summed per-region).
+// Windows are Sun-Sat (rolling two weeks): Last = Jun 28-Jul 4, This = Jul 5-11 (2026).
+// To reproduce, replace `ago(14d)` with explicit bounds:
+//   | where env_time >= datetime(2026-06-28) and env_time < datetime(2026-07-12)
+//   | extend wk = iff(env_time >= datetime(2026-07-05),'This','Last')
 // Total-column caveat: for Users/Tenants/Agents the true all-up is an independent global
 // distinct (see GLOBAL section), not Prod+NonProd.
-//   Last wk (Jul 2-9)   Prod / NonProd  (per-region sum)
-//     Active Users     32,509 /  8,344
-//     Active Tenants    8,456 /  3,732
-//     Active Agents    35,777 / 15,292
-//     Tasks           649,714 / 76,161
-//     Tool Calls    2,856,132 /257,207
-//   This wk (Jul 9-16)  Prod / NonProd  (per-region sum)
-//     Active Users     29,642 / 25,093
-//     Active Tenants    6,663 / 10,641
-//     Active Agents    21,030 / 40,690
-//     Tasks           510,565 /236,446
-//     Tool Calls    3,651,330 /882,991
+//   Last wk (Jun 28-Jul 4)  Prod / NonProd  (per-region sum)
+//     Active Users     26,441 /  3,903
+//     Active Tenants    7,764 /  1,753
+//     Active Agents    34,561 /  6,789
+//     Tasks           430,998 / 51,015
+//     Tool Calls    1,395,706 /120,710
+//   This wk (Jul 5-11)      Prod / NonProd  (per-region sum)
+//     Active Users     32,361 / 12,355
+//     Active Tenants    8,325 /  5,635
+//     Active Agents    33,985 / 20,735
+//     Tasks           609,229 /105,626
+//     Tool Calls    3,258,237 /371,151
 //
 // TRUE GLOBAL DISTINCT (single union across all 19 clusters, turn basis) -- headline totals:
-//                     Last wk / This wk
-//     Active Users    38,011 / 49,097
-//     Active Tenants   9,368 / 11,500
-//     Active Agents   47,070 / 52,061   (~= Sandeep's ~48.5K)
+//                     Last wk (Jun28-Jul4) / This wk (Jul5-11)
+//     Active Users    29,051 / 40,334
+//     Active Tenants   7,921 /  9,881
+//     Active Agents   39,532 / 48,592   (~= the cited ~48.5K)
+//   All-up Tasks (additive) 482,013 / 714,855 ; Tool Calls 1,516,416 / 3,629,388.
 // The lean single-union dcount (turn events only, project 3 ids) DOES complete (~minutes);
 // prefer it for headline totals. Prod/NonProd split still comes from the per-region pull.
 // -------------------------------------------------------------------------------------
