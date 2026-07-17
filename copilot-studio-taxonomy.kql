@@ -201,3 +201,69 @@ DeclarativeAgentsActiveC2ByTenantId_Temp
 // -> WeeklyActiveAgents 248,023 (~= cited 249,381) BUT last refreshed 2025-11-01 -- STALE.
 //    Superseded by the fresh ActiveCustomAgentsAndC2UsersByTenantId prod count 132,757.
 // =====================================================================================
+
+// =====================================================================================
+// ODSP IN COPILOT STUDIO -- 301 FOOTPRINT + % of CS, 401 PERFORMANCE, per-connector
+// Scope: Dracarys agentic-loop (CAPAnalytics TraceEvents), 19 FDA-Island regional
+// clusters, per-region distinct counts summed client-side (~ global). Sun-Sat windows:
+//   Last = Jun 28-Jul 4 (2026-06-28 .. <2026-07-05) ; This = Jul 5-11 (.. <2026-07-12).
+// ODSP tool = AgenticLoopToolCallLatency whose connector (segment after /apim/) is one
+// of {sharepointonline, onedriveforbusiness, workiqsharepoint, workiqonedrive,
+// sharepointembedded} OR a direct *.sharepoint.com / onedrive URL (no apim connector).
+// Success = customDimensions.Success (fallback message.Success); latency =
+// customDimensions.TotalMilliseconds. Pulled live 2026-07-16 (per-cluster fan-out).
+// -------------------------------------------------------------------------------------
+// 301 footprint + %-of-CS + 401 turn-success (single pass; run per regional cluster, sum)
+TraceEvents
+| where env_time >= datetime(2026-06-28) and env_time < datetime(2026-07-12)
+| where applicationName in ("fabric:/CopilotStudio.AgenticRuntime","fabric:/CopilotStudio.AgenticLoopApp")
+| where eventName in ('AgenticLoopToolCallLatency','AgenticLoopTurnLatency')
+| extend wk = iff(env_time >= datetime(2026-07-05),'This','Last')
+| extend meta = parse_json(customDimensions), msg = parse_json(message)
+| extend UserId=tostring(principalObjectId), TenantId=tostring(meta.TenantId),
+         ConvId=tostring(meta.ConversationId), Url=tostring(meta.SanitizedUrl),
+         Ms=todouble(meta.TotalMilliseconds)
+| extend Success = iff(isnotempty(tostring(meta.Success)), tostring(meta.Success), tostring(msg.Success))
+| extend Conn = tolower(extract(@"/apim/([^/]+)/", 1, Url))
+| extend IsODSP = (eventName=='AgenticLoopToolCallLatency') and (
+        Conn in ("sharepointonline","onedriveforbusiness","workiqsharepoint","workiqonedrive","sharepointembedded")
+        or (isempty(Conn) and Url matches regex @"(?i)(\.sharepoint\.com|onedrive)") )
+| summarize
+    ODSP_Users=dcountif(UserId, IsODSP and isnotempty(UserId)),
+    ODSP_Tenants=dcountif(TenantId, IsODSP and isnotempty(TenantId)),
+    ODSP_Tasks=dcountif(ConvId, IsODSP and isnotempty(ConvId)),
+    ODSP_ToolCalls=countif(IsODSP),
+    ODSP_ToolSucc=countif(IsODSP and Success=='True'),
+    ODSP_MsSum=sumif(Ms, IsODSP and isnotnull(Ms)), ODSP_MsCnt=countif(IsODSP and isnotnull(Ms)),
+    CS_Users=dcountif(UserId, eventName=='AgenticLoopTurnLatency' and isnotempty(UserId)),
+    CS_Tenants=dcountif(TenantId, eventName=='AgenticLoopTurnLatency' and isnotempty(TenantId)),
+    CS_Tasks=dcountif(ConvId, eventName=='AgenticLoopTurnLatency' and isnotempty(ConvId)),
+    CS_ToolCalls=countif(eventName=='AgenticLoopToolCallLatency'),
+    CS_TurnTotal=countif(eventName=='AgenticLoopTurnLatency'),
+    CS_TurnSucc=countif(eventName=='AgenticLoopTurnLatency' and Success=='True')
+  by wk
+// -- per-connector (401 tool health): swap the summarize for:
+//   | extend Conn2 = case(Conn in (...ODSP set...), Conn,
+//        isempty(Conn) and Url matches regex @"(?i)\.sharepoint\.com","sharepoint_direct",
+//        isempty(Conn) and Url matches regex @"(?i)onedrive","onedrive_direct","other")
+//   | where Conn2 != "other"
+//   | summarize Calls=count(), Succ=countif(Success=='True'),
+//               MsSum=sumif(Ms,isnotnull(Ms)), MsCnt=countif(isnotnull(Ms)) by wk, Conn2
+// =====================================================================================
+// LIVE RESULT (pulled 2026-07-16, Sun-Sat; Last=Jun28-Jul4, This=Jul5-11):
+// 301 FOOTPRINT (Total):  Users 1,826 -> 6,564 | Tenants 752 -> 2,579 |
+//                         Tasks 16,014 -> 53,473 | Tool calls 45,327 -> 213,980
+//   C1/C2 NOT derivable at this scope (no builder-vs-user classifier in TraceEvents).
+// 301 % of CS:  Users 6.3% -> 16.2% | Tenants 8.9% -> 24.6% |
+//               Tasks 3.3% -> 7.5%  | Tool calls 3.0% -> 5.9%
+//   CS all-up denominators: Users 28,981->40,397 | Tenants 8,419->10,485 |
+//                           Tasks 481,950->714,056 | ToolCalls 1,516,416->3,629,388
+// 401 PERFORMANCE:  Tool success 92.7% -> 71.6% (v 21.1pp) |
+//                   Turn success 97.6% -> 98.3% (^ 0.7pp) | Avg latency 1,179ms -> 606ms
+//   Driver of tool-success drop = SharePoint Online (46.8% of ODSP calls) -> 52.9%.
+// PER-CONNECTOR (Last succ% -> This succ% ; This share%):
+//   SharePoint Online    77.3 -> 52.9 ; 46.8%   OneDrive (direct)  81.3 -> 61.3 ; 11.3%
+//   SharePoint (direct)  94.6 -> 94.7 ; 36.5%   WorkIQ SharePoint  99.5 -> 99.5 ;  4.1%
+//   WorkIQ OneDrive      99.2 -> 99.8 ;  1.0%   OneDrive for Bus.  85.5 -> 86.1 ;  0.3%
+//   Total ODSP calls: 45,327 -> 213,980.
+// =====================================================================================
