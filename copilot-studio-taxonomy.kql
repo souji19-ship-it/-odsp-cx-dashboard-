@@ -131,3 +131,68 @@ cluster('<ISLAND>.kusto.windows.net').database('CAPAnalytics').TraceEvents
 // The lean single-union dcount (turn events only, project 3 ids) DOES complete (~minutes);
 // prefer it for headline totals. Prod/NonProd split still comes from the per-region pull.
 // -------------------------------------------------------------------------------------
+
+// =====================================================================================
+// ALL-UP PLATFORM C1 / C2 (curated) -- NEW source, unblocks the C1/C2 split that
+// TraceEvents cannot provide. Cluster mspva01.westus2, DB csinternaltelemetry.
+// This is a DISTINCT, BROADER scope than the Dracarys agentic-loop tables above; do NOT
+// compare row-for-row. C1 = builder/enterprise (Copilot Agents C1, licensed BizChat
+// context). C2 = end-user self-created declarative/custom agents. TestCanvas: True =
+// test canvas (Non-Prod), False = published/live (Prod). "Weekly*" columns = trailing-7d
+// WAU. Pulled live 2026-07-16 (data snapshots dated per query below).
+// -------------------------------------------------------------------------------------
+
+// --- C1 users (fresh, snapshot 2026-07-15) ---
+CAC1UsersByTenantId
+| where Timestamp == toscalar(CAC1UsersByTenantId | summarize max(Timestamp))
+| summarize C1_Users_WAU = sum(WAU), C1_Users_MAU = sum(MAU), C1_Tenants = dcount(TenantId)
+// -> C1_Users_WAU 244,317 ; C1_Tenants 122,686
+
+// --- C1 tenants (pre-aggregated, fresh) ---
+CAC1Tenants
+| where Timestamp == toscalar(CAC1Tenants | summarize max(Timestamp))
+| project WAT, DAT, MAT
+// -> WAT 40,571
+
+// --- C2 users/tenants (fresh, snapshot 2026-07-15) ---
+AllActiveC2UsersByTenantId
+| where Date == toscalar(AllActiveC2UsersByTenantId | summarize max(Date))
+| summarize C2_Users_WAU = sum(WeeklyUserCount), C2_AuthUsers_WAU = sum(WeeklyAuthenticatedUserCount), C2_Tenants = dcount(TenantId)
+// -> C2_Users_WAU 8,363,628 (auth 1,282,955) ; C2_Tenants 121,557
+
+// --- C2 custom agents/users x Prod/Non-Prod (TestCanvas), fresh ---
+ActiveCustomAgentsAndC2UsersByTenantId
+| where Timestamp == toscalar(ActiveCustomAgentsAndC2UsersByTenantId | summarize max(Timestamp))
+| summarize Agents = sum(WeeklyActiveAgentCount), Users = sum(WeeklyUserCount),
+            Interactions = sum(WeeklyInteractionsCount), Tenants = dcount(TenantId) by TestCanvas
+| order by TestCanvas
+// -> False(Prod): Agents 132,757 / Users 7,582,835 / Interactions 48.37M / Tenants 39,403
+//    True (NonProd): Agents 187,640 / Users   139,535 / Interactions  2.64M / Tenants 61,923
+//    AUTHORITATIVE CS active-agents (prod, custom) = 132,757 (fresh 2026-07-15).
+
+// --- Autonomous agents (prod), fresh -- matches cited 39,283 (0.1%) ---
+ActiveAutonomousAgentsByTenantId
+| where Timestamp == toscalar(ActiveAutonomousAgentsByTenantId | summarize max(Timestamp))
+| summarize Agents = sum(WeeklyActiveAgentCount), Tenants = dcount(TenantId) by TestCanvas
+// -> False: Agents 39,233 ; Tenants 13,167
+
+// --- Tool calls + ODSP-SharePoint split by IsB2E  (STALE snapshot 2025-09-09; reference only) ---
+AgentsTrafficAggregatedBreakdown
+| where Timestamp == toscalar(AgentsTrafficAggregatedBreakdown | summarize max(Timestamp))
+| summarize WeeklyAllTools = sum(WeeklyAllTools), WeeklyAllActions = sum(WeeklyAllActions),
+            WeeklyAllKnowledge = sum(WeeklyAllKnowledge),
+            WeeklySPKnowledge = sum(WeeklySharepointKnowledgeSearches),
+            WeeklyGraphSearches = sum(WeeklyGraphSearches),
+            ActiveBots = dcount(BotId), Tenants = dcount(TenantId) by IsB2E
+| order by IsB2E
+// -> IsB2E true (enterprise): AllTools 1,889,597 / SP searches 148,942 / bots 100,773
+//    IsB2E false (consumer):  AllTools 23,700,408 / SP searches 363,563 / bots 673,321
+//    CAVEAT: last refreshed 2025-09-09 -- STALE (~10mo). Shown for reference only.
+
+// --- (STALE) DeclarativeAgentsActiveC2ByTenantId_Temp -- source of the cited 249,381 ---
+DeclarativeAgentsActiveC2ByTenantId_Temp
+| where Date == toscalar(DeclarativeAgentsActiveC2ByTenantId_Temp | summarize max(Date))
+| summarize C2_ActiveAgents_WAU = sum(WeeklyActiveAgents), C2_Users_WAU = sum(WAU), C2_Tenants = dcount(TenantId)
+// -> WeeklyActiveAgents 248,023 (~= cited 249,381) BUT last refreshed 2025-11-01 -- STALE.
+//    Superseded by the fresh ActiveCustomAgentsAndC2UsersByTenantId prod count 132,757.
+// =====================================================================================
