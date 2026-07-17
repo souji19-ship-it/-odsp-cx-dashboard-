@@ -1,0 +1,30 @@
+{
+  "name": "data-pipeline",
+  "version": "1.0.0",
+  "description": "ODSP-AW scraper infra: Playwright/CDP scrapers + Kusto/IDEAS clients that write telemetry into Data-Public/.",
+  "main": "scrape-cowork.js",
+  "scripts": {
+    "cowork": "node scrape-cowork.js",
+    "spark-tool-health": "node fetch-spark-tool-health.js",
+    "skills": "node scrape-skills.js",
+    "kav2": "node scrape-kav2-full.js",
+    "ideas-metrics": "node scrape-ideas-metrics.js",
+    "ideas-sp": "node scrape-ideas-sp-subproducts.js",
+    "auth": "node nezha-login.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@azure/identity": "^4.13.1",
+    "@azure/msal-node": "^5.4.0",
+    "azure-kusto-data": "^7.1.0",
+    "csv-parse": "^6.1.0",
+    "playwright": "^1.58.2",
+    "playwriter": "^0.0.89"
+  },
+  "devDependencies": {
+    "ws": "^8.19.0"
+  }
+}

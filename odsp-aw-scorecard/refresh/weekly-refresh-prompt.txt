@@ -1,0 +1,86 @@
+WEEKLY ODSP-AW SCORECARD REFRESH (runs headless every Sunday 07:30 America/Los_Angeles).
+
+You are refreshing the leadership-shared ODSP-in-Agentic-Work Scorecard. This is an autonomous,
+non-interactive run: act, do not ask questions. Never fabricate a number. Take a timestamped .bak
+of the dashboard before your first write.
+
+DASHBOARD (edit this file, in place):
+  {{DASHBOARD}}
+ARCHIVE FOLDER:
+  {{ARCHIVE}}
+SCOUT PIPELINE (folder):
+  {{PIPELINE}}
+  - scraper:  scrape-scout-clawpilot.js  (CDP debug Edge on :9222; the wrapper launches it)
+  - output:   clawpilot-capture\dashboard-data.json  (the parsed `const DATA` object)
+
+GIT / PERSISTENCE:
+  {{COMMIT}}
+
+======================================================================================
+WHAT TO REFRESH — the two most recent COMPLETE Sun-Sat calendar weeks (this wk vs last wk, WoW)
+======================================================================================
+Today is Sunday. The just-completed week = the Sun-Sat ending YESTERDAY (Saturday). Call its
+week-ending Saturday <SAT>. "This wk" = that Sun-Sat; "Last wk" = the prior Sun-Sat. Label the
+week chips Sun-Sat (e.g. "Jun 28-Jul 4" / "Jul 5-11") to stay consistent with all tabs.
+
+1) SCOUT tab  --> refresh from the IDEAS provisional ClawpilotUsage dashboard.
+   - First run the Scout scraper to refresh dashboard-data.json:
+       node scrape-scout-clawpilot.js   (from the data-pipeline folder; needs debug Edge :9222)
+     If the scraper cannot reach the source, KEEP the existing numbers and note it in the log;
+     do not invent values.
+   - Scout must reconcile with the source's WAU-trend chart. Use the value at each WEEK-ENDING
+     SATURDAY from the daily rolling-7d trends (NOT the headline KPI cards, which are pinned to the
+     pull date and show a later/different window). For the week ending Saturday <SAT>:
+       Usage / WAU        = trend_wau summed over tenants at Day=<SAT> (equals the chart's <SAT> point;
+                            e.g. Jul 11 = 23,216, NOT the 24.1K headline card)
+       Active Tenants     = distinct tenants with WAU>0 in tenant_wau_trend at Day=<SAT>
+       Sends (messages)   = trend_sends summed at Day=<SAT>
+       Weekly retention   = trend_returning_users / trend_wau at Day=<SAT>
+     Do the same for the prior Saturday for the "last wk" column.
+   - Update the Scout 201 all-up table, its methodology cell text, the Scout hero card (Overview 101:
+     big number = all-up WAU, "ODSP footprint (users)" %, "ODSP tool success" %, "Users calling ODSP"),
+     and the Scout 301 "% of Scout" denominator.
+   - ODSP-in-Scout signals (301 reach / 401 tool volume, success, latency) come from CSC prod
+     Kusto (fdislandscscprduswus / CSCAnalytics, container lobsterruntime, subsystem=container_proxy
+     phase=forward). Refresh them for the same two weeks if az/Kusto is reachable; else keep prior.
+
+2) COPILOT STUDIO (CS) tab  --> refresh from CAPAnalytics / csinternaltelemetry Kusto and the
+   Omega scorecards (https://qh.microsoft.com/omega/scorecards). Refresh CS 201 all-up, 301 ODSP
+   footprint / % of CS, 401 performance, and 501 for the same two Sun-Sat weeks. CS numbers must
+   match the CS source dashboard / Omega. Keep the C1/C2 channel-tier split (ChannelId in
+   pva-studio, pva-maker-evaluation = C1; else C2). ODSP-in-CS = ConnectorId in
+   shared_sharepointonline / shared_onedriveforbusiness plus KnowledgeSource SharePoint /
+   SharePointList. Tenants = dcount(principalTenantId). If a cluster/query is unreachable, keep the
+   prior value and mark it PENDING in the log — never fabricate.
+
+3) COWORK tab  --> DO NOT auto-update. Only touch Cowork if your pulled numbers EXACTLY match the
+   Cowork dashboard. If you cannot verify an exact match, LEAVE THE COWORK TAB UNCHANGED — the owner
+   will supply Cowork dashboard screenshots to update it manually. Log that Cowork was left as-is.
+
+======================================================================================
+ARCHIVE — keep it current and links unbroken
+======================================================================================
+The Archive tab uses openSnap(date, surface) which reads window.SNAP[date] (an embedded JSON blob),
+and there are matching standalone files archive\odsp-scorecard-<date>.html.
+  - After updating the live tabs, regenerate THIS week's snapshot for key "<SAT>":
+      snapshot HTML = the live dashboard with the SNAP-EMBED block removed
+      (between <!-- SNAP-EMBED:START --> and <!-- SNAP-EMBED:END -->, inclusive).
+      Set window.SNAP["<SAT>"] = that HTML, and write the same HTML to
+      archive\odsp-scorecard-<SAT>.html.
+  - Add a row/link for "<SAT>" in the Archive tab table if one does not already exist, so the new
+    week is reachable. Keep older snapshots intact.
+  - CRITICAL escaping: when re-serializing window.SNAP, replace every "</" with "<\/" so an embedded
+    </script> cannot close the outer <script> early. After writing, verify there is NO bare
+    "</script>" inside the window.SNAP object.
+
+======================================================================================
+VERIFY before finishing
+======================================================================================
+  - No personal names anywhere on the dashboard (leadership-shared). Remove any you introduce.
+  - window.SNAP parses; all openSnap date keys have a matching snapshot; archive links not broken.
+  - Scout 201 numbers equal the ClawpilotUsage WAU-trend chart at each week-ending Saturday (e.g.
+    Jul 5-11 WAU = 23,216, not the 24.1K headline card); CS numbers equal the CS source/Omega.
+  - Cowork tab unchanged unless an exact match was confirmed.
+  - Dashboard still renders (no bare </script>, valid HTML).
+  - Append a one-line status (what refreshed, what was PENDING/blocked, Cowork left-as-is) to
+      <refresh folder>\logs\refresh-status.txt
