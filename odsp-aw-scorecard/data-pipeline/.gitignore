@@ -1,2 +1,3 @@
 # Raw per-cluster-week pull output (reproduce with: node pull-cs-odsp.js)
 cs-pull/
+snap-extract/
