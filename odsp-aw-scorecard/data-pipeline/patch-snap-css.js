@@ -26,6 +26,6 @@ s=replaceOnce(s,
   '.sig .sv small');
 
 SNAP['2026-07-11']=s;
-lines[idx]='window.SNAP='+JSON.stringify(SNAP)+';';
+lines[idx]='window.SNAP='+JSON.stringify(SNAP).replace(/<\/script>/g,'<\\/script>')+';';
 fs.writeFileSync(path,lines.join(eol));
 console.log('OK: patched 2026-07-11 snapshot CSS clip fix.');

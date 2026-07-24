@@ -139,6 +139,6 @@ snap = replaceOnce(snap,
 SNAP['2026-07-11'] = snap;
 
 // ---- write SNAP back ----
-lines[idx] = 'window.SNAP=' + JSON.stringify(SNAP) + ';';
+lines[idx] = 'window.SNAP=' + JSON.stringify(SNAP).replace(/<\/script>/g, '<\\/script>') + ';';
 fs.writeFileSync(FILE, lines.join(EOL), 'utf8');
 console.log('OK: rebuilt 2026-07-11 CS 301/401; SNAP re-embedded.');
