@@ -1,0 +1,1347 @@
+{
+  "Jul 5-11": {
+    "clusters": 19,
+    "m401": {
+      "calls": 160941,
+      "svcSucc": 0.8386675862583183,
+      "e2eSucc": 0.6535811260026967,
+      "svcF": 25965,
+      "authF": 29719,
+      "usrF": 69,
+      "c4xx": 55043,
+      "c5xx": 431,
+      "throttle": 0,
+      "timeout": 35,
+      "p50": 483.710446874527,
+      "p95": 1375.2306659411743,
+      "byTier": {
+        "C1": {
+          "Calls": 42383,
+          "SvcF": 6653,
+          "Ok": 35616
+        },
+        "C2": {
+          "Calls": 118558,
+          "SvcF": 19312,
+          "Ok": 69572
+        }
+      },
+      "ops": [
+        {
+          "op": "PatchItem",
+          "calls": 64907,
+          "svcSucc": 0.8484446977983885,
+          "e2eSucc": 0.39196080546011985,
+          "authF": 29629,
+          "svcF": 9837,
+          "usrF": 0
+        },
+        {
+          "op": "GetTables",
+          "calls": 17528,
+          "svcSucc": 0.5589913281606572,
+          "e2eSucc": 0.5589913281606572,
+          "authF": 0,
+          "svcF": 7730,
+          "usrF": 0
+        },
+        {
+          "op": "GetTable",
+          "calls": 9860,
+          "svcSucc": 0.977079107505071,
+          "e2eSucc": 0.977079107505071,
+          "authF": 0,
+          "svcF": 226,
+          "usrF": 0
+        },
+        {
+          "op": "GetItems",
+          "calls": 9200,
+          "svcSucc": 0.82,
+          "e2eSucc": 0.8194565217391304,
+          "authF": 1,
+          "svcF": 1656,
+          "usrF": 4
+        },
+        {
+          "op": "ListFolder",
+          "calls": 8617,
+          "svcSucc": 0.934199837530463,
+          "e2eSucc": 0.9329232911686202,
+          "authF": 6,
+          "svcF": 567,
+          "usrF": 5
+        },
+        {
+          "op": "GetDataSets",
+          "calls": 7795,
+          "svcSucc": 0.9978191148171905,
+          "e2eSucc": 0.995638229634381,
+          "authF": 0,
+          "svcF": 17,
+          "usrF": 17
+        },
+        {
+          "op": "PostItem",
+          "calls": 5479,
+          "svcSucc": 0.6430005475451724,
+          "e2eSucc": 0.6420879722577113,
+          "authF": 5,
+          "svcF": 1956,
+          "usrF": 0
+        },
+        {
+          "op": "CreateFile",
+          "calls": 4816,
+          "svcSucc": 0.9213039867109635,
+          "e2eSucc": 0.9169435215946844,
+          "authF": 0,
+          "svcF": 379,
+          "usrF": 21
+        },
+        {
+          "op": "GetTableViews",
+          "calls": 4771,
+          "svcSucc": 0.9981136030182352,
+          "e2eSucc": 0.9981136030182352,
+          "authF": 0,
+          "svcF": 9,
+          "usrF": 0
+        },
+        {
+          "op": "GetFileContentByPath",
+          "calls": 4118,
+          "svcSucc": 0.9040796503156873,
+          "e2eSucc": 0.90165128703254,
+          "authF": 5,
+          "svcF": 395,
+          "usrF": 5
+        },
+        {
+          "op": "GetFileContent",
+          "calls": 3574,
+          "svcSucc": 0.8989927252378288,
+          "e2eSucc": 0.8922775601566871,
+          "authF": 24,
+          "svcF": 361,
+          "usrF": 0
+        },
+        {
+          "op": "HttpRequest",
+          "calls": 3454,
+          "svcSucc": 0.8312101910828026,
+          "e2eSucc": 0.8312101910828026,
+          "authF": 0,
+          "svcF": 583,
+          "usrF": 0
+        },
+        {
+          "op": "ListAllRootFolders",
+          "calls": 2441,
+          "svcSucc": 0.8951249487914789,
+          "e2eSucc": 0.889389594428513,
+          "authF": 4,
+          "svcF": 256,
+          "usrF": 10
+        },
+        {
+          "op": "GetFileMetadataByPath",
+          "calls": 2085,
+          "svcSucc": 0.8378896882494005,
+          "e2eSucc": 0.8282973621103118,
+          "authF": 20,
+          "svcF": 338,
+          "usrF": 0
+        },
+        {
+          "op": "UpdateFile",
+          "calls": 1497,
+          "svcSucc": 0.9759519038076152,
+          "e2eSucc": 0.9746158984635939,
+          "authF": 2,
+          "svcF": 36,
+          "usrF": 0
+        },
+        {
+          "op": "PatchFileItem",
+          "calls": 1301,
+          "svcSucc": 0.9492697924673328,
+          "e2eSucc": 0.9492697924673328,
+          "authF": 0,
+          "svcF": 66,
+          "usrF": 0
+        },
+        {
+          "op": "CreateNewFolder",
+          "calls": 1264,
+          "svcSucc": 0.935126582278481,
+          "e2eSucc": 0.9335443037974683,
+          "authF": 2,
+          "svcF": 82,
+          "usrF": 0
+        },
+        {
+          "op": "GetItem",
+          "calls": 1146,
+          "svcSucc": 0.849912739965096,
+          "e2eSucc": 0.849912739965096,
+          "authF": 0,
+          "svcF": 172,
+          "usrF": 0
+        },
+        {
+          "op": "GetFileItems",
+          "calls": 1015,
+          "svcSucc": 0.6886699507389162,
+          "e2eSucc": 0.6857142857142857,
+          "authF": 3,
+          "svcF": 316,
+          "usrF": 0
+        },
+        {
+          "op": "GetFolderMetadataByPath",
+          "calls": 989,
+          "svcSucc": 0.7532861476238625,
+          "e2eSucc": 0.7451971688574317,
+          "authF": 8,
+          "svcF": 244,
+          "usrF": 0
+        },
+        {
+          "op": "GetFileItem",
+          "calls": 923,
+          "svcSucc": 0.9089924160346695,
+          "e2eSucc": 0.9068255687973997,
+          "authF": 2,
+          "svcF": 84,
+          "usrF": 0
+        },
+        {
+          "op": "MoveFileAsync",
+          "calls": 645,
+          "svcSucc": 0.8883720930232558,
+          "e2eSucc": 0.8883720930232558,
+          "authF": 0,
+          "svcF": 72,
+          "usrF": 0
+        },
+        {
+          "op": "FindFilesByPath",
+          "calls": 567,
+          "svcSucc": 0.9065255731922398,
+          "e2eSucc": 0.9047619047619048,
+          "authF": 1,
+          "svcF": 53,
+          "usrF": 0
+        },
+        {
+          "op": "ListFolderV2",
+          "calls": 510,
+          "svcSucc": 0.9392156862745098,
+          "e2eSucc": 0.9392156862745098,
+          "authF": 0,
+          "svcF": 31,
+          "usrF": 0
+        },
+        {
+          "op": "SearchForUser",
+          "calls": 373,
+          "svcSucc": 0.8820375335120644,
+          "e2eSucc": 0.8820375335120644,
+          "authF": 0,
+          "svcF": 44,
+          "usrF": 0
+        },
+        {
+          "op": "GetTablesForLibraries",
+          "calls": 317,
+          "svcSucc": 0.9652996845425867,
+          "e2eSucc": 0.9652996845425867,
+          "authF": 0,
+          "svcF": 11,
+          "usrF": 0
+        },
+        {
+          "op": "FindFiles",
+          "calls": 305,
+          "svcSucc": 0.6852459016393443,
+          "e2eSucc": 0.6655737704918033,
+          "authF": 6,
+          "svcF": 96,
+          "usrF": 0
+        },
+        {
+          "op": "DeleteFile",
+          "calls": 166,
+          "svcSucc": 0.891566265060241,
+          "e2eSucc": 0.891566265060241,
+          "authF": 0,
+          "svcF": 18,
+          "usrF": 0
+        },
+        {
+          "op": "CreateShareLinkV2",
+          "calls": 120,
+          "svcSucc": 0.7666666666666667,
+          "e2eSucc": 0.7666666666666667,
+          "authF": 0,
+          "svcF": 28,
+          "usrF": 0
+        },
+        {
+          "op": "CopyFile",
+          "calls": 117,
+          "svcSucc": 0.1794871794871795,
+          "e2eSucc": 0.1794871794871795,
+          "authF": 0,
+          "svcF": 96,
+          "usrF": 0
+        },
+        {
+          "op": "CreateNewDocumentSet",
+          "calls": 95,
+          "svcSucc": 0.9052631578947369,
+          "e2eSucc": 0.9052631578947369,
+          "authF": 0,
+          "svcF": 9,
+          "usrF": 0
+        },
+        {
+          "op": "ListRootFolder",
+          "calls": 94,
+          "svcSucc": 0.7553191489361702,
+          "e2eSucc": 0.7553191489361702,
+          "authF": 0,
+          "svcF": 23,
+          "usrF": 0
+        },
+        {
+          "op": "GetTablesForListsAndLibraries",
+          "calls": 89,
+          "svcSucc": 0.9550561797752809,
+          "e2eSucc": 0.9550561797752809,
+          "authF": 0,
+          "svcF": 4,
+          "usrF": 0
+        },
+        {
+          "op": "GetFileMetadata",
+          "calls": 88,
+          "svcSucc": 0.8977272727272727,
+          "e2eSucc": 0.8977272727272727,
+          "authF": 0,
+          "svcF": 9,
+          "usrF": 0
+        },
+        {
+          "op": "CopyFileAsync",
+          "calls": 74,
+          "svcSucc": 0.5,
+          "e2eSucc": 0.5,
+          "authF": 0,
+          "svcF": 37,
+          "usrF": 0
+        },
+        {
+          "op": "GetAllTables",
+          "calls": 69,
+          "svcSucc": 0.927536231884058,
+          "e2eSucc": 0.927536231884058,
+          "authF": 0,
+          "svcF": 5,
+          "usrF": 0
+        },
+        {
+          "op": "MoveFileByPath",
+          "calls": 67,
+          "svcSucc": 0.8656716417910447,
+          "e2eSucc": 0.7910447761194029,
+          "authF": 0,
+          "svcF": 9,
+          "usrF": 5
+        },
+        {
+          "op": "GetFolderMetadata",
+          "calls": 64,
+          "svcSucc": 1,
+          "e2eSucc": 1,
+          "authF": 0,
+          "svcF": 0,
+          "usrF": 0
+        },
+        {
+          "op": "GetItemAttachments",
+          "calls": 62,
+          "svcSucc": 0.7258064516129032,
+          "e2eSucc": 0.7258064516129032,
+          "authF": 0,
+          "svcF": 17,
+          "usrF": 0
+        },
+        {
+          "op": "CopyDriveFile",
+          "calls": 49,
+          "svcSucc": 0.4897959183673469,
+          "e2eSucc": 0.4897959183673469,
+          "authF": 0,
+          "svcF": 25,
+          "usrF": 0
+        },
+        {
+          "op": "ConvertFile",
+          "calls": 44,
+          "svcSucc": 0.5,
+          "e2eSucc": 0.5,
+          "authF": 0,
+          "svcF": 22,
+          "usrF": 0
+        },
+        {
+          "op": "GetAttachmentContent",
+          "calls": 42,
+          "svcSucc": 0.8809523809523809,
+          "e2eSucc": 0.8809523809523809,
+          "authF": 0,
+          "svcF": 5,
+          "usrF": 0
+        },
+        {
+          "op": "MoveFile",
+          "calls": 35,
+          "svcSucc": 0.5714285714285714,
+          "e2eSucc": 0.5142857142857142,
+          "authF": 0,
+          "svcF": 15,
+          "usrF": 2
+        },
+        {
+          "op": "DeleteItem",
+          "calls": 30,
+          "svcSucc": 1,
+          "e2eSucc": 1,
+          "authF": 0,
+          "svcF": 0,
+          "usrF": 0
+        },
+        {
+          "op": "CreateShareLinkByPathV2",
+          "calls": 30,
+          "svcSucc": 0.9333333333333333,
+          "e2eSucc": 0.9333333333333333,
+          "authF": 0,
+          "svcF": 2,
+          "usrF": 0
+        },
+        {
+          "op": "CreateAttachment",
+          "calls": 29,
+          "svcSucc": 0.7931034482758621,
+          "e2eSucc": 0.7931034482758621,
+          "authF": 0,
+          "svcF": 6,
+          "usrF": 0
+        },
+        {
+          "op": "GetMoveCopyNameConflictBehaviorOptions",
+          "calls": 23,
+          "svcSucc": 1,
+          "e2eSucc": 1,
+          "authF": 0,
+          "svcF": 0,
+          "usrF": 0
+        },
+        {
+          "op": "CreateSharingLink",
+          "calls": 12,
+          "svcSucc": 0.6666666666666666,
+          "e2eSucc": 0.6666666666666666,
+          "authF": 0,
+          "svcF": 4,
+          "usrF": 0
+        },
+        {
+          "op": "MoveFolderAsync",
+          "calls": 6,
+          "svcSucc": 1,
+          "e2eSucc": 1,
+          "authF": 0,
+          "svcF": 0,
+          "usrF": 0
+        },
+        {
+          "op": "CopyDriveFileByPath",
+          "calls": 6,
+          "svcSucc": 0.3333333333333333,
+          "e2eSucc": 0.16666666666666666,
+          "authF": 1,
+          "svcF": 4,
+          "usrF": 0
+        },
+        {
+          "op": "ConvertFileByPath",
+          "calls": 6,
+          "svcSucc": 0.6666666666666666,
+          "e2eSucc": 0.6666666666666666,
+          "authF": 0,
+          "svcF": 2,
+          "usrF": 0
+        },
+        {
+          "op": "GetDocumentSetContentTypesInLibrary",
+          "calls": 5,
+          "svcSucc": 1,
+          "e2eSucc": 1,
+          "authF": 0,
+          "svcF": 0,
+          "usrF": 0
+        },
+        {
+          "op": "ExtractFolderV2",
+          "calls": 4,
+          "svcSucc": 0.25,
+          "e2eSucc": 0.25,
+          "authF": 0,
+          "svcF": 3,
+          "usrF": 0
+        },
+        {
+          "op": "GetViewScopeOptions",
+          "calls": 4,
+          "svcSucc": 1,
+          "e2eSucc": 1,
+          "authF": 0,
+          "svcF": 0,
+          "usrF": 0
+        },
+        {
+          "op": "GetTableForm",
+          "calls": 3,
+          "svcSucc": 0,
+          "e2eSucc": 0,
+          "authF": 0,
+          "svcF": 3,
+          "usrF": 0
+        },
+        {
+          "op": "SubmitDocGenForm",
+          "calls": 2,
+          "svcSucc": 0.5,
+          "e2eSucc": 0.5,
+          "authF": 0,
+          "svcF": 1,
+          "usrF": 0
+        },
+        {
+          "op": "GrantAccess",
+          "calls": 1,
+          "svcSucc": 1,
+          "e2eSucc": 1,
+          "authF": 0,
+          "svcF": 0,
+          "usrF": 0
+        },
+        {
+          "op": "GetItemAccessRoleOptions",
+          "calls": 1,
+          "svcSucc": 1,
+          "e2eSucc": 1,
+          "authF": 0,
+          "svcF": 0,
+          "usrF": 0
+        },
+        {
+          "op": "ApproveHubSiteJoin",
+          "calls": 1,
+          "svcSucc": 0,
+          "e2eSucc": 0,
+          "authF": 0,
+          "svcF": 1,
+          "usrF": 0
+        },
+        {
+          "op": "CheckOutFile",
+          "calls": 1,
+          "svcSucc": 1,
+          "e2eSucc": 1,
+          "authF": 0,
+          "svcF": 0,
+          "usrF": 0
+        },
+        {
+          "op": "GetSharingLinkTypeOptions",
+          "calls": 1,
+          "svcSucc": 1,
+          "e2eSucc": 1,
+          "authF": 0,
+          "svcF": 0,
+          "usrF": 0
+        },
+        {
+          "op": "GetSharingLinkScopeOptions",
+          "calls": 1,
+          "svcSucc": 1,
+          "e2eSucc": 1,
+          "authF": 0,
+          "svcF": 0,
+          "usrF": 0
+        },
+        {
+          "op": "CreateApprovalRequest",
+          "calls": 1,
+          "svcSucc": 1,
+          "e2eSucc": 1,
+          "authF": 0,
+          "svcF": 0,
+          "usrF": 0
+        },
+        {
+          "op": "GetDocGenForms",
+          "calls": 1,
+          "svcSucc": 1,
+          "e2eSucc": 1,
+          "authF": 0,
+          "svcF": 0,
+          "usrF": 0
+        },
+        {
+          "op": "GetDocGenFormFields",
+          "calls": 1,
+          "svcSucc": 1,
+          "e2eSucc": 1,
+          "authF": 0,
+          "svcF": 0,
+          "usrF": 0
+        }
+      ],
+      "conns": [
+        {
+          "conn": "shared_sharepointonline",
+          "calls": 149853,
+          "svcSucc": 0.8319686626227036,
+          "e2eSucc": 0.6334541183693353,
+          "c1svc": 0.8231778425655977,
+          "c2svc": 0.8345780723996781,
+          "c1e2e": 0.820932944606414,
+          "c2e2e": 0.5778041245142922,
+          "p50": 450.9188635463065,
+          "p95": 1269.7044343939629
+        },
+        {
+          "conn": "shared_onedriveforbusiness",
+          "calls": 11088,
+          "svcSucc": 0.9292027417027418,
+          "e2eSucc": 0.9255952380952381,
+          "c1svc": 0.9272547321539033,
+          "c2svc": 0.9344425956738769,
+          "c1e2e": 0.9226772238030434,
+          "c2e2e": 0.9334442595673876,
+          "p50": 926.8847917955061,
+          "p95": 2801.405122655123
+        }
+      ]
+    },
+    "m301": {
+      "C1": {
+        "ODSP_ToolCalls": 49109,
+        "ODSP_Know": 86865,
+        "ODSP_Users": 6796,
+        "ODSP_Tenants": 3681,
+        "ODSP_Tasks": 45434,
+        "CS_Users": 20593,
+        "CS_Tenants": 9067,
+        "CS_Tasks": 209060,
+        "CS_ToolCalls": 734210
+      },
+      "C2": {
+        "ODSP_ToolCalls": 119931,
+        "ODSP_Know": 122538,
+        "ODSP_Users": 6792,
+        "ODSP_Tenants": 2141,
+        "ODSP_Tasks": 62486,
+        "CS_Users": 24608,
+        "CS_Tenants": 5968,
+        "CS_Tasks": 504488,
+        "CS_ToolCalls": 2895178
+      },
+      "Total": {
+        "ODSP_ToolCalls": 169040,
+        "ODSP_Know": 209403,
+        "ODSP_Users": 13588,
+        "ODSP_Tenants": 5822,
+        "ODSP_Tasks": 107920,
+        "CS_Users": 45201,
+        "CS_Tenants": 15035,
+        "CS_Tasks": 713548,
+        "CS_ToolCalls": 3629388
+      }
+    }
+  },
+  "Jul 12-18": {
+    "clusters": 19,
+    "m401": {
+      "calls": 192334,
+      "svcSucc": 0.9468320733723626,
+      "e2eSucc": 0.6780964364074995,
+      "svcF": 10226,
+      "authF": 51574,
+      "usrF": 113,
+      "c4xx": 61145,
+      "c5xx": 597,
+      "throttle": 4,
+      "timeout": 19,
+      "p50": 660.6765482995854,
+      "p95": 1807.965437450358,
+      "byTier": {
+        "C1": {
+          "Calls": 53423,
+          "SvcF": 4813,
+          "Ok": 43738
+        },
+        "C2": {
+          "Calls": 138911,
+          "SvcF": 5413,
+          "Ok": 86683
+        }
+      },
+      "ops": [
+        {
+          "op": "PatchItem",
+          "calls": 73349,
+          "svcSucc": 0.9833808231877735,
+          "e2eSucc": 0.3763241489318191,
+          "authF": 44527,
+          "svcF": 1219,
+          "usrF": 0
+        },
+        {
+          "op": "GetTables",
+          "calls": 15601,
+          "svcSucc": 0.8143708736619447,
+          "e2eSucc": 0.8017434779821806,
+          "authF": 191,
+          "svcF": 2896,
+          "usrF": 6
+        },
+        {
+          "op": "GetTable",
+          "calls": 13049,
+          "svcSucc": 0.9930262855391218,
+          "e2eSucc": 0.9822974940608475,
+          "authF": 140,
+          "svcF": 91,
+          "usrF": 0
+        },
+        {
+          "op": "GetItems",
+          "calls": 12538,
+          "svcSucc": 0.8957568990269581,
+          "e2eSucc": 0.81464348380922,
+          "authF": 979,
+          "svcF": 1307,
+          "usrF": 38
+        },
+        {
+          "op": "GetDataSets",
+          "calls": 12164,
+          "svcSucc": 0.9986846432094706,
+          "e2eSucc": 0.9829003617231173,
+          "authF": 191,
+          "svcF": 16,
+          "usrF": 1
+        },
+        {
+          "op": "ListFolder",
+          "calls": 9440,
+          "svcSucc": 0.9798728813559322,
+          "e2eSucc": 0.9095338983050848,
+          "authF": 664,
+          "svcF": 190,
+          "usrF": 0
+        },
+        {
+          "op": "PostItem",
+          "calls": 8827,
+          "svcSucc": 0.7175710887051093,
+          "e2eSucc": 0.6711226917412484,
+          "authF": 399,
+          "svcF": 2493,
+          "usrF": 11
+        },
+        {
+          "op": "GetFileContentByPath",
+          "calls": 5294,
+          "svcSucc": 0.9865885908575747,
+          "e2eSucc": 0.8913864752550057,
+          "authF": 497,
+          "svcF": 71,
+          "usrF": 7
+        },
+        {
+          "op": "GetFileContent",
+          "calls": 4366,
+          "svcSucc": 0.9683921209344938,
+          "e2eSucc": 0.8197434722858452,
+          "authF": 648,
+          "svcF": 138,
+          "usrF": 1
+        },
+        {
+          "op": "CreateFile",
+          "calls": 4355,
+          "svcSucc": 0.9336394948335247,
+          "e2eSucc": 0.8994259471871412,
+          "authF": 143,
+          "svcF": 289,
+          "usrF": 6
+        },
+        {
+          "op": "GetTableViews",
+          "calls": 4189,
+          "svcSucc": 0.9988063977082836,
+          "e2eSucc": 0.9914060634996419,
+          "authF": 31,
+          "svcF": 5,
+          "usrF": 0
+        },
+        {
+          "op": "GetFileMetadataByPath",
+          "calls": 4001,
+          "svcSucc": 0.9950012496875781,
+          "e2eSucc": 0.8125468632841789,
+          "authF": 725,
+          "svcF": 20,
+          "usrF": 5
+        },
+        {
+          "op": "HttpRequest",
+          "calls": 3772,
+          "svcSucc": 0.8724814422057264,
+          "e2eSucc": 0.8006362672322376,
+          "authF": 259,
+          "svcF": 481,
+          "usrF": 12
+        },
+        {
+          "op": "GetItem",
+          "calls": 3155,
+          "svcSucc": 0.9920760697305864,
+          "e2eSucc": 0.9039619651347068,
+          "authF": 278,
+          "svcF": 25,
+          "usrF": 0
+        },
+        {
+          "op": "ListAllRootFolders",
+          "calls": 2974,
+          "svcSucc": 0.9878950907868191,
+          "e2eSucc": 0.8375924680564896,
+          "authF": 437,
+          "svcF": 36,
+          "usrF": 10
+        },
+        {
+          "op": "PatchFileItem",
+          "calls": 2934,
+          "svcSucc": 0.9614860259032039,
+          "e2eSucc": 0.9434219495569189,
+          "authF": 53,
+          "svcF": 113,
+          "usrF": 0
+        },
+        {
+          "op": "GetFolderMetadataByPath",
+          "calls": 1704,
+          "svcSucc": 0.9947183098591549,
+          "e2eSucc": 0.7934272300469484,
+          "authF": 340,
+          "svcF": 9,
+          "usrF": 3
+        },
+        {
+          "op": "GetFileItems",
+          "calls": 1627,
+          "svcSucc": 0.9385371850030731,
+          "e2eSucc": 0.7572218807621389,
+          "authF": 295,
+          "svcF": 100,
+          "usrF": 0
+        },
+        {
+          "op": "CreateNewFolder",
+          "calls": 1368,
+          "svcSucc": 0.9766081871345029,
+          "e2eSucc": 0.8611111111111112,
+          "authF": 158,
+          "svcF": 32,
+          "usrF": 0
+        },
+        {
+          "op": "UpdateFile",
+          "calls": 1178,
+          "svcSucc": 0.9864176570458404,
+          "e2eSucc": 0.9448217317487266,
+          "authF": 49,
+          "svcF": 16,
+          "usrF": 0
+        },
+        {
+          "op": "FindFilesByPath",
+          "calls": 869,
+          "svcSucc": 0.956271576524741,
+          "e2eSucc": 0.8181818181818182,
+          "authF": 118,
+          "svcF": 38,
+          "usrF": 2
+        },
+        {
+          "op": "GetFileItem",
+          "calls": 776,
+          "svcSucc": 0.9213917525773195,
+          "e2eSucc": 0.7835051546391752,
+          "authF": 107,
+          "svcF": 61,
+          "usrF": 0
+        },
+        {
+          "op": "ListRootFolder",
+          "calls": 701,
+          "svcSucc": 0.9514978601997147,
+          "e2eSucc": 0.9115549215406562,
+          "authF": 20,
+          "svcF": 34,
+          "usrF": 8
+        },
+        {
+          "op": "ListFolderV2",
+          "calls": 521,
+          "svcSucc": 0.9289827255278311,
+          "e2eSucc": 0.9289827255278311,
+          "authF": 0,
+          "svcF": 37,
+          "usrF": 0
+        },
+        {
+          "op": "CopyFileAsync",
+          "calls": 474,
+          "svcSucc": 0.7447257383966245,
+          "e2eSucc": 0.7067510548523207,
+          "authF": 18,
+          "svcF": 121,
+          "usrF": 0
+        },
+        {
+          "op": "GetTablesForLibraries",
+          "calls": 433,
+          "svcSucc": 0.9907621247113164,
+          "e2eSucc": 0.9330254041570438,
+          "authF": 24,
+          "svcF": 4,
+          "usrF": 1
+        },
+        {
+          "op": "SearchForUser",
+          "calls": 395,
+          "svcSucc": 0.9974683544303797,
+          "e2eSucc": 0.8531645569620253,
+          "authF": 57,
+          "svcF": 1,
+          "usrF": 0
+        },
+        {
+          "op": "FindFiles",
+          "calls": 344,
+          "svcSucc": 0.7645348837209303,
+          "e2eSucc": 0.6773255813953488,
+          "authF": 30,
+          "svcF": 81,
+          "usrF": 0
+        },
+        {
+          "op": "MoveFileAsync",
+          "calls": 268,
+          "svcSucc": 0.7761194029850746,
+          "e2eSucc": 0.7761194029850746,
+          "authF": 0,
+          "svcF": 60,
+          "usrF": 0
+        },
+        {
+          "op": "MoveFileByPath",
+          "calls": 225,
+          "svcSucc": 0.84,
+          "e2eSucc": 0.84,
+          "authF": 0,
+          "svcF": 36,
+          "usrF": 0
+        },
+        {
+          "op": "GetTablesForListsAndLibraries",
+          "calls": 198,
+          "svcSucc": 1,
+          "e2eSucc": 0.8080808080808081,
+          "authF": 38,
+          "svcF": 0,
+          "usrF": 0
+        },
+        {
+          "op": "CreateShareLinkV2",
+          "calls": 190,
+          "svcSucc": 0.8947368421052632,
+          "e2eSucc": 0.7526315789473684,
+          "authF": 27,
+          "svcF": 20,
+          "usrF": 0
+        },
+        {
+          "op": "CopyDriveFile",
+          "calls": 169,
+          "svcSucc": 0.5502958579881657,
+          "e2eSucc": 0.33136094674556216,
+          "authF": 37,
+          "svcF": 76,
+          "usrF": 0
+        },
+        {
+          "op": "GetAllTables",
+          "calls": 143,
+          "svcSucc": 0.972027972027972,
+          "e2eSucc": 0.8601398601398601,
+          "authF": 15,
+          "svcF": 4,
+          "usrF": 1
+        },
+        {
+          "op": "DeleteFile",
+          "calls": 138,
+          "svcSucc": 0.9347826086956522,
+          "e2eSucc": 0.8768115942028986,
+          "authF": 8,
+          "svcF": 9,
+          "usrF": 0
+        },
+        {
+          "op": "GetFileMetadata",
+          "calls": 128,
+          "svcSucc": 0.9453125,
+          "e2eSucc": 0.7421875,
+          "authF": 26,
+          "svcF": 7,
+          "usrF": 0
+        },
+        {
+          "op": "GetMoveCopyNameConflictBehaviorOptions",
+          "calls": 64,
+          "svcSucc": 0.984375,
+          "e2eSucc": 0.90625,
+          "authF": 5,
+          "svcF": 1,
+          "usrF": 0
+        },
+        {
+          "op": "DeleteItem",
+          "calls": 60,
+          "svcSucc": 1,
+          "e2eSucc": 0.9666666666666667,
+          "authF": 2,
+          "svcF": 0,
+          "usrF": 0
+        },
+        {
+          "op": "CreateSharingLink",
+          "calls": 58,
+          "svcSucc": 0.7586206896551724,
+          "e2eSucc": 0.3793103448275862,
+          "authF": 21,
+          "svcF": 14,
+          "usrF": 1
+        },
+        {
+          "op": "ConvertFileByPath",
+          "calls": 56,
+          "svcSucc": 0.32142857142857145,
+          "e2eSucc": 0.2857142857142857,
+          "authF": 2,
+          "svcF": 38,
+          "usrF": 0
+        },
+        {
+          "op": "GetItemAttachments",
+          "calls": 29,
+          "svcSucc": 0.9655172413793104,
+          "e2eSucc": 0.7931034482758621,
+          "authF": 5,
+          "svcF": 1,
+          "usrF": 0
+        },
+        {
+          "op": "ExtractFolderV2",
+          "calls": 28,
+          "svcSucc": 0.5,
+          "e2eSucc": 0.4642857142857143,
+          "authF": 1,
+          "svcF": 14,
+          "usrF": 0
+        },
+        {
+          "op": "CopyDriveFileByPath",
+          "calls": 27,
+          "svcSucc": 0.9629629629629629,
+          "e2eSucc": 0.9259259259259259,
+          "authF": 1,
+          "svcF": 1,
+          "usrF": 0
+        },
+        {
+          "op": "CreateAttachment",
+          "calls": 21,
+          "svcSucc": 0.9047619047619048,
+          "e2eSucc": 0.9047619047619048,
+          "authF": 0,
+          "svcF": 2,
+          "usrF": 0
+        },
+        {
+          "op": "MoveFile",
+          "calls": 20,
+          "svcSucc": 0.9,
+          "e2eSucc": 0.9,
+          "authF": 0,
+          "svcF": 2,
+          "usrF": 0
+        },
+        {
+          "op": "GetAttachmentContent",
+          "calls": 20,
+          "svcSucc": 1,
+          "e2eSucc": 1,
+          "authF": 0,
+          "svcF": 0,
+          "usrF": 0
+        },
+        {
+          "op": "GetFolderMetadata",
+          "calls": 17,
+          "svcSucc": 1,
+          "e2eSucc": 0.9411764705882353,
+          "authF": 1,
+          "svcF": 0,
+          "usrF": 0
+        },
+        {
+          "op": "CreateShareLinkByPathV2",
+          "calls": 16,
+          "svcSucc": 1,
+          "e2eSucc": 0.8125,
+          "authF": 3,
+          "svcF": 0,
+          "usrF": 0
+        },
+        {
+          "op": "ConvertFile",
+          "calls": 13,
+          "svcSucc": 0.6153846153846154,
+          "e2eSucc": 0.6153846153846154,
+          "authF": 0,
+          "svcF": 5,
+          "usrF": 0
+        },
+        {
+          "op": "GetItemChanges",
+          "calls": 11,
+          "svcSucc": 1,
+          "e2eSucc": 0.9090909090909091,
+          "authF": 1,
+          "svcF": 0,
+          "usrF": 0
+        },
+        {
+          "op": "CopyFile",
+          "calls": 8,
+          "svcSucc": 0.25,
+          "e2eSucc": 0.25,
+          "authF": 0,
+          "svcF": 6,
+          "usrF": 0
+        },
+        {
+          "op": "GrantAccess",
+          "calls": 8,
+          "svcSucc": 0.5,
+          "e2eSucc": 0.5,
+          "authF": 0,
+          "svcF": 4,
+          "usrF": 0
+        },
+        {
+          "op": "MoveFolderAsync",
+          "calls": 3,
+          "svcSucc": 1,
+          "e2eSucc": 1,
+          "authF": 0,
+          "svcF": 0,
+          "usrF": 0
+        },
+        {
+          "op": "GetSharingLinkTypeOptions",
+          "calls": 2,
+          "svcSucc": 1,
+          "e2eSucc": 1,
+          "authF": 0,
+          "svcF": 0,
+          "usrF": 0
+        },
+        {
+          "op": "GetSharingLinkScopeOptions",
+          "calls": 2,
+          "svcSucc": 1,
+          "e2eSucc": 1,
+          "authF": 0,
+          "svcF": 0,
+          "usrF": 0
+        },
+        {
+          "op": "CopyFolderAsync",
+          "calls": 2,
+          "svcSucc": 0.5,
+          "e2eSucc": 0.5,
+          "authF": 0,
+          "svcF": 1,
+          "usrF": 0
+        },
+        {
+          "op": "GetItemAccessRoleOptions",
+          "calls": 2,
+          "svcSucc": 1,
+          "e2eSucc": 1,
+          "authF": 0,
+          "svcF": 0,
+          "usrF": 0
+        },
+        {
+          "op": "GetDocGenForms",
+          "calls": 2,
+          "svcSucc": 1,
+          "e2eSucc": 1,
+          "authF": 0,
+          "svcF": 0,
+          "usrF": 0
+        },
+        {
+          "op": "CreateNewDocumentSet",
+          "calls": 2,
+          "svcSucc": 1,
+          "e2eSucc": 0.5,
+          "authF": 1,
+          "svcF": 0,
+          "usrF": 0
+        },
+        {
+          "op": "PatchFileItemWithPredictedValues",
+          "calls": 2,
+          "svcSucc": 1,
+          "e2eSucc": 0,
+          "authF": 2,
+          "svcF": 0,
+          "usrF": 0
+        },
+        {
+          "op": "GetViewScopeOptions",
+          "calls": 1,
+          "svcSucc": 1,
+          "e2eSucc": 1,
+          "authF": 0,
+          "svcF": 0,
+          "usrF": 0
+        },
+        {
+          "op": "GetItemChangesMetadata",
+          "calls": 1,
+          "svcSucc": 1,
+          "e2eSucc": 1,
+          "authF": 0,
+          "svcF": 0,
+          "usrF": 0
+        },
+        {
+          "op": "GetTableForm",
+          "calls": 1,
+          "svcSucc": 0,
+          "e2eSucc": 0,
+          "authF": 0,
+          "svcF": 1,
+          "usrF": 0
+        },
+        {
+          "op": "GetFileThumbnail",
+          "calls": 1,
+          "svcSucc": 1,
+          "e2eSucc": 1,
+          "authF": 0,
+          "svcF": 0,
+          "usrF": 0
+        }
+      ],
+      "conns": [
+        {
+          "conn": "shared_sharepointonline",
+          "calls": 178961,
+          "svcSucc": 0.9466252423712429,
+          "e2eSucc": 0.6606132062292902,
+          "c1svc": 0.9004929913442533,
+          "c2svc": 0.9616729902774485,
+          "c1e2e": 0.7963286911874957,
+          "c2e2e": 0.616344557742471,
+          "p50": 642.2758778392265,
+          "p95": 1759.9149169180835
+        },
+        {
+          "conn": "shared_onedriveforbusiness",
+          "calls": 13373,
+          "svcSucc": 0.9495999401779706,
+          "e2eSucc": 0.9120616166903462,
+          "c1svc": 0.9539655539017649,
+          "c2svc": 0.9392488026216285,
+          "c1e2e": 0.9234531150329577,
+          "c2e2e": 0.8850516763297201,
+          "p50": 906.9191555123508,
+          "p95": 2450.9901293651387
+        }
+      ]
+    },
+    "m301": {
+      "C1": {
+        "ODSP_ToolCalls": 61667,
+        "ODSP_Know": 113387,
+        "ODSP_Users": 8068,
+        "ODSP_Tenants": 4282,
+        "ODSP_Tasks": 57163,
+        "CS_Users": 23568,
+        "CS_Tenants": 10178,
+        "CS_Tasks": 240785,
+        "CS_ToolCalls": 884211
+      },
+      "C2": {
+        "ODSP_ToolCalls": 140967,
+        "ODSP_Know": 169021,
+        "ODSP_Users": 8600,
+        "ODSP_Tenants": 2612,
+        "ODSP_Tasks": 78658,
+        "CS_Users": 31533,
+        "CS_Tenants": 6997,
+        "CS_Tasks": 587773,
+        "CS_ToolCalls": 4619028
+      },
+      "Total": {
+        "ODSP_ToolCalls": 202634,
+        "ODSP_Know": 282408,
+        "ODSP_Users": 16668,
+        "ODSP_Tenants": 6894,
+        "ODSP_Tasks": 135821,
+        "CS_Users": 55101,
+        "CS_Tenants": 17175,
+        "CS_Tasks": 828558,
+        "CS_ToolCalls": 5503239
+      }
+    }
+  }
+}
