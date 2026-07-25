@@ -69,7 +69,7 @@
       <tr><th class="pillar">Pillar</th><th class="metric">Metric</th><th>Cowork</th><th>Copilot Studio</th><th>Scout</th><th class="def">Definition / Calculation</th></tr>
       <tr><td class="pillar">Reach</td><td class="metric">Active Users</td><td class="num">116.2K</td><td class="num">12,312</td><td class="pend">pending</td><td class="def">Count of unique 2P agent users who used at least one ODSP tool.</td></tr>
       <tr><td class="pillar">Reach</td><td class="metric">Active Tenants</td><td class="num">14.2K</td><td class="num">4,003</td><td class="pend">pending</td><td class="def">Count of unique 2P agent tenants where at least one ODSP tool was used.</td></tr>
-      <tr><td class="pillar">Reach</td><td class="metric">Active Agents</td><td class="num">1 <span class="dash">&middot; single agent</span></td><td class="dash">&mdash; <sup>1</sup></td><td class="pend">pending</td><td class="def">Count of unique 2P agents that used at least one ODSP tool.</td></tr>
+      <tr><td class="pillar">Reach</td><td class="metric">Active Agents</td><td class="num">1 <span class="dash">&middot; single 2P agent</span></td><td class="dash">N/A <sup>1</sup></td><td class="pend">pending</td><td class="def">Count of unique 2P agents that used at least one ODSP tool.</td></tr>
       <tr><td class="pillar">Adoption</td><td class="metric">Tasks</td><td class="num">324K</td><td class="num">107,920</td><td class="pend">pending</td><td class="def">Count of 2P agent tasks in which at least one ODSP tool contributed to task execution.</td></tr>
       <tr><td class="pillar">Adoption</td><td class="metric">Tool Calls</td><td class="num">3.8M</td><td class="num">169,040</td><td class="pend">pending</td><td class="def">Total number of 2P agent tool calls that leveraged an ODSP tool.</td></tr>
       <tr><td class="pillar">Reliability</td><td class="metric">Tool Success Rate</td><td class="num">97.9%</td><td class="num">83.9% <span class="dash">&middot; e2e 65.4%<sup>2</sup></span></td><td class="pend">pending</td><td class="def">Percentage of ODSP tool calls that completed successfully.</td></tr>
@@ -82,13 +82,13 @@
       <tr><th class="pillar">Pillar</th><th class="metric">Metric</th><th>Cowork</th><th>Copilot Studio</th><th>Scout</th><th class="def">Definition / Calculation</th></tr>
       <tr><td class="pillar">Reach</td><td class="metric">Active Users</td><td class="num">88.5K <span class="down">&#9660; 23.8%</span></td><td class="num">13,115 <span class="up">&#9650; 6.5%</span></td><td class="pend">pending</td><td class="def">Count of unique 2P agent users who used at least one ODSP tool.</td></tr>
       <tr><td class="pillar">Reach</td><td class="metric">Active Tenants</td><td class="num">11.2K <span class="down">&#9660; 21.3%</span></td><td class="num">4,282 <span class="up">&#9650; 7.0%</span></td><td class="pend">pending</td><td class="def">Count of unique 2P agent tenants where at least one ODSP tool was used.</td></tr>
-      <tr><td class="pillar">Reach</td><td class="metric">Active Agents</td><td class="num">1 <span class="dash">&middot; single agent</span></td><td class="dash">&mdash; <sup>1</sup></td><td class="pend">pending</td><td class="def">Count of unique 2P agents that used at least one ODSP tool.</td></tr>
+      <tr><td class="pillar">Reach</td><td class="metric">Active Agents</td><td class="num">1 <span class="dash">&middot; single 2P agent</span></td><td class="dash">N/A <sup>1</sup></td><td class="pend">pending</td><td class="def">Count of unique 2P agents that used at least one ODSP tool.</td></tr>
       <tr><td class="pillar">Adoption</td><td class="metric">Tasks</td><td class="num">216.4K <span class="down">&#9660; 33.2%</span></td><td class="num">135,821 <span class="up">&#9650; 25.9%</span></td><td class="pend">pending</td><td class="def">Count of 2P agent tasks in which at least one ODSP tool contributed to task execution.</td></tr>
       <tr><td class="pillar">Adoption</td><td class="metric">Tool Calls</td><td class="num">2.0M <span class="down">&#9660; 47.4%</span></td><td class="num">202,634 <span class="up">&#9650; 19.9%</span></td><td class="pend">pending</td><td class="def">Total number of 2P agent tool calls that leveraged an ODSP tool.</td></tr>
       <tr><td class="pillar">Reliability</td><td class="metric">Tool Success Rate</td><td class="num">97.3% <span class="down">&#9660; 0.6pp</span></td><td class="num">94.7% <span class="up">&#9650; 10.8pp</span> <span class="dash">&middot; e2e 67.8%<sup>2</sup></span></td><td class="pend">pending</td><td class="def">Percentage of ODSP tool calls that completed successfully.</td></tr>
     </table>
     <div class="foot">
-      <sup>1</sup> <b>Active Agents (ODSP):</b> Cowork is a single 2P agent, so its ODSP agent count is 1. Copilot Studio ODSP-specific agent counts are <b>not yet broken out</b> (platform all-up active agents were 48.5K &rarr; 55.3K). &mdash; open item.<br>
+      <sup>1</sup> <b>Active Agents (ODSP):</b> Cowork is a single 2P agent. Copilot Studio ODSP-specific agent counts are <b>N/A for v1</b> (not broken out; platform all-up active agents were 48.5K &rarr; 55.3K).<br>
       <sup>2</sup> <b>Copilot Studio Tool Success Rate</b> is shown as <b>ODSP service success</b> (real ODSP-backend health) with <b>end-to-end</b> secondary. End-to-end is lower because it counts agent-side faults (mostly <code>PatchItem</code> calls on non-existent items &rarr; 404s), not ODSP failures. Cowork shows a single ODSP tool-call success rate.
     </div>
   </div>
@@ -168,13 +168,13 @@
 
   <!-- ===================== OPEN ITEMS ===================== -->
   <div class="callout">
-    <h3>Open items for review (before Monday 7/27 publish)</h3>
+    <h3>Notes &amp; decisions (Monday 7/27 publish)</h3>
     <ul>
-      <li><b>Scout &mdash; pending:</b> all Scout columns show <span class="pend">pending</span> awaiting the data unblock. If not resolved by Monday, publish with <b>Cowork + Copilot Studio only</b> and drop the Scout column.</li>
-      <li><b>Copilot Studio &middot; Active Agents (ODSP-specific):</b> not currently broken out &mdash; shown as &ldquo;&mdash;&rdquo;. Platform all-up active agents were 48.5K &rarr; 55.3K. Confirm whether to add an ODSP-filtered agent count or leave as N/A for v1.</li>
-      <li><b>Cowork &middot; Active Agents:</b> Cowork is a single 2P agent, so the value is &ldquo;1&rdquo;. Confirm you want it shown (vs. &ldquo;N/A &middot; single agent&rdquo;).</li>
-      <li><b>Copilot Studio &middot; Tool Success Rate:</b> presented as service success (headline) with end-to-end secondary, per the agreed methodology. Confirm this two-number treatment is OK for the summary row.</li>
-      <li><b>Cowork Tasks:</b> the 324K / 216.4K figures are the ODSP-footprint task counts (tasks that invoked &ge;1 ODSP tool). Confirm this is the &ldquo;Tasks&rdquo; you want in the summary.</li>
+      <li><b>Scout &mdash; OPEN:</b> all Scout columns show <span class="pend">pending</span> awaiting the data unblock. If not resolved by Monday, publish with <b>Cowork + Copilot Studio only</b> and drop the Scout column.</li>
+      <li><b>Copilot Studio &middot; Active Agents (ODSP-specific):</b> <b>N/A for v1</b> &mdash; not broken out (platform all-up active agents were 48.5K &rarr; 55.3K). <i>Decided.</i></li>
+      <li><b>Cowork &middot; Active Agents:</b> shown as a <b>single 2P agent</b> (count = 1). <i>Decided.</i></li>
+      <li><b>Copilot Studio &middot; Tool Success Rate:</b> service success (headline) + end-to-end secondary, per the agreed methodology. <i>Decided.</i></li>
+      <li><b>Cowork Tasks:</b> 324K / 216.4K = ODSP-footprint task counts (tasks that invoked &ge;1 ODSP tool). <i>Decided.</i></li>
     </ul>
   </div>
 
