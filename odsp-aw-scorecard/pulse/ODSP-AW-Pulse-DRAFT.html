@@ -45,7 +45,18 @@
   .wkcol{border-left:2px solid var(--line)}
   .pill{display:inline-block;font-size:11px;font-weight:700;padding:2px 9px;border-radius:20px}
   .pill.cw{background:#e8f1fc;color:var(--cw)} .pill.cs{background:#eee9fb;color:var(--cs)} .pill.sc{background:#f3e8fc;color:var(--sc)}
-  @media print{body{background:#fff}.wrap{max-width:none}.card,.callout{break-inside:avoid}}
+  .num{white-space:nowrap}
+  .hl{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:6px 0 4px}
+  @media(max-width:820px){.hl{grid-template-columns:1fr}}
+  .hlc{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--line);border-radius:10px;padding:12px 15px}
+  .hlc.cw{border-left-color:var(--cw)} .hlc.cs{border-left-color:var(--cs)}
+  .hlc h4{margin:0 0 5px;font-size:13px}
+  .hlc p{margin:0;font-size:12.5px;color:var(--faint);line-height:1.55}
+  .hlc p b{color:var(--ink)}
+  .hlc .up{color:var(--green);font-weight:700} .hlc .down{color:var(--red);font-weight:700}
+  .tscroll{overflow-x:auto}
+  @media print{body{background:#fff}.wrap{max-width:none;padding:0}.card,.callout,.hl,.hlc{break-inside:avoid}.draft{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+  @page{size:landscape;margin:12mm}
 </style>
 </head>
 <body>
@@ -58,6 +69,19 @@
     </div>
     <span class="draft">DRAFT &middot; PENDING VALIDATION</span>
   </header>
+
+  <!-- ===================== AT A GLANCE ===================== -->
+  <p class="seclbl" style="margin-bottom:6px"><b style="color:var(--ink)">At a glance</b> &middot; week-over-week, Jul 12&ndash;18 vs Jul 5&ndash;11</p>
+  <div class="hl">
+    <div class="hlc cs">
+      <h4>Copilot Studio &mdash; ODSP footprint up across the board</h4>
+      <p>Users <span class="up">&#9650; 6.5%</span> &middot; tenants <span class="up">&#9650; 7.0%</span> &middot; tasks <span class="up">&#9650; 25.9%</span> &middot; tool calls <span class="up">&#9650; 19.9%</span>. ODSP service success <b>94.7%</b> <span class="up">&#9650; 10.8pp</span> &mdash; the ODSP backend is healthy.</p>
+    </div>
+    <div class="hlc cw">
+      <h4>Cowork &mdash; quality steady, volume down WoW</h4>
+      <p>ODSP tool success held at <b>97.3%</b> <span class="down">&#9660; 0.6pp</span> while ODSP volume declined (users <span class="down">&#9660; 23.8%</span> &middot; tool calls <span class="down">&#9660; 47.4%</span>), tracking a broad Cowork usage dip this week.</p>
+    </div>
+  </div>
 
   <!-- ===================== 101 SUMMARY ===================== -->
   <h2 class="sec">101 &middot; Summary &mdash; ODSP across Agentic Work</h2>
@@ -175,7 +199,7 @@
     </ul>
   </div>
 
-  <p class="seclbl" style="margin-top:22px">All numbers are live from the ODSP-in-Agentic-Work Scorecard (weeks Jul 5&ndash;11 &amp; Jul 12&ndash;18, Sun&rarr;Sat). Draft &mdash; pending validation. Publish target: OneDrive &middot; SharePoint in Agentic Work &mdash; Home.</p>
+  <p class="seclbl" style="margin-top:22px">Reporting weeks <b>Jul 5&ndash;11</b> &amp; <b>Jul 12&ndash;18, 2026</b> (Sun&rarr;Sat). Draft &mdash; pending validation. Prepared 24 Jul 2026 &middot; v1 &middot; Publish target: SharePoint in Agentic Work &mdash; Home.</p>
 
 </div>
 </body>
