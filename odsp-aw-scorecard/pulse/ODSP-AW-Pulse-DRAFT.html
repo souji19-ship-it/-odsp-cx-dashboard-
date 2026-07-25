@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ODSP in Agentic Work — Pulse (DRAFT)</title>
+<style>
+  :root{
+    --ink:#1b2733; --faint:#66727f; --line:#e3e8ee; --bg:#f6f8fa; --card:#fff;
+    --cw:#2f7de1; --cs:#5a3fd6; --sc:#8a2be2; --green:#1a8f4c; --red:#c62828; --amber:#b8860b;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:"Segoe UI",system-ui,-apple-system,Arial,sans-serif;font-size:14px;line-height:1.45}
+  .wrap{max-width:1120px;margin:0 auto;padding:28px 26px 60px}
+  header.top{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap;border-bottom:2px solid var(--line);padding-bottom:14px;margin-bottom:22px}
+  h1{font-size:24px;margin:0 0 3px}
+  .sub{color:var(--faint);font-size:13px}
+  .draft{background:#c62828;color:#fff;font-weight:700;font-size:12px;letter-spacing:.4px;padding:6px 12px;border-radius:6px;white-space:nowrap}
+  h2.sec{font-size:17px;margin:30px 0 4px;padding-top:6px}
+  .seclbl{color:var(--faint);font-size:12.5px;margin:0 0 12px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:0;overflow:hidden;margin:14px 0 8px}
+  .card .ch{font-weight:700;font-size:13.5px;padding:11px 14px;border-bottom:1px solid var(--line);background:#fbfcfe}
+  .tag{font-weight:600;font-size:10px;color:var(--faint);border:1px solid var(--line);border-radius:20px;padding:1px 8px;margin-left:8px;vertical-align:middle}
+  table{width:100%;border-collapse:collapse}
+  th,td{text-align:left;padding:8px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-size:11.5px;text-transform:uppercase;letter-spacing:.3px;color:var(--faint);font-weight:700;background:#fbfcfe}
+  td.metric,th.metric{font-weight:600}
+  td.pillar{font-weight:700;color:var(--ink);white-space:nowrap}
+  .num{font-variant-numeric:tabular-nums;font-weight:700}
+  td.def{color:var(--faint);font-size:12.5px;line-height:1.4}
+  .up{color:var(--green);font-weight:700}
+  .down{color:var(--red);font-weight:700}
+  .flat{color:var(--faint);font-weight:700}
+  .pend{color:var(--amber);font-weight:700}
+  .dash{color:#aab3bd}
+  .foot{background:#fbfcfe;border-top:1px solid var(--line);padding:11px 14px;font-size:12px;color:var(--faint);line-height:1.5}
+  .foot b{color:var(--ink)}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media(max-width:820px){.grid2{grid-template-columns:1fr}}
+  .callout{background:#fff8e6;border:1px solid #f0d98a;border-radius:10px;padding:14px 16px;margin:18px 0}
+  .callout h3{margin:0 0 8px;font-size:13.5px}
+  .callout ul{margin:0;padding-left:18px}
+  .callout li{margin:4px 0;font-size:13px}
+  code{background:#eef1f5;border-radius:4px;padding:1px 5px;font-size:12px}
+  .wkcol{border-left:2px solid var(--line)}
+  .pill{display:inline-block;font-size:11px;font-weight:700;padding:2px 9px;border-radius:20px}
+  .pill.cw{background:#e8f1fc;color:var(--cw)} .pill.cs{background:#eee9fb;color:var(--cs)} .pill.sc{background:#f3e8fc;color:var(--sc)}
+  @media print{body{background:#fff}.wrap{max-width:none}.card,.callout{break-inside:avoid}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <div>
+      <h1>ODSP in Agentic Work &mdash; Pulse</h1>
+      <div class="sub">Weekly integration pulse &middot; Reporting weeks <b>Jul 5&ndash;11</b> &amp; <b>Jul 12&ndash;18, 2026</b> (Sun&rarr;Sat) &middot; 2P surfaces: <b>Cowork</b> &middot; <b>Copilot Studio</b> &middot; <b>Scout</b></div>
+    </div>
+    <span class="draft">DRAFT &middot; PENDING VALIDATION</span>
+  </header>
+
+  <!-- ===================== 101 SUMMARY ===================== -->
+  <h2 class="sec">101 &middot; Summary &mdash; ODSP across Agentic Work</h2>
+  <p class="seclbl">One line per metric &middot; ODSP footprint only (agents / tasks / tool calls that touched ODSP)</p>
+
+  <div class="card">
+    <div class="ch">Week of Jul 5&ndash;11, 2026</div>
+    <table>
+      <tr><th class="pillar">Pillar</th><th class="metric">Metric</th><th>Cowork</th><th>Copilot Studio</th><th>Scout</th><th class="def">Definition / Calculation</th></tr>
+      <tr><td class="pillar">Reach</td><td class="metric">Active Users</td><td class="num">116.2K</td><td class="num">12,312</td><td class="pend">pending</td><td class="def">Count of unique 2P agent users who used at least one ODSP tool.</td></tr>
+      <tr><td class="pillar">Reach</td><td class="metric">Active Tenants</td><td class="num">14.2K</td><td class="num">4,003</td><td class="pend">pending</td><td class="def">Count of unique 2P agent tenants where at least one ODSP tool was used.</td></tr>
+      <tr><td class="pillar">Reach</td><td class="metric">Active Agents</td><td class="num">1 <span class="dash">&middot; single agent</span></td><td class="dash">&mdash; <sup>1</sup></td><td class="pend">pending</td><td class="def">Count of unique 2P agents that used at least one ODSP tool.</td></tr>
+      <tr><td class="pillar">Adoption</td><td class="metric">Tasks</td><td class="num">324K</td><td class="num">107,920</td><td class="pend">pending</td><td class="def">Count of 2P agent tasks in which at least one ODSP tool contributed to task execution.</td></tr>
+      <tr><td class="pillar">Adoption</td><td class="metric">Tool Calls</td><td class="num">3.8M</td><td class="num">169,040</td><td class="pend">pending</td><td class="def">Total number of 2P agent tool calls that leveraged an ODSP tool.</td></tr>
+      <tr><td class="pillar">Reliability</td><td class="metric">Tool Success Rate</td><td class="num">97.9%</td><td class="num">83.9% <span class="dash">&middot; e2e 65.4%<sup>2</sup></span></td><td class="pend">pending</td><td class="def">Percentage of ODSP tool calls that completed successfully.</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="ch">Week of Jul 12&ndash;18, 2026 <span class="tag">current</span></div>
+    <table>
+      <tr><th class="pillar">Pillar</th><th class="metric">Metric</th><th>Cowork</th><th>Copilot Studio</th><th>Scout</th><th class="def">Definition / Calculation</th></tr>
+      <tr><td class="pillar">Reach</td><td class="metric">Active Users</td><td class="num">88.5K <span class="down">&#9660; 23.8%</span></td><td class="num">13,115 <span class="up">&#9650; 6.5%</span></td><td class="pend">pending</td><td class="def">Count of unique 2P agent users who used at least one ODSP tool.</td></tr>
+      <tr><td class="pillar">Reach</td><td class="metric">Active Tenants</td><td class="num">11.2K <span class="down">&#9660; 21.3%</span></td><td class="num">4,282 <span class="up">&#9650; 7.0%</span></td><td class="pend">pending</td><td class="def">Count of unique 2P agent tenants where at least one ODSP tool was used.</td></tr>
+      <tr><td class="pillar">Reach</td><td class="metric">Active Agents</td><td class="num">1 <span class="dash">&middot; single agent</span></td><td class="dash">&mdash; <sup>1</sup></td><td class="pend">pending</td><td class="def">Count of unique 2P agents that used at least one ODSP tool.</td></tr>
+      <tr><td class="pillar">Adoption</td><td class="metric">Tasks</td><td class="num">216.4K <span class="down">&#9660; 33.2%</span></td><td class="num">135,821 <span class="up">&#9650; 25.9%</span></td><td class="pend">pending</td><td class="def">Count of 2P agent tasks in which at least one ODSP tool contributed to task execution.</td></tr>
+      <tr><td class="pillar">Adoption</td><td class="metric">Tool Calls</td><td class="num">2.0M <span class="down">&#9660; 47.4%</span></td><td class="num">202,634 <span class="up">&#9650; 19.9%</span></td><td class="pend">pending</td><td class="def">Total number of 2P agent tool calls that leveraged an ODSP tool.</td></tr>
+      <tr><td class="pillar">Reliability</td><td class="metric">Tool Success Rate</td><td class="num">97.3% <span class="down">&#9660; 0.6pp</span></td><td class="num">94.7% <span class="up">&#9650; 10.8pp</span> <span class="dash">&middot; e2e 67.8%<sup>2</sup></span></td><td class="pend">pending</td><td class="def">Percentage of ODSP tool calls that completed successfully.</td></tr>
+    </table>
+    <div class="foot">
+      <sup>1</sup> <b>Active Agents (ODSP):</b> Cowork is a single 2P agent, so its ODSP agent count is 1. Copilot Studio ODSP-specific agent counts are <b>not yet broken out</b> (platform all-up active agents were 48.5K &rarr; 55.3K). &mdash; open item.<br>
+      <sup>2</sup> <b>Copilot Studio Tool Success Rate</b> is shown as <b>ODSP service success</b> (real ODSP-backend health) with <b>end-to-end</b> secondary. End-to-end is lower because it counts agent-side faults (mostly <code>PatchItem</code> calls on non-existent items &rarr; 404s), not ODSP failures. Cowork shows a single ODSP tool-call success rate.
+    </div>
+  </div>
+
+  <!-- ===================== COWORK ===================== -->
+  <h2 class="sec"><span class="pill cw">Cowork</span> 201 &middot; 301</h2>
+  <p class="seclbl">Whole-agent adoption (201) and the ODSP footprint within it (301) &middot; Last wk vs This wk</p>
+
+  <div class="grid2">
+    <div class="card">
+      <div class="ch">201 &middot; Cowork &mdash; Agent Adoption <span class="tag">all-up</span></div>
+      <table>
+        <tr><th class="metric">Metric</th><th>Jul 5&ndash;11</th><th class="wkcol">Jul 12&ndash;18</th><th>WoW</th></tr>
+        <tr><td class="metric">Active Users</td><td class="num">218.5K</td><td class="num wkcol">199.3K</td><td class="down">&#9660; 8.8%</td></tr>
+        <tr><td class="metric">Active Tenants</td><td class="num">20.6K</td><td class="num wkcol">14.7K</td><td class="down">&#9660; 28.4%</td></tr>
+        <tr><td class="metric">Tasks</td><td class="num">1.0M</td><td class="num wkcol">985.2K</td><td class="down">&#9660; 5.6%</td></tr>
+        <tr><td class="metric">Tool Calls</td><td class="num">13.0M</td><td class="num wkcol">12.8M</td><td class="down">&#9660; 1.5%</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <div class="ch">301 &middot; ODSP in Cowork &mdash; Footprint <span class="tag">ODSP subset</span></div>
+      <table>
+        <tr><th class="metric">Metric</th><th>Jul 5&ndash;11</th><th class="wkcol">Jul 12&ndash;18</th><th>WoW</th><th>% of Cowork <span class="dash">(this)</span></th></tr>
+        <tr><td class="metric">Active Users</td><td class="num">116.2K</td><td class="num wkcol">88.5K</td><td class="down">&#9660; 23.8%</td><td class="num">42.3%</td></tr>
+        <tr><td class="metric">Active Tenants</td><td class="num">14.2K</td><td class="num wkcol">11.2K</td><td class="down">&#9660; 21.3%</td><td class="num">57.0%</td></tr>
+        <tr><td class="metric">Tasks</td><td class="num">324K</td><td class="num wkcol">216.4K</td><td class="down">&#9660; 33.2%</td><td class="num">21.1%</td></tr>
+        <tr><td class="metric">Tool Calls</td><td class="num">3.8M</td><td class="num wkcol">2.0M</td><td class="down">&#9660; 47.4%</td><td class="num">13.3%</td></tr>
+        <tr><td class="metric">Tool Success Rate</td><td class="num">97.9%</td><td class="num wkcol">97.3%</td><td class="down">&#9660; 0.6pp</td><td class="dash">&mdash;</td></tr>
+      </table>
+    </div>
+  </div>
+  <div class="card" style="margin-top:0">
+    <div class="foot">
+      <b>Audience group:</b> all Microsoft Copilot Cowork users &middot; internal (Microsoft) + external (customer) tenants &middot; all regions.<br>
+      <b>ODSP tools counted:</b> the SharePoint + OneDrive service tools Cowork calls (11 active tools this window &mdash; e.g. ReadFileContent, GetDriveItem, GetDefaultDrive, GetSite, SearchDrive, ListFolder, UploadAttachment). ODSP footprint = the SharePoint/OneDrive subset of Cowork&rsquo;s total tool calls.<br>
+      <b>Definitions:</b> Active Users/Tenants = distinct users/tenants with &ge;1 ODSP tool call &middot; Tasks = Cowork tasks that invoked &ge;1 ODSP tool &middot; Tool Calls = ODSP SharePoint/OneDrive tool calls &middot; Tool Success Rate = successful ODSP tool calls &divide; total ODSP tool calls &middot; % of Cowork = ODSP footprint &divide; Cowork all-up, per metric &middot; WoW = (This &minus; Last) &divide; Last (rates in pp).
+    </div>
+  </div>
+
+  <!-- ===================== COPILOT STUDIO ===================== -->
+  <h2 class="sec"><span class="pill cs">Copilot Studio</span> 201 &middot; 301</h2>
+  <p class="seclbl">Platform adoption (201, all-up de-duplicated) and the ODSP footprint within it (301) &middot; C1 maker / C2 runtime / Total &middot; Last wk vs This wk</p>
+
+  <div class="card">
+    <div class="ch">201 &middot; Copilot Studio &mdash; Platform Adoption <span class="tag">all-up &middot; de-duplicated distinct</span></div>
+    <table>
+      <tr><th class="metric" rowspan="2">Metric</th><th colspan="3">Jul 5&ndash;11</th><th colspan="3" class="wkcol">Jul 12&ndash;18</th><th rowspan="2">WoW (Total)</th></tr>
+      <tr><th>C1</th><th>C2</th><th>Total</th><th class="wkcol">C1</th><th>C2</th><th>Total</th></tr>
+      <tr><td class="metric">Active Users</td><td class="num">20,340</td><td class="num">24,627</td><td class="num">40,090</td><td class="num wkcol">23,438</td><td class="num">31,800</td><td class="num">49,392</td><td class="up">&#9650; 23.2%</td></tr>
+      <tr><td class="metric">Active Tenants</td><td class="num">8,588</td><td class="num">5,685</td><td class="num">9,894</td><td class="num wkcol">9,734</td><td class="num">6,647</td><td class="num">11,371</td><td class="up">&#9650; 14.9%</td></tr>
+      <tr><td class="metric">Active Agents</td><td class="num">37,727</td><td class="num">18,881</td><td class="num">48,518</td><td class="num wkcol">42,732</td><td class="num">22,063</td><td class="num">55,340</td><td class="up">&#9650; 14.1%</td></tr>
+      <tr><td class="metric">Tasks</td><td class="num">208,916</td><td class="num">504,552</td><td class="num">713,468</td><td class="num wkcol">241,206</td><td class="num">592,442</td><td class="num">832,592</td><td class="up">&#9650; 16.7%</td></tr>
+      <tr><td class="metric">Tool Calls</td><td class="num">734,210</td><td class="num">2,895,178</td><td class="num">3,629,388</td><td class="num wkcol">773,374</td><td class="num">2,751,848</td><td class="num">3,525,222</td><td class="down">&#9660; 2.9%</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="ch">301 &middot; ODSP in Copilot Studio &mdash; Footprint <span class="tag">ODSP subset</span></div>
+    <table>
+      <tr><th class="metric" rowspan="2">Metric</th><th colspan="3">Jul 5&ndash;11</th><th colspan="3" class="wkcol">Jul 12&ndash;18</th><th rowspan="2">WoW (Total)</th><th rowspan="2">% of CS <span class="dash">(this)</span></th></tr>
+      <tr><th>C1</th><th>C2</th><th>Total</th><th class="wkcol">C1</th><th>C2</th><th>Total</th></tr>
+      <tr><td class="metric">Active Users</td><td class="num">6,757</td><td class="num">6,810</td><td class="num">12,312</td><td class="num wkcol">6,978</td><td class="num">7,376</td><td class="num">13,115</td><td class="up">&#9650; 6.5%</td><td class="num">26.6%</td></tr>
+      <tr><td class="metric">Active Tenants</td><td class="num">3,499</td><td class="num">2,063</td><td class="num">4,003</td><td class="num wkcol">3,633</td><td class="num">2,228</td><td class="num">4,282</td><td class="up">&#9650; 7.0%</td><td class="num">37.7%</td></tr>
+      <tr><td class="metric">Tasks</td><td class="num">45,434</td><td class="num">62,486</td><td class="num">107,920</td><td class="num wkcol">57,163</td><td class="num">78,658</td><td class="num">135,821</td><td class="up">&#9650; 25.9%</td><td class="num">16.3%</td></tr>
+      <tr><td class="metric">Tool Calls <span class="dash">(SP/OD connectors)</span></td><td class="num">49,109</td><td class="num">119,931</td><td class="num">169,040</td><td class="num wkcol">61,667</td><td class="num">140,967</td><td class="num">202,634</td><td class="up">&#9650; 19.9%</td><td class="num">5.7%</td></tr>
+      <tr><td class="metric">Knowledge searches <span class="dash">(SharePoint)</span></td><td class="num">86,865</td><td class="num">122,538</td><td class="num">209,403</td><td class="num wkcol">113,387</td><td class="num">169,021</td><td class="num">282,408</td><td class="up">&#9650; 34.9%</td><td class="dash">&mdash;</td></tr>
+      <tr><td class="metric">Tool Success Rate <span class="dash">(service)</span></td><td class="dash">&mdash;</td><td class="dash">&mdash;</td><td class="num">83.9%</td><td class="dash wkcol">&mdash;</td><td class="dash">&mdash;</td><td class="num">94.7%</td><td class="up">&#9650; 10.8pp</td><td class="dash">&mdash;</td></tr>
+      <tr><td class="metric">Tool Success Rate <span class="dash">(end-to-end)</span></td><td class="dash">&mdash;</td><td class="dash">&mdash;</td><td class="num">65.4%</td><td class="dash wkcol">&mdash;</td><td class="dash">&mdash;</td><td class="num">67.8%</td><td class="up">&#9650; 2.4pp</td><td class="dash">&mdash;</td></tr>
+    </table>
+    <div class="foot">
+      <b>Platform / audience:</b> Microsoft Copilot Studio agentic runtime &middot; all tenants &middot; all regions &middot; builder platform (excluded from cross-agent user counts). <b>C1</b> = maker / authoring channels &middot; <b>C2</b> = end-user runtime &middot; <b>Total</b> = de-duplicated distinct across tiers (C1 + C2 &ge; Total).<br>
+      <b>ODSP counted &mdash; two surfaces:</b> (a) <b>Tool calls</b> on the SharePoint Online + OneDrive for Business connectors; (b) <b>SharePoint knowledge searches</b> (one field that bundles SharePoint, SharePoint List and OneDrive Business). WorkIQ MCP connectors are a separate surface and are excluded.<br>
+      <b>Reliability:</b> <b>ODSP service success</b> (real ODSP-backend health) is the headline; <b>end-to-end</b> also counts agent-side faults &mdash; mostly <code>PatchItem</code> calls on non-existent items (404s) &mdash; so it runs lower without meaning ODSP is failing.<br>
+      <b>Distinct counts</b> (Users / Tenants / Agents) are globally de-duplicated, not summed per region; tool calls, knowledge searches and tasks are additive. WoW = (This &minus; Last) &divide; Last (rates in pp).
+    </div>
+  </div>
+
+  <!-- ===================== OPEN ITEMS ===================== -->
+  <div class="callout">
+    <h3>Open items for review (before Monday 7/27 publish)</h3>
+    <ul>
+      <li><b>Scout &mdash; pending:</b> all Scout columns show <span class="pend">pending</span> awaiting the data unblock. If not resolved by Monday, publish with <b>Cowork + Copilot Studio only</b> and drop the Scout column.</li>
+      <li><b>Copilot Studio &middot; Active Agents (ODSP-specific):</b> not currently broken out &mdash; shown as &ldquo;&mdash;&rdquo;. Platform all-up active agents were 48.5K &rarr; 55.3K. Confirm whether to add an ODSP-filtered agent count or leave as N/A for v1.</li>
+      <li><b>Cowork &middot; Active Agents:</b> Cowork is a single 2P agent, so the value is &ldquo;1&rdquo;. Confirm you want it shown (vs. &ldquo;N/A &middot; single agent&rdquo;).</li>
+      <li><b>Copilot Studio &middot; Tool Success Rate:</b> presented as service success (headline) with end-to-end secondary, per the agreed methodology. Confirm this two-number treatment is OK for the summary row.</li>
+      <li><b>Cowork Tasks:</b> the 324K / 216.4K figures are the ODSP-footprint task counts (tasks that invoked &ge;1 ODSP tool). Confirm this is the &ldquo;Tasks&rdquo; you want in the summary.</li>
+    </ul>
+  </div>
+
+  <p class="seclbl" style="margin-top:22px">All numbers are live from the ODSP-in-Agentic-Work Scorecard (weeks Jul 5&ndash;11 &amp; Jul 12&ndash;18, Sun&rarr;Sat). Draft &mdash; pending validation. Publish target: OneDrive &middot; SharePoint in Agentic Work &mdash; Home.</p>
+
+</div>
+</body>
+</html>
