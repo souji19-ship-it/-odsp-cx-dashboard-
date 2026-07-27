@@ -31,6 +31,7 @@ const WEEKS = [
   ['Jun 28-Jul 4', '2026-06-28','2026-07-05'],
   ['Jul 5-11',     '2026-07-05','2026-07-12'],
   ['Jul 12-18',    '2026-07-12','2026-07-19'],
+  ['Jul 19-25',    '2026-07-19','2026-07-26'],
 ];
 
 const APP = `applicationName in ("fabric:/CopilotStudio.AgenticRuntime","fabric:/CopilotStudio.AgenticLoopApp")`;

@@ -9,7 +9,7 @@ const fs = require('fs');
 const path = require('path');
 const OUT = path.join(__dirname, 'cs-pull');
 
-const WEEKS = ['Jul 5-11', 'Jul 12-18'];
+const WEEKS = ['Jul 12-18', 'Jul 19-25'];
 
 function loadWeek(label) {
   const tag = label.replace(/[^\w]+/g, '_');

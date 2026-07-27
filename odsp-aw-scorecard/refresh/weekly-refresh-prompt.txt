@@ -1,20 +1,17 @@
 WEEKLY ODSP-AW SCORECARD REFRESH (runs headless every Sunday 07:30 America/Los_Angeles).
 
 You are refreshing the leadership-shared ODSP-in-Agentic-Work Scorecard. This is an autonomous,
-non-interactive run: act, do not ask questions. Never fabricate a number. Take a timestamped .bak
-of the dashboard before your first write.
+non-interactive run: act, do not ask questions. Never fabricate a number. Save the dashboard
+directly to OneDrive (it is NOT a git repo). Take a timestamped .bak before your first write.
 
 DASHBOARD (edit this file, in place):
-  {{DASHBOARD}}
+  C:\Users\v-sogattu\OneDrive - Microsoft\ODSP-AW-Dashboard\ODSP-in-Agentic-Work-Scorecard.html
 ARCHIVE FOLDER:
-  {{ARCHIVE}}
-SCOUT PIPELINE (folder):
-  {{PIPELINE}}
+  C:\Users\v-sogattu\OneDrive - Microsoft\ODSP-AW-Dashboard\archive
+SCOUT PIPELINE (repo):
+  C:\Users\v-sogattu\Repo\CXAgent\OneDrive-SharePoint-in-Agentic-Work-main\data-pipeline
   - scraper:  scrape-scout-clawpilot.js  (CDP debug Edge on :9222; the wrapper launches it)
   - output:   clawpilot-capture\dashboard-data.json  (the parsed `const DATA` object)
-
-GIT / PERSISTENCE:
-  {{COMMIT}}
 
 ======================================================================================
 WHAT TO REFRESH — the two most recent COMPLETE Sun-Sat calendar weeks (this wk vs last wk, WoW)
@@ -37,9 +34,8 @@ week chips Sun-Sat (e.g. "Jun 28-Jul 4" / "Jul 5-11") to stay consistent with al
        Sends (messages)   = trend_sends summed at Day=<SAT>
        Weekly retention   = trend_returning_users / trend_wau at Day=<SAT>
      Do the same for the prior Saturday for the "last wk" column.
-   - Update the Scout 201 all-up table, its methodology cell text, the Scout hero card (Overview 101:
-     big number = all-up WAU, "ODSP footprint (users)" %, "ODSP tool success" %, "Users calling ODSP"),
-     and the Scout 301 "% of Scout" denominator.
+   - Update the Scout 201 all-up table, its methodology cell text, the Scout hero card WAU
+     mini-row (Overview 101), and the Scout 301 "% of Scout" denominator.
    - ODSP-in-Scout signals (301 reach / 401 tool volume, success, latency) come from CSC prod
      Kusto (fdislandscscprduswus / CSCAnalytics, container lobsterruntime, subsystem=container_proxy
      phase=forward). Refresh them for the same two weeks if az/Kusto is reachable; else keep prior.
@@ -54,7 +50,7 @@ week chips Sun-Sat (e.g. "Jun 28-Jul 4" / "Jul 5-11") to stay consistent with al
    prior value and mark it PENDING in the log — never fabricate.
 
 3) COWORK tab  --> DO NOT auto-update. Only touch Cowork if your pulled numbers EXACTLY match the
-   Cowork dashboard. If you cannot verify an exact match, LEAVE THE COWORK TAB UNCHANGED — the owner
+   Cowork dashboard. If you cannot verify an exact match, LEAVE THE COWORK TAB UNCHANGED — the user
    will supply Cowork dashboard screenshots to update it manually. Log that Cowork was left as-is.
 
 ======================================================================================
@@ -83,4 +79,4 @@ VERIFY before finishing
   - Cowork tab unchanged unless an exact match was confirmed.
   - Dashboard still renders (no bare </script>, valid HTML).
   - Append a one-line status (what refreshed, what was PENDING/blocked, Cowork left-as-is) to
-      <refresh folder>\logs\refresh-status.txt
+      C:\Users\v-sogattu\OneDrive - Microsoft\ODSP-AW-Dashboard\refresh\logs\refresh-status.txt
