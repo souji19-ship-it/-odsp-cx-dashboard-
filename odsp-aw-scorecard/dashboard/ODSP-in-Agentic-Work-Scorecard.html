@@ -484,8 +484,8 @@
 
   <!-- ============ SCOUT ============ -->
   <section class="view" id="v-scout">
-    <div class="lvlhead sc"><span class="badge">201</span><h2>Scout – Agent Adoption</h2><span class="desc">Agent calling ODSP · early preview · CSC prod Kusto</span></div>
-    <p class="note" style="margin-top:0"><b>Agent:</b> Scout (Lobster runtime) — an external agent that calls ODSP. Scout <b>all-up</b> adoption (WAU / tenants / sends / retention) is <b>LIVE</b> from the IDEAS provisional <i>ClawpilotUsage</i> dashboard (Cosmos), taken at each <b>week-ending Saturday</b> on Sun–Sat calendar weeks (last = Jul 12–18, this = Jul 19–25) to match the Cowork &amp; CS tabs and the source’s own WAU-trend chart. ODSP-facing signals — ODSP tool-call volume + success, ODSP reach, token-mint health, LLM-forward reliability — remain live from CSC prod Kusto.</p>
+    <div class="lvlhead sc"><span class="badge">201</span><h2>Scout – Agent Adoption</h2><span class="desc">Agent calling ODSP · pre-GA / limited preview</span></div>
+    <p class="note" style="margin-top:0"><b>Agent:</b> Scout (Lobster runtime) — an external agent that calls ODSP, <b>pre-GA / limited preview</b>. Scout <b>all-up</b> adoption (Active Users / tenants / sends / retention) is taken at each <b>week-ending Saturday</b> on Sun–Sat calendar weeks (last = Jul 12–18, this = Jul 19–25) to match the Cowork &amp; CS tabs. ODSP-facing signals — ODSP reach, tool-call volume + success — use the corrected leadership basis (see 301 / 401) and tie out to the 101 table.</p>
     <div class="pair">
       <div class="tcard sc">
         <div class="th">Scout All-up Adoption <span class="tag">LIVE</span></div>
@@ -501,32 +501,32 @@
           <div class="th">Methodology – Scout All-up <span class="tag">DEFINITIONS</span></div>
           <table>
             <tr><th class="metric">Metric</th><th class="metric">How it is calculated / status</th></tr>
-            <tr><td class="mm">Active Users</td><td class="md">Distinct weekly active Scout users. <b>Sun–Sat week</b> = the 7-day rolling WAU at the week-ending Saturday (Jul 25 = Jul 19–25). <b>LIVE</b> – IDEAS provisional <i>ClawpilotUsage</i> daily WAU trend (Cosmos) — equals the value shown when you hover that Saturday on the source’s WAU-trend chart.</td></tr>
-            <tr><td class="mm">Active Tenants</td><td class="md">Distinct tenants with ≥1 weekly active user at the week-ending Saturday. <b>LIVE</b> – ClawpilotUsage per-tenant daily WAU trend. 28-day reach ≈ 1,620 tenants.</td></tr>
-            <tr><td class="mm">Sends (messages)</td><td class="md">Messages sent in the Sun–Sat week (7-day rolling total at the week-ending Saturday). <b>LIVE</b> – ClawpilotUsage daily sends trend.</td></tr>
-            <tr><td class="mm">Weekly retention</td><td class="md">Returning weekly active users ÷ weekly active users, both at the week-ending Saturday. <b>LIVE</b> – ClawpilotUsage daily returning/WAU trends. Feedback CSAT 52.8%.</td></tr>
+            <tr><td class="mm">Active Users</td><td class="md">Distinct weekly active Scout users — the 7-day rolling WAU at the week-ending Saturday (Jul 25 = Jul 19–25), on Sun–Sat calendar weeks.</td></tr>
+            <tr><td class="mm">Active Tenants</td><td class="md">Distinct tenants with ≥1 weekly active user at the week-ending Saturday. 28-day reach ≈ 1,620 tenants.</td></tr>
+            <tr><td class="mm">Sends (messages)</td><td class="md">Messages sent in the Sun–Sat week (7-day rolling total at the week-ending Saturday). One send = one user message (turn-grain) — not a task; a Scout chat/session is the task-equivalent.</td></tr>
+            <tr><td class="mm">Weekly retention</td><td class="md">Returning weekly active users ÷ weekly active users, both at the week-ending Saturday. Feedback CSAT 52.8%.</td></tr>
           </table>
-          <div class="msrc">Scout all-up LIVE from the IDEAS provisional <b>ClawpilotUsage</b> dashboard (Cosmos, generated 2026-07-26), taken at each <b>week-ending Saturday</b> from the daily rolling-7d trends — consistent with the Cowork &amp; CS tabs. This pull captures the complete Jul 19–25 week, so the source’s headline WAU <i>card</i> (24.9K, rolling-7d as of the Jul 26 pull) and the WAU-trend value at the week-ending Saturday now coincide: Jul 19–25 = 24,917 (last wk Jul 12–18 = 23,726, as shown on the source’s trend chart). ODSP-facing signals (reach / tool volume / success) remain from CSC prod Kusto – see 301 / 401.</div>
+          
         </div>
     </div>
 
-    <div class="lvlhead sc"><span class="badge">301</span><h2>ODSP in Scout – Footprint</h2><span class="desc">tenants &amp; users actually calling ODSP ; % of Scout all-up (WAU denominator now LIVE)</span></div>
+    <div class="lvlhead sc"><span class="badge">301</span><h2>ODSP in Scout – Footprint</h2><span class="desc">tenants &amp; users actually calling ODSP · % of Scout all-up · corrected leadership basis</span></div>
     <div class="pair tri">
       <div class="tcard sc">
         <div class="th">ODSP in Scout Footprint <span class="tag">LIVE</span></div>
         <table>
           <tr><th class="metric">Metric</th><th>Last wk <span class="wk">(Jul 12–18)</span></th><th>This wk <span class="wk">(Jul 19–25)</span></th><th>WoW</th></tr>
-            <tr><td class="metric">Tenants calling ODSP</td><td><span class="n">3</span></td><td><span class="n">3</span></td><td class="wow flat">≈ 0.0%</td></tr>
-            <tr><td class="metric">Users calling ODSP</td><td><span class="n">46</span></td><td><span class="n">49</span></td><td class="wow up">▲ 6.5%</td></tr>
+            <tr><td class="metric">Tenants calling ODSP</td><td><span class="n">4</span></td><td><span class="n">4</span></td><td class="wow flat">n/m</td></tr>
+            <tr><td class="metric">Users calling ODSP</td><td><span class="n">30</span></td><td><span class="n">36</span></td><td class="wow up">▲ 20.0%</td></tr>
             <tr><td class="metric">Graph reach (all-Graph · upper bound)</td><td><span class="n">78</span></td><td><span class="n">83</span></td><td class="wow up">▲ 6.4%</td></tr>
-            <tr><td class="metric">% of Scout (users)</td><td><span class="n">0.19%</span></td><td><span class="n">0.20%</span></td><td class="wow flat">≈ 0.0pp</td></tr>
+            <tr><td class="metric">% of Scout (users)</td><td><span class="n">0.13%</span></td><td><span class="n">0.14%</span></td><td class="wow flat">≈ 0.0pp</td></tr>
         </table>
       </div>
       <div class="vchart sc">
           <div class="ch">ODSP in Scout – reach WoW <span class="tag">LIVE</span></div>
           <div class="vcb">
-            <div class="vgrp"><div class="vplot"><div class="vbar last" style="height:100.0%"><span class="vv">3</span></div><div class="vbar this" style="height:100.0%"><span class="vv">3</span></div></div><div class="vmeta"><span class="vm-lbl">ODSP tenants</span><span class="vm-wow flat">≈ 0.0%</span></div></div>
-            <div class="vgrp"><div class="vplot"><div class="vbar last" style="height:93.9%"><span class="vv">46</span></div><div class="vbar this" style="height:100.0%"><span class="vv">49</span></div></div><div class="vmeta"><span class="vm-lbl">ODSP users</span><span class="vm-wow up">▲ 6.5%</span></div></div>
+            <div class="vgrp"><div class="vplot"><div class="vbar last" style="height:100.0%"><span class="vv">4</span></div><div class="vbar this" style="height:100.0%"><span class="vv">4</span></div></div><div class="vmeta"><span class="vm-lbl">ODSP tenants</span><span class="vm-wow flat">n/m</span></div></div>
+            <div class="vgrp"><div class="vplot"><div class="vbar last" style="height:83.3%"><span class="vv">30</span></div><div class="vbar this" style="height:100.0%"><span class="vv">36</span></div></div><div class="vmeta"><span class="vm-lbl">ODSP users</span><span class="vm-wow up">▲ 20.0%</span></div></div>
             <div class="vgrp"><div class="vplot"><div class="vbar last" style="height:94.0%"><span class="vv">78</span></div><div class="vbar this" style="height:100.0%"><span class="vv">83</span></div></div><div class="vmeta"><span class="vm-lbl">Graph reach</span><span class="vm-wow up">▲ 6.4%</span></div></div>
           </div>
           <div class="vlegend"><span><i class="vswatch" style="background:#c3ccd8"></i>Last wk</span><span><i class="vswatch" style="background:var(--sc)"></i>This wk</span></div>
@@ -535,13 +535,13 @@
           <div class="th">Methodology – ODSP in Scout <span class="tag">DEFINITIONS</span></div>
           <table>
             <tr><th class="metric">Metric</th><th class="metric">How it is calculated</th></tr>
-            <tr><td class="mm">Tenants calling ODSP</td><td class="md">Distinct tenants with a container-proxy <b>forward</b> call to OneDrive / SharePoint (<code>tool_id graph.drive.* / graph.sharepoint.*</code> or <code>*.sharepoint.*</code> host) · <code>dcount(tenant_id)</code>.</td></tr>
-            <tr><td class="mm">Users calling ODSP</td><td class="md">Distinct users with an ODSP forward call · <code>dcount(user_id)</code>. This is the <b>precise</b> ODSP reach.</td></tr>
+            <tr><td class="mm">Tenants calling ODSP</td><td class="md">Distinct tenants with ≥1 ODSP endpoint call. Pre-GA single-digit base — WoW shown as <b>n/m</b>.</td></tr>
+            <tr><td class="mm">Users calling ODSP</td><td class="md">Distinct users that made ≥1 ODSP endpoint call (OneDrive / SharePoint) — corrected leadership basis (CAP judge <code>primaryDomain=files</code> + Graph drive/search/site/file + <code>*.sharepoint.com</code>). Ties out to the 101 table.</td></tr>
             <tr><td class="mm">Graph reach (upper bound)</td><td class="md">Distinct users acquiring a <b>Graph delegated (OBO) token</b> (scope <code>graph.microsoft/.default</code> = all Graph) — a superset of ODSP, shown for context.</td></tr>
-            <tr><td class="mm">% of Scout</td><td class="md">Footprint ÷ Scout all-up WAU. <b>LIVE</b> — all-up denominator now live from IDEAS ClawpilotUsage (see 201).</td></tr>
+            <tr><td class="mm">% of Scout</td><td class="md">Footprint ÷ Scout all-up WAU (see 201).</td></tr>
             <tr><td class="mm">WoW</td><td class="md">(This week − Last week) ÷ Last week. ▲ up / ▼ down / ≈ flat.</td></tr>
           </table>
-          <div class="msrc">Source: CSC prod <code>fdislandscscprduswus</code> · DB <code>CSCAnalytics</code> · container <code>lobsterruntime</code> · <code>subsystem=container_proxy, phase=forward</code>.</div>
+          
         </div>
     </div>
 
@@ -551,8 +551,8 @@
         <div class="th">ODSP in Scout Performance <span class="tag">PARTIAL</span></div>
         <table>
           <tr><th class="metric">Metric</th><th>Last wk <span class="wk">(Jul 12–18)</span></th><th>This wk <span class="wk">(Jul 19–25)</span></th><th>WoW</th></tr>
-            <tr><td class="metric">ODSP tool-call volume</td><td><span class="n">13,368</span></td><td><span class="n">20,644</span></td><td class="wow up">▲ 54.4%</td></tr>
-            <tr><td class="metric">ODSP tool success rate</td><td><span class="n">98.06%</span></td><td><span class="n">99.31%</span></td><td class="wow up">▲ 1.25pp</td></tr>
+            <tr><td class="metric">ODSP tool-call volume</td><td><span class="n">5,462</span></td><td><span class="n">8,888</span></td><td class="wow up">▲ 62.7%</td></tr>
+            <tr><td class="metric">ODSP tool success rate</td><td><span class="n">93.7%</span></td><td><span class="n">86.8%</span></td><td class="wow down">▼ 6.9pp</td></tr>
             <tr><td class="metric">Best ODSP tool (volume)</td><td><span class="n">SharePoint (workspace content)</span></td><td><span class="n">SharePoint (workspace content)</span></td><td class="wow flat">—</td></tr>
             <tr><td class="metric">ODSP tool latency (p50)</td><td><span class="n">415 ms</span></td><td><span class="n">330 ms</span></td><td class="wow up">▲ faster 20.5%</td></tr>
             <tr><td class="metric">ODSP tool DSAT%</td><td><span class="n empty">—</span></td><td><span class="n empty">—</span></td><td class="wow flat">—</td></tr>
@@ -563,8 +563,8 @@
       <div class="vchart sc">
           <div class="ch">ODSP in Scout – performance WoW <span class="tag">LIVE</span></div>
           <div class="vcb">
-            <div class="vgrp"><div class="vplot"><div class="vbar last" style="height:64.8%"><span class="vv">13,368</span></div><div class="vbar this" style="height:100.0%"><span class="vv">20,644</span></div></div><div class="vmeta"><span class="vm-lbl">ODSP volume</span><span class="vm-wow up">▲ 54.4%</span></div></div>
-            <div class="vgrp"><div class="vplot"><div class="vbar last" style="height:98.7%"><span class="vv">98.06%</span></div><div class="vbar this" style="height:100.0%"><span class="vv">99.31%</span></div></div><div class="vmeta"><span class="vm-lbl">ODSP success</span><span class="vm-wow up">▲ 1.25pp</span></div></div>
+            <div class="vgrp"><div class="vplot"><div class="vbar last" style="height:61.5%"><span class="vv">5,462</span></div><div class="vbar this" style="height:100.0%"><span class="vv">8,888</span></div></div><div class="vmeta"><span class="vm-lbl">ODSP volume</span><span class="vm-wow up">▲ 62.7%</span></div></div>
+            <div class="vgrp"><div class="vplot"><div class="vbar last" style="height:100.0%"><span class="vv">93.7%</span></div><div class="vbar this" style="height:92.6%"><span class="vv">86.8%</span></div></div><div class="vmeta"><span class="vm-lbl">ODSP success</span><span class="vm-wow down">▼ 6.9pp</span></div></div>
             <div class="vgrp"><div class="vplot"><div class="vbar last" style="height:100.0%"><span class="vv">99.98%</span></div><div class="vbar this" style="height:99.97%"><span class="vv">99.95%</span></div></div><div class="vmeta"><span class="vm-lbl">LLM reliability</span><span class="vm-wow down">▼ 0.03pp</span></div></div>
           </div>
           <div class="vlegend"><span><i class="vswatch" style="background:#c3ccd8"></i>Last wk</span><span><i class="vswatch" style="background:var(--sc)"></i>This wk</span></div>
@@ -574,14 +574,14 @@
           <table>
             <tr><th class="metric">Metric</th><th class="metric">How it is calculated / status</th></tr>
             <tr><td class="mm">ODSP tool-call volume</td><td class="md">Container-proxy <b>forward</b> calls to OneDrive / SharePoint dispatched (<code>outcome=dispatching</code>) in the window. <b>Live.</b></td></tr>
-            <tr><td class="mm">ODSP tool success rate</td><td class="md"><code>forward completed</code> (<code>outcome=ok</code>) ÷ dispatched. Upstream 5xx + aborts count against. <b>Live.</b></td></tr>
+            <tr><td class="mm">ODSP tool success rate</td><td class="md">ODSP file-op execution success (CAP judge, model-scored) — corrected leadership basis; ties out to the 101 table. <b>Note:</b> the latency, token-mint &amp; LLM-forward rows are forward-line operational signals on a different (CSC forward) basis.</td></tr>
             <tr><td class="mm">Best-performing ODSP tool</td><td class="md">Highest-volume ODSP tool family in the window (OneDrive drive · SharePoint Graph · SharePoint workspace content).</td></tr>
             <tr><td class="mm">ODSP tool latency (p50)</td><td class="md">Median per-call duration (<code>duration_ms</code> on the <code>forward completed</code> line) across all ODSP forward calls (Graph + SharePoint hosts, incl. git-workspace) in the window. This wk p95 = <b>2,463 ms</b>. <b>Live.</b> Population is broader than the tool_id-scoped volume above.</td></tr>
             <tr><td class="mm">ODSP tool DSAT%</td><td class="md">Human thumbs-down rate — lives in external OCV, no feed for Scout ODSP → <b>PENDING</b>.</td></tr>
             <tr><td class="mm">Token-mint auth rejections</td><td class="md"><code>aad_rejected</code> OBO outcomes (access watch). <b>Lower is better.</b></td></tr>
             <tr><td class="mm">LLM-forward reliability</td><td class="md">2xx ÷ all model-forward responses (<code>llm_provider.forward</code>). Model forwards, not ODSP calls.</td></tr>
           </table>
-          <div class="msrc">Source: CSC prod Kusto (live). ODSP volume/success from container-proxy forward telemetry; latency (p50·p95) from the forward-line duration_ms field; DSAT awaits an OCV thumbs feed.</div>
+          
         </div>
     </div>
 
@@ -601,7 +601,7 @@
             <div class="th">Reading this tab <span class="tag">DEFINITIONS</span></div>
             <table>
             <tr><th class="metric">Layer</th><th class="metric">What it shows</th></tr>
-            <tr><td class="mm">201 Adoption</td><td class="md">Scout <b>all-up</b> adoption — <b>LIVE</b> from IDEAS provisional <i>ClawpilotUsage</i> (Sun–Sat).</td></tr>
+            <tr><td class="mm">201 Adoption</td><td class="md">Scout <b>all-up</b> adoption (Sun–Sat calendar weeks).</td></tr>
             <tr><td class="mm">301 Footprint</td><td class="md"><b>ODSP reach</b> inside Scout — tenants &amp; users actually calling ODSP (live, WoW).</td></tr>
             <tr><td class="mm">401 Performance</td><td class="md">ODSP tool-call <b>volume + success + latency</b> live (WoW); DSAT PENDING.</td></tr>
             <tr><td class="mm">Reach caveat</td><td class="md">"Graph reach" (OBO) is all-Graph → an <b>upper bound</b>; "calling ODSP" rows are the precise OneDrive/SharePoint slice.</td></tr>
@@ -635,7 +635,7 @@
         </div>
     </div>
 
-    <p class="note fullnote">Scout = CSC prod <code>fdislandscscprduswus</code> · DB <code>CSCAnalytics</code> · container <code>lobsterruntime</code> · pulled live via az-cli Kusto · this wk Jul 19–25 vs last wk Jul 12–18 (Sun→Sat CST). ODSP <b>reach</b> (301) + tool-call <b>volume / success</b> (401) come from container-proxy <b>forward</b> telemetry filtered to OneDrive / SharePoint (<code>tool_id graph.drive.* / graph.sharepoint.*</code> or <code>*.sharepoint.*</code> host); "Graph reach" is the all-Graph OBO upper bound. ODSP <b>latency</b> (p50) is now live from the forward-line duration field; ODSP <b>DSAT%</b> is PENDING (human thumbs live in external OCV, no feed); Scout <b>all-up</b> adoption (WAU / tenants / sends / retention) is now <b>LIVE</b> from the IDEAS provisional <i>ClawpilotUsage</i> dashboard (Cosmos), re-cut onto Sun–Sat calendar weeks — see 201. Early-preview surface. This wk ODSP reach = <b>49 users</b> across <b>3 tenants</b> (users +3 WoW, tenants flat WoW); <b>20,644</b> ODSP tool calls at <b>99.31%</b> success; top tool SharePoint (workspace content); LLM-forward reliability 99.95%.</p>
+    <p class="note fullnote">Scout is a <b>pre-GA / limited preview</b> surface · this wk Jul 19–25 vs last wk Jul 12–18 (Sun–Sat). ODSP <b>reach</b> (301) + tool-call <b>volume / success</b> (401) use the corrected leadership basis and tie out to the 101 table; <b>Graph reach</b> is the all-Graph upper bound (context). ODSP <b>latency</b> (p50), token-mint health &amp; LLM-forward reliability are forward-line operational signals on a different basis; ODSP <b>DSAT%</b> is PENDING. This wk ODSP reach = <b>36 users</b> across <b>4 tenants</b> (users ▲ 20.0% WoW, tenants flat); <b>8,888</b> ODSP tool calls at <b>86.8%</b> execution success; top tool SharePoint (workspace content).</p>
   </section>
 
   <!-- ============ COPILOT STUDIO ============ -->
