@@ -1,3 +1,7 @@
 # Raw per-cluster-week pull output (reproduce with: node pull-cs-odsp.js)
 cs-pull/
 snap-extract/
+
+# Raw per-cluster validation pulls (contain user/tenant object IDs - do NOT commit)
+cs-validate/
+cs-validate-tier/

@@ -1,0 +1,46 @@
+[
+  {
+    "Week": "07/12-07/18",
+    "ActiveUsers": 15123,
+    "ActiveTenants": 4797,
+    "ActiveAgents": 13713,
+    "Tasks": 135828,
+    "ToolCalls": 202634,
+    "ToolSuccessPct": 95,
+    "PatchItem": 73699,
+    "SharePointKnowledge": 279081
+  },
+  {
+    "Week": "07/19-07/25",
+    "ActiveUsers": 15545,
+    "ActiveTenants": 4619,
+    "ActiveAgents": 14368,
+    "Tasks": 145467,
+    "ToolCalls": 116929,
+    "ToolSuccessPct": 94,
+    "PatchItem": 6242,
+    "SharePointKnowledge": 296183
+  },
+  {
+    "Week": "07/26-08/01",
+    "ActiveUsers": 17006,
+    "ActiveTenants": 4839,
+    "ActiveAgents": 15476,
+    "Tasks": 217317,
+    "ToolCalls": 145954,
+    "ToolSuccessPct": 89.6,
+    "PatchItem": 9440,
+    "SharePointKnowledge": 500163
+  },
+  {
+    "Week": "08/02-08/08",
+    "ActiveUsers": 1211,
+    "ActiveTenants": 727,
+    "ActiveAgents": 1509,
+    "Tasks": 9657,
+    "ToolCalls": 10216,
+    "ToolSuccessPct": 85.6,
+    "PatchItem": 790,
+    "SharePointKnowledge": 21319
+  }
+]

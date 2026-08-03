@@ -1,0 +1,130 @@
+{
+  "07/12-07/18": {
+    "C1": {
+      "Users": 8009,
+      "Tenants": 4087,
+      "Agents": 10938,
+      "Tasks": 57163,
+      "Tools": 61667,
+      "SuccPct": 92.2,
+      "Patch": 3722,
+      "Knows": 112157
+    },
+    "C2": {
+      "Users": 8577,
+      "Tenants": 2527,
+      "Agents": 5382,
+      "Tasks": 78658,
+      "Tools": 140967,
+      "SuccPct": 96.2,
+      "Patch": 69977,
+      "Knows": 166924
+    },
+    "Total": {
+      "Users": 15123,
+      "Tenants": 4797,
+      "Agents": 13713,
+      "Tasks": 135821,
+      "Tools": 202634,
+      "SuccPct": 95,
+      "Patch": 73699,
+      "Knows": 279081
+    }
+  },
+  "07/19-07/25": {
+    "C1": {
+      "Users": 7639,
+      "Tenants": 3802,
+      "Agents": 11121,
+      "Tasks": 58501,
+      "Tools": 62222,
+      "SuccPct": 93.3,
+      "Patch": 2711,
+      "Knows": 109453
+    },
+    "C2": {
+      "Users": 9450,
+      "Tenants": 2655,
+      "Agents": 6020,
+      "Tasks": 86862,
+      "Tools": 54707,
+      "SuccPct": 94.8,
+      "Patch": 3531,
+      "Knows": 186730
+    },
+    "Total": {
+      "Users": 15545,
+      "Tenants": 4619,
+      "Agents": 14368,
+      "Tasks": 145363,
+      "Tools": 116929,
+      "SuccPct": 94,
+      "Patch": 6242,
+      "Knows": 296183
+    }
+  },
+  "07/26-08/01": {
+    "C1": {
+      "Users": 7877,
+      "Tenants": 3908,
+      "Agents": 11780,
+      "Tasks": 64132,
+      "Tools": 70352,
+      "SuccPct": 91.1,
+      "Patch": 3800,
+      "Knows": 123217
+    },
+    "C2": {
+      "Users": 10690,
+      "Tenants": 2837,
+      "Agents": 6468,
+      "Tasks": 153412,
+      "Tools": 75602,
+      "SuccPct": 88.2,
+      "Patch": 5640,
+      "Knows": 376946
+    },
+    "Total": {
+      "Users": 17006,
+      "Tenants": 4839,
+      "Agents": 15476,
+      "Tasks": 217544,
+      "Tools": 145954,
+      "SuccPct": 89.6,
+      "Patch": 9440,
+      "Knows": 500163
+    }
+  },
+  "08/02-08/08": {
+    "C1": {
+      "Users": 506,
+      "Tenants": 413,
+      "Agents": 903,
+      "Tasks": 2479,
+      "Tools": 3188,
+      "SuccPct": 92.7,
+      "Patch": 77,
+      "Knows": 4510
+    },
+    "C2": {
+      "Users": 783,
+      "Tenants": 452,
+      "Agents": 738,
+      "Tasks": 7229,
+      "Tools": 7084,
+      "SuccPct": 82.4,
+      "Patch": 718,
+      "Knows": 16943
+    },
+    "Total": {
+      "Users": 1222,
+      "Tenants": 729,
+      "Agents": 1523,
+      "Tasks": 9708,
+      "Tools": 10272,
+      "SuccPct": 85.6,
+      "Patch": 795,
+      "Knows": 21453
+    }
+  }
+}
