@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ODSP in Agentic Work — Scorecard (tabbed)</title>
+<style>
+  :root{
+    --ink:#1b2330; --muted:#5b6472; --faint:#8b95a5; --line:#e2e7ef;
+    --bg:#f4f6fa; --card:#ffffff; --top:#152238;
+    --accent:#1177d1; --green:#1f8b53; --greensoft:#e7f5ec; --red:#c0392b;
+    --amber:#b0720a; --neutral:#7b8494;
+    --cw:#1177d1; --sc:#6a3d9a; --cs:#0e7a55; --sf:#b8560f;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:'Segoe UI',system-ui,Arial,sans-serif;color:var(--ink);background:var(--bg);font-size:14px;line-height:1.4}
+
+  /* ---- top bar + tabs ---- */
+  header{background:var(--top);color:#fff;padding:16px 30px 0}
+  header .title{display:flex;align-items:baseline;gap:12px}
+  header h1{font-size:17px;margin:0;font-weight:700}
+  header .sub{font-size:12px;color:#93a4c4}
+  header .stamp{margin-left:auto;font-size:11px;font-weight:700;background:var(--red);padding:3px 10px;border-radius:20px}
+  .tabs{display:flex;gap:4px;margin-top:14px}
+  .tab{padding:11px 20px;font-size:13.5px;font-weight:700;color:#c7d3ea;cursor:pointer;border-radius:9px 9px 0 0;border-bottom:3px solid transparent;transition:.15s;display:flex;align-items:center;gap:8px}
+  .tab:hover{background:#1f3357;color:#fff}
+  .tab.active{background:var(--bg);color:var(--ink);border-bottom-color:transparent}
+  .tab .lvl{font-size:10px;font-weight:800;background:#33507f;color:#fff;border-radius:5px;padding:1px 6px}
+  .tab.active .lvl{background:var(--accent)}
+  .tab .cwd{width:9px;height:9px;border-radius:50%}
+  .tab .cwd.cw{background:var(--cw)} .tab .cwd.sc{background:var(--sc)} .tab .cwd.cs{background:var(--cs)} .tab .cwd.sf{background:var(--sf)}
+
+  .wrap{padding:24px 30px 60px;max-width:1760px}
+  .view{display:none} .view.on{display:block}
+
+  .lvlhead{display:flex;align-items:baseline;gap:12px;margin:26px 0 12px}
+  .lvlhead:first-child{margin-top:2px}
+  .lvlhead .badge{font-size:12px;font-weight:800;color:#fff;border-radius:6px;padding:3px 9px;letter-spacing:.4px;background:var(--accent)}
+  .lvlhead.sc .badge{background:var(--sc)} .lvlhead.cs .badge{background:var(--cs)} .lvlhead.sf .badge{background:var(--sf)}
+  .lvlhead h2{font-size:16px;margin:0;font-weight:700}
+  .lvlhead .desc{font-size:12px;color:var(--muted)}
+
+  /* hero */
+  .hero{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .acard{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;position:relative;overflow:hidden;cursor:pointer;transition:.15s}
+  .acard:hover{box-shadow:0 6px 20px rgba(20,40,80,.10);transform:translateY(-2px)}
+  .acard .stripe{position:absolute;top:0;left:0;right:0;height:5px}
+  .acard.cw .stripe{background:var(--cw)} .acard.sc .stripe{background:var(--sc)} .acard.cs .stripe{background:var(--cs)}
+  .acard .aname{font-size:15px;font-weight:800;margin:6px 0 2px}
+  .acard .arole{font-size:11px;color:var(--faint);margin-bottom:14px}
+  .acard .big{font-size:30px;font-weight:800;letter-spacing:-.5px}
+  .acard .biglbl{font-size:11px;color:var(--muted);margin-bottom:12px}
+  .chip{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px}
+  .chip.live{background:var(--greensoft);color:var(--green)} .chip.pending{background:#eef1f6;color:var(--neutral)} .chip.wk{background:#eaf2fb;color:var(--accent)}
+  .minirow{display:flex;justify-content:space-between;font-size:12px;padding:5px 0;border-top:1px dashed var(--line);color:var(--muted)}
+  .minirow b{color:var(--ink);font-weight:700}
+  .opencta{margin-top:12px;font-size:11px;font-weight:700;color:var(--accent)}
+
+  /* tables */
+  .tcard{background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden;max-width:760px}
+  .tcard .th{padding:11px 14px;font-weight:800;font-size:13px;color:#fff;display:flex;align-items:center;justify-content:space-between}
+  .tcard.cw .th{background:var(--cw)} .tcard.sc .th{background:var(--sc)} .tcard.cs .th{background:var(--cs)} .tcard.sf .th{background:var(--sf)}
+  .tcard .th .tag{font-size:10px;font-weight:700;background:rgba(255,255,255,.22);padding:2px 7px;border-radius:5px}
+  table{width:100%;border-collapse:collapse}
+  th,td{text-align:right;padding:8px 14px;font-size:12.5px;border-top:1px solid var(--line)}
+  th{color:var(--faint);font-weight:700;font-size:10.5px;text-transform:uppercase;letter-spacing:.4px;background:#fafbfd}
+  td.metric,th.metric{text-align:left;font-weight:600;color:var(--ink)}
+  td .n{font-weight:700} td .pct{display:block;font-size:10.5px;color:var(--faint);font-weight:600}
+  tr:nth-child(even) td{background:#fcfdfe}
+  .wow{font-weight:800;font-size:12px;white-space:nowrap}
+  .up{color:var(--green)} .down{color:var(--red)} .flat{color:var(--neutral)}
+  .empty{color:var(--faint);font-style:italic}
+
+  .ranks{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:14px;max-width:1100px}
+  .rk{background:#fff;border:1px solid var(--line);border-radius:9px;padding:10px 12px}
+  .rk .k{font-size:10px;color:var(--faint);text-transform:uppercase;letter-spacing:.3px;font-weight:700}
+  .rk .v{font-size:13px;font-weight:800;margin-top:3px} .rk .m{font-size:11px;color:var(--muted);margin-top:1px}
+  .rk.good .v{color:var(--green)} .rk.bad .v{color:var(--red)}
+  .note{font-size:11px;color:var(--faint);margin:8px 2px 0}
+  .bigpending{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:240px;color:var(--faint);font-size:14px;background:repeating-linear-gradient(45deg,#fafbfd,#fafbfd 12px,#f2f4f8 12px,#f2f4f8 24px);border:1px dashed var(--line);border-radius:14px;text-align:center;padding:30px;gap:8px}
+  .bigpending b{color:var(--muted);font-size:15px}
+  .suggest{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 16px;max-width:760px;margin-top:14px}
+  .suggest b{font-size:12px} .suggest div{font-size:11.5px;color:var(--muted);line-height:1.8;margin-top:6px}
+  .legend{display:flex;gap:16px;flex-wrap:wrap;font-size:11px;color:var(--muted);margin:18px 2px 0}
+  .legend span{display:inline-flex;align-items:center;gap:5px}
+  .dot{width:9px;height:9px;border-radius:50%}
+
+  /* ---- two-column scorecard layout (fills full width) ---- */
+  .cols{display:grid;grid-template-columns:minmax(0,1.28fr) minmax(0,.72fr);gap:22px;align-items:start;margin-top:2px}
+  .col{min-width:0}
+  .col.main > .tcard{max-width:none}
+  .col.main > .lvlhead{margin-top:22px}
+  .col.main > .lvlhead:first-child{margin-top:0}
+  .col.main > .suggest{max-width:none}
+  @media(max-width:1080px){.cols{grid-template-columns:1fr}}
+
+  /* right rail panels */
+  .rail{position:sticky;top:14px;display:flex;flex-direction:column;gap:16px}
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+  .panel .ph{padding:10px 14px;font-weight:800;font-size:12.5px;color:#fff;display:flex;align-items:center;justify-content:space-between}
+  .panel.cw .ph{background:var(--cw)} .panel.sc .ph{background:var(--sc)} .panel.cs .ph{background:var(--cs)} .panel.sf .ph{background:var(--sf)}
+  .panel .ph .tag{font-size:10px;font-weight:700;background:rgba(255,255,255,.22);padding:2px 7px;border-radius:5px}
+  .panel .pb{padding:6px 14px 12px}
+  .sig{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;padding:9px 0;border-top:1px dashed var(--line)}
+  .sig:first-child{border-top:none}
+  .sig .sk{font-size:11.5px;color:var(--muted)}
+  .sig .sv{font-weight:800;font-size:12.5px;text-align:right;white-space:nowrap;min-width:0}
+  .sig .sv small{display:block;font-weight:600;color:var(--faint);font-size:10.5px;margin-top:1px;white-space:normal}
+  .sig.good .sv{color:var(--green)} .sig.bad .sv{color:var(--red)}
+  .status{display:flex;align-items:center;gap:8px;padding:8px 0;border-top:1px dashed var(--line);font-size:11.5px;color:var(--muted)}
+  .status:first-child{border-top:none}
+  .status .sd{width:8px;height:8px;border-radius:50%;flex:0 0 auto}
+  .status .sd.on{background:var(--green)} .status .sd.off{background:var(--neutral)}
+  .status b{color:var(--ink);font-weight:700}
+  .fullnote{grid-column:1/-1}
+
+  /* ---- methodology tables ---- */
+  .rcol{display:flex;flex-direction:column;gap:14px;min-width:0}
+  .rcol > *{max-width:none}
+  .method{max-width:none}
+  .method table th{text-align:left}
+  .method table td{text-align:left;vertical-align:top}
+  .method td.mm{font-weight:700;color:var(--ink);white-space:nowrap;width:150px}
+  .method td.md{color:var(--muted);font-weight:500;line-height:1.5;font-size:11.5px}
+  .method td.md b{color:var(--ink);font-weight:700}
+  .method .msrc{font-size:10.5px;color:var(--faint);padding:9px 14px;border-top:1px solid var(--line);background:#fafbfd;line-height:1.5}
+  table td.subrow{background:#eef2f7;font-weight:800;font-size:10px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);padding:5px 12px}
+
+  /* ---- horizontal WoW comparison (Cowork vs ODSP) ---- */
+  .hcmp{padding:11px 14px 13px;border-top:1px solid var(--line)}
+  .hcmp .hh{font-size:11px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.3px;margin-bottom:2px}
+  .hcmp .hsub{font-size:10px;color:var(--faint);margin-bottom:9px}
+  .hmet{margin:9px 0}
+  .hmet .hlbl{font-size:11.5px;color:var(--ink);font-weight:700;margin-bottom:4px;display:flex;justify-content:space-between;align-items:baseline}
+  .hdelta{font-size:10px;font-weight:800}
+  .hdelta.down{color:var(--red)} .hdelta.up{color:var(--green)} .hdelta.flat{color:var(--faint)}
+  .hrow{display:flex;align-items:center;gap:8px;margin:3px 0}
+  .hrow .hk{font-size:9.5px;color:var(--faint);width:52px;flex:0 0 auto;text-transform:uppercase;letter-spacing:.2px}
+  .htrk{flex:1;height:15px;background:#eef1f5;border-radius:3px;overflow:hidden}
+  .htrk.last{background:#c3ccd8}
+  .htrk.this{background:var(--cw)}
+  .htrk .hodsp{height:100%;background:linear-gradient(90deg,#ffce6b,#f5a623);box-shadow:1px 0 0 rgba(120,70,0,.25);display:flex;align-items:center;justify-content:flex-end;overflow:hidden}
+  .htrk .hpct{font-size:9px;font-weight:800;color:#4a3200;padding-right:4px;white-space:nowrap}
+  .hbar{height:100%;border-radius:3px;min-width:3px}
+  .hbar.last{background:#c3ccd8} .hbar.this{background:var(--cw)}
+  .hval{font-size:10.5px;font-weight:800;width:52px;flex:0 0 auto;text-align:left;color:var(--ink)}
+  .hleg{display:flex;gap:16px;font-size:10.5px;color:var(--muted);margin-top:10px;flex-wrap:wrap}
+  .hleg span{display:inline-flex;align-items:center;gap:5px}
+  .hleg i{width:10px;height:10px;border-radius:2px;display:inline-block}
+
+  /* ---- inline WoW bar charts (no external lib) ---- */
+  .chart{background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+  .chart .ch{padding:9px 14px;font-weight:800;font-size:12px;color:#fff;display:flex;align-items:center;justify-content:space-between}
+  .chart.cw .ch{background:var(--cw)} .chart.sf .ch{background:var(--sf)}
+  .chart .ch .tag{font-size:10px;font-weight:700;background:rgba(255,255,255,.22);padding:2px 7px;border-radius:5px}
+  .chart .cb{padding:8px 14px 12px}
+  .grp{padding:7px 0;border-top:1px dashed var(--line)}
+  .grp:first-child{border-top:none}
+  .glbl{display:flex;justify-content:space-between;font-size:11px;margin-bottom:4px}
+  .glbl span{color:var(--muted)} .glbl b{font-weight:800;font-size:11px}
+  .glbl b.up{color:var(--green)} .glbl b.down{color:var(--red)} .glbl b.flat{color:var(--faint)}
+  .barrow{display:flex;align-items:center;gap:7px;margin:2px 0}
+  .barrow .tag2{font-size:9px;color:var(--faint);width:24px;flex:0 0 auto;text-transform:uppercase;letter-spacing:.3px}
+  .bartrk{flex:1;height:13px;background:#eef1f5;border-radius:3px;overflow:hidden}
+  .bar{height:100%;border-radius:3px;min-width:2px}
+  .bar.last{background:#c3ccd8}
+  .bar.this{background:var(--cw)}
+  .chart.sf .bar.this{background:var(--sf)}
+  .barrow .bv{font-size:10px;font-weight:700;color:var(--ink);width:66px;flex:0 0 auto;text-align:right;white-space:nowrap}
+
+  /* per-level pair: table left, chart/panel right, stretched to align heights */
+  .pair{display:grid;grid-template-columns:minmax(0,1.28fr) minmax(0,.72fr);gap:22px;align-items:stretch;margin-top:2px}
+  .pair.tri{grid-template-columns:minmax(0,1.2fr) minmax(0,.85fr) minmax(0,1.02fr)}
+  .pair > .tcard{max-width:none}
+  .half{display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:start;margin-top:2px}
+  @media(max-width:1080px){.pair,.pair.tri,.half{grid-template-columns:1fr}}
+  /* vertical grouped bar chart */
+  .vchart{background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden;display:flex;flex-direction:column}
+  .vchart .ch{padding:9px 14px;font-weight:800;font-size:12px;color:#fff;display:flex;align-items:center;justify-content:space-between}
+  .vchart.cw .ch{background:var(--cw)} .vchart.cs .ch{background:var(--cs)} .vchart.sf .ch{background:var(--sf)} .vchart.sc .ch{background:var(--sc)}
+  .vchart .ch .tag{font-size:10px;font-weight:700;background:rgba(255,255,255,.22);padding:2px 7px;border-radius:5px}
+  .vcb{flex:1;display:flex;align-items:stretch;gap:12px;padding:20px 14px 8px}
+  .vgrp{flex:1;display:flex;flex-direction:column;min-width:0}
+  .vplot{flex:1;display:flex;align-items:flex-end;justify-content:center;gap:9px;min-height:110px}
+  .vbar{width:32px;max-width:44%;border-radius:5px 5px 0 0;position:relative;min-height:2px}
+  .vbar.last{background:#c3ccd8}
+  .vbar.this{background:var(--cw)}
+  .vchart.sf .vbar.this{background:var(--sf)} .vchart.cs .vbar.this{background:var(--cs)} .vchart.sc .vbar.this{background:var(--sc)}
+  .vbar .vv{position:absolute;top:-15px;left:50%;transform:translateX(-50%);font-size:9px;font-weight:700;color:var(--ink);white-space:nowrap}
+  .vbar .vfill{position:absolute;left:0;right:0;bottom:0;background:linear-gradient(180deg,#ffce6b,#f5a623);border-radius:0 0 5px 5px;z-index:0}
+  .vbar .vpct{position:absolute;bottom:4px;left:50%;transform:translateX(-50%);font-size:8.5px;font-weight:800;color:#4a3200;white-space:nowrap;z-index:1}
+  .vmeta{margin-top:8px;text-align:center;border-top:1px dashed var(--line);padding-top:6px}
+  .vmeta .vm-lbl{font-size:10.5px;color:var(--muted);display:block}
+  .vmeta .vm-wow{font-size:11px;font-weight:800;display:block;margin-top:1px}
+  .vmeta .vm-wow.up{color:var(--green)} .vmeta .vm-wow.down{color:var(--red)}
+  .vlegend{display:flex;gap:16px;justify-content:center;padding:2px 0 12px;font-size:10px;color:var(--muted)}
+  .vlegend span{display:inline-flex;align-items:center;gap:5px}
+  .vswatch{width:10px;height:10px;border-radius:2px;display:inline-block}
+  .col-stack{display:flex;flex-direction:column;gap:16px;min-width:0}
+  .col-stack > .tcard,.col-stack > .vchart{max-width:none}
+  .cwadopt{table-layout:fixed}
+  .cwadopt th.metric,.cwadopt td.metric{width:36%}
+  .cwadopt th:not(.metric),.cwadopt td:not(.metric){width:21.3%}
+  .tri301{grid-template-rows:auto auto;grid-template-areas:'c b m' 'c d m'}
+  .tri301.tri301-5{grid-template-areas:'a b m' 'c d m'}
+  .tri301 > .g-a{grid-area:a}.tri301 > .g-b{grid-area:b}.tri301 > .g-c{grid-area:c}.tri301 > .g-d{grid-area:d}.tri301 > .g-m{grid-area:m}
+  .vchart.vshare .vplot{min-height:110px}
+  .vchart.vshare .vbar{width:32px}
+  .vchart.vshare .vsub{padding:9px 14px 0;font-size:10px;color:var(--faint)}  .wk{display:block;font-weight:600;color:var(--faint);font-size:9.5px;text-transform:none;letter-spacing:0;margin-top:2px}</style>
+</head>
+<body>
+<header>
+  <div class="title">
+    <h1>ODSP in Agentic Work</h1><span class="sub">Integration Scorecard</span>
+    <span class="stamp">VERIFIED · Aug 9–15</span>
+  </div>
+  <div class="tabs">
+    <div class="tab active" data-v="overview"><span class="lvl">101</span> Overview</div>
+    <div class="tab" data-v="cowork"><span class="cwd cw"></span> Cowork</div>
+    <div class="tab" data-v="scout"><span class="cwd sc"></span> Scout</div>
+    <div class="tab" data-v="cs"><span class="cwd cs"></span> Copilot Studio</div>
+    <div class="tab" data-v="archive"><span class="lvl">◱</span> Archive</div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <!-- ============ OVERVIEW (101) ============ -->
+  <section class="view on" id="v-overview">
+    <div class="lvlhead"><span class="badge">101</span><h2>ODSP in Agentic Work — Overview</h2>
+      <span class="desc">The three agents at a glance · click a card to open its scorecard · <b>data for week Aug 9–15</b> (Sun–Sat) · Scout still on Jul 19–25</span></div>
+    <div class="hero">
+      <div class="acard cw" data-go="cowork"><div class="stripe"></div>
+        <div class="aname">Cowork</div><div class="arole">Agent calling ODSP · pilot surface</div>
+        <div class="big" id="cw-hero-wau">106.2K</div><div class="biglbl">ODSP Active Users</div>
+        <span class="chip live">● Live data</span> <span class="chip wk">Week Aug 9–15</span>
+        <div class="minirow"><span>ODSP active tenants</span><b id="cw-hero-pen">10.8K</b></div>
+        <div class="minirow"><span>ODSP tool success</span><b id="cw-hero-succ">95.8%</b></div>
+        <div class="minirow"><span>Turn success</span><b id="cw-hero-turn">83.3%</b></div>
+        <div class="opencta">Open Cowork scorecard →</div>
+      </div>
+      <div class="acard sc" data-go="scout"><div class="stripe"></div>
+        <div class="aname">Scout</div><div class="arole">Agent calling ODSP · early preview</div>
+        <div class="big">24.9K</div><div class="biglbl">Weekly Active Users (all-up)</div>
+        <span class="chip live">● Live data</span> <span class="chip wk">Week Jul 19–25</span>
+        <div class="minirow"><span>ODSP footprint (users)</span><b>0.20%</b></div>
+        <div class="minirow"><span>ODSP tool success</span><b>99.31%</b></div>
+        <div class="minirow"><span>Users calling ODSP</span><b>49</b></div>
+        <div class="opencta">Open Scout scorecard →</div>
+      </div>
+      <div class="acard cs" data-go="cs"><div class="stripe"></div>
+        <div class="aname">Copilot Studio / Dracarys</div><div class="arole">Builder platform · excluded from agent counts</div>
+        <div class="big">80.4K</div><div class="biglbl">Weekly Active Users (all-up)</div>
+        <span class="chip live">● Live data</span> <span class="chip wk">Week Aug 9–15</span>
+        <div class="minirow"><span>ODSP footprint (users)</span><b>31.1%</b></div>
+        <div class="minirow"><span>ODSP service success</span><b>92.2%</b></div>
+        <div class="minirow"><span>Active agents</span><b>77.1K</b></div>
+        <div class="opencta">Open Copilot Studio scorecard →</div>
+      </div>
+    </div>
+    <div class="legend">
+      <span><span class="dot" style="background:var(--green)"></span> improving WoW</span>
+      <span><span class="dot" style="background:var(--red)"></span> regressing WoW</span>
+      <span><span class="dot" style="background:var(--neutral)"></span> no data</span>
+      <span>Cowork live = scraped dashboard · Scout = live IDEAS ClawpilotUsage (all-up) + CSC Kusto (ODSP reach) · CS = live Dracarys Kusto · DSAT = association</span>
+    </div>
+  </section>
+
+  <!-- ============ COWORK (201/301/401) ============ -->
+  <section class="view" id="v-cowork">
+    <div class="lvlhead"><span class="badge">201</span><h2>Cowork — Agent Adoption</h2>
+      <span class="desc">Whole-agent · last vs this week · Sun→Sat</span></div>
+    <p class="note" style="margin-top:0"><b>Audience group:</b> all Microsoft Copilot Cowork users · internal (Microsoft) + external (customer) tenants · all regions. Scrape filters: <b>Region = All Regions · Audience = All</b>.</p>
+    <div class="pair tri">
+      <div class="tcard cw">
+        <div class="th">Cowork Adoption <span class="tag">LIVE</span></div>
+        <table>
+          <tr><th class="metric">Metric</th><th>Last wk <span class="wk cw-wk-last">(Aug 2–8)</span></th><th>This wk <span class="wk cw-wk-this">(Aug 9–15)</span></th><th>WoW</th></tr>
+          <tr><td class="metric">Active Users</td><td><span class="n">220.1K</span></td><td><span class="n">PENDING</span></td><td class="wow flat">PENDING</td></tr>
+          <tr><td class="metric">Active Tenants</td><td><span class="n">17.0K</span></td><td><span class="n">PENDING</span></td><td class="wow flat">PENDING</td></tr>
+          <tr><td class="metric">Tasks</td><td><span class="n">1.2M</span></td><td><span class="n">PENDING</span></td><td class="wow flat">PENDING</td></tr>
+          <tr><td class="metric">Tool calls</td><td><span class="n">22.2M</span></td><td><span class="n">PENDING</span></td><td class="wow flat">PENDING</td></tr>
+        </table>
+      </div>
+      <div class="vchart cw">
+          <div class="ch">Cowork All-up — WoW <span class="tag">LIVE</span></div>
+          <div class="vcb">
+            <div class="vgrp"><div class="vplot"><div class="vbar last" style="height:100%"><span class="vv">220.1K</span></div><div class="vbar this" style="height:20%"><span class="vv">PENDING</span></div></div><div class="vmeta"><span class="vm-lbl">Users</span><span class="vm-wow flat">PENDING</span></div></div>
+            <div class="vgrp"><div class="vplot"><div class="vbar last" style="height:100%"><span class="vv">17.0K</span></div><div class="vbar this" style="height:20%"><span class="vv">PENDING</span></div></div><div class="vmeta"><span class="vm-lbl">Tenants</span><span class="vm-wow flat">PENDING</span></div></div>
+            <div class="vgrp"><div class="vplot"><div class="vbar last" style="height:100%"><span class="vv">1.2M</span></div><div class="vbar this" style="height:20%"><span class="vv">PENDING</span></div></div><div class="vmeta"><span class="vm-lbl">Tasks</span><span class="vm-wow flat">PENDING</span></div></div>
+            <div class="vgrp"><div class="vplot"><div class="vbar last" style="height:100%"><span class="vv">22.2M</span></div><div class="vbar this" style="height:20%"><span class="vv">PENDING</span></div></div><div class="vmeta"><span class="vm-lbl">Tool calls</span><span class="vm-wow flat">PENDING</span></div></div>
+          </div>
+          <div class="vlegend"><span><i class="vswatch" style="background:#c3ccd8"></i>Last wk</span><span><i class="vswatch" style="background:var(--cw)"></i>This wk</span></div>
+        </div>
+        <div class="tcard cw method">
+          <div class="th">Methodology — Cowork All-up <span class="tag">DEFINITIONS</span></div>
+          <table>
+            <tr><th class="metric">Metric</th><th class="metric">How it is calculated</th></tr>
+            <tr><td class="mm">Active Users</td><td class="md">Distinct users who sent <b>≥1 message to Cowork</b> during the 7-day window (Sunday–Saturday).</td></tr>
+            <tr><td class="mm">Active Tenants</td><td class="md">Distinct tenants (orgs) with <b>≥1 active Cowork user</b> during the 7-day window (Sunday–Saturday).</td></tr>
+            <tr><td class="mm">Tasks</td><td class="md">Total Cowork <b>tasks completed</b> during the 7-day window (Sunday–Saturday).</td></tr>
+            <tr><td class="mm">Tool calls</td><td class="md">Total <b>outbound tool invocations</b> Cowork made across all plugins during the 7-day window (Sunday–Saturday).</td></tr>
+            <tr><td class="mm">WoW</td><td class="md">(This week − Last week) ÷ Last week. ▲ up / ▼ down / ≈ flat. Both weeks Sunday–Saturday.</td></tr>
+          </table>
+          <div class="msrc">Source: Cowork adoption + Tools dashboard (whole-agent, 7-day rolling). Tasks = authoritative all-up counts; Tool calls = dashboard TOTAL CALLS.</div>
+        </div>
+    </div>
+
+    <div class="lvlhead"><span class="badge">301</span><h2>ODSP in Cowork — Footprint</h2>
+      <span class="desc">number ; % of Cowork</span></div>
+    <div class="pair tri tri301 tri301-5">
+<div class="tcard cw g-a">
+<div class="th">ODSP in Cowork Adoption <span class="tag">LIVE</span></div>
+        <table class="cwadopt">
+          <tr><th class="metric">Metric</th><th>Last wk <span class="wk cw-wk-last">(Aug 2–8)</span></th><th>This wk <span class="wk cw-wk-this">(Aug 9–15)</span></th><th>WoW</th></tr>
+          <tr><td class="metric">Active Users</td><td><span class="n">107.2K</span></td><td><span class="n">106.2K</span></td><td class="wow down" id="cw-usr-w">▼ 0.9%</td></tr>
+          <tr><td class="metric">Active Tenants</td><td><span class="n">10.9K</span></td><td><span class="n">10.8K</span></td><td class="wow down" id="cw-ten-w">▼ 0.3%</td></tr>
+          <tr><td class="metric">Tasks</td><td><span class="n">263.9K</span></td><td><span class="n">283.8K</span></td><td class="wow up" id="cw-tsk-w">▲ 7.5%</td></tr>
+          <tr><td class="metric">Tool calls</td><td><span class="n">2.9M</span></td><td><span class="n">3.1M</span></td><td class="wow up" id="cw-tc-w">▲ 4.6%</td></tr>
+        </table></div>
+      <div class="tcard cw g-c">
+<div class="th">ODSP in Cowork Adoption — Percentage <span class="tag">LIVE</span></div>
+        <table class="cwadopt">
+          <tr><th class="metric">Metric</th><th>Last wk <span class="wk">(Aug 2–8)</span></th><th>This wk <span class="wk">(Aug 9–15)</span></th><th>WoW</th></tr>
+          <tr><td class="metric">Active Users</td><td><span class="n">48.7%</span></td><td><span class="n">PENDING</span></td><td class="wow flat">PENDING</td></tr>
+          <tr><td class="metric">Active Tenants</td><td><span class="n">63.9%</span></td><td><span class="n">PENDING</span></td><td class="wow flat">PENDING</td></tr>
+          <tr><td class="metric">Tasks</td><td><span class="n">22.0%</span></td><td><span class="n">PENDING</span></td><td class="wow flat">PENDING</td></tr>
+          <tr><td class="metric">Tool calls</td><td><span class="n">13.2%</span></td><td><span class="n">PENDING</span></td><td class="wow flat">PENDING</td></tr>
+        </table>
+        <div class="msrc">ODSP adoption % = ODSP footprint ÷ Cowork all-up, per metric. WoW in percentage points (pp).</div>
+      </div>
+<div class="vchart cw g-b">
+          <div class="ch">ODSP in Cowork — WoW <span class="tag">LIVE</span></div>
+          <div class="vcb" id="cw-chart-odsp">
+            <div class="vgrp"><div class="vplot"><div class="vbar last" style="height:100%"><span class="vv">107.2K</span></div><div class="vbar this" style="height:99%"><span class="vv">106.2K</span></div></div><div class="vmeta"><span class="vm-lbl">Users</span><span class="vm-wow down">▼ 0.9%</span></div></div>
+            <div class="vgrp"><div class="vplot"><div class="vbar last" style="height:100%"><span class="vv">10.9K</span></div><div class="vbar this" style="height:99%"><span class="vv">10.8K</span></div></div><div class="vmeta"><span class="vm-lbl">Tenants</span><span class="vm-wow down">▼ 0.3%</span></div></div>
+            <div class="vgrp"><div class="vplot"><div class="vbar last" style="height:93%"><span class="vv">263.9K</span></div><div class="vbar this" style="height:100%"><span class="vv">283.8K</span></div></div><div class="vmeta"><span class="vm-lbl">Tasks</span><span class="vm-wow up">▲ 7.5%</span></div></div>
+            <div class="vgrp"><div class="vplot"><div class="vbar last" style="height:96%"><span class="vv">2.9M</span></div><div class="vbar this" style="height:100%"><span class="vv">3.1M</span></div></div><div class="vmeta"><span class="vm-lbl">Tool calls</span><span class="vm-wow up">▲ 4.6%</span></div></div>
+          </div>
+          <div class="vlegend"><span><i class="vswatch" style="background:#c3ccd8"></i>Last wk</span><span><i class="vswatch" style="background:var(--cw)"></i>This wk</span></div>
+        </div>
+      <div class="vchart cw vshare g-d">
+          <div class="ch">ODSP adoption in Cowork — % of Cowork all-up <span class="tag">LIVE</span></div>
+          <div class="vsub">Total bar = Cowork all-up (100%) · amber fill = ODSP adoption % · Last wk vs This wk</div>
+          <div class="vcb">
+        <div class="vgrp"><div class="vplot"><div class="vbar last" style="height:100%"><span class="vv">220.1K</span><div class="vfill" style="height:48.7%"></div><span class="vpct">48.7%</span></div><div class="vbar this" style="height:100%"><span class="vv">PENDING</span><div class="vfill" style="height:0%"></div><span class="vpct">PENDING</span></div></div><div class="vmeta"><span class="vm-lbl">Active Users</span><span class="vm-wow flat">PENDING</span></div></div>
+        <div class="vgrp"><div class="vplot"><div class="vbar last" style="height:100%"><span class="vv">17.0K</span><div class="vfill" style="height:63.9%"></div><span class="vpct">63.9%</span></div><div class="vbar this" style="height:100%"><span class="vv">PENDING</span><div class="vfill" style="height:0%"></div><span class="vpct">PENDING</span></div></div><div class="vmeta"><span class="vm-lbl">Active Tenants</span><span class="vm-wow flat">PENDING</span></div></div>
+        <div class="vgrp"><div class="vplot"><div class="vbar last" style="height:100%"><span class="vv">1.2M</span><div class="vfill" style="height:22.0%"></div><span class="vpct">22.0%</span></div><div class="vbar this" style="height:100%"><span class="vv">PENDING</span><div class="vfill" style="height:0%"></div><span class="vpct">PENDING</span></div></div><div class="vmeta"><span class="vm-lbl">Tasks</span><span class="vm-wow flat">PENDING</span></div></div>
+        <div class="vgrp"><div class="vplot"><div class="vbar last" style="height:100%"><span class="vv">22.2M</span><div class="vfill" style="height:13.2%"></div><span class="vpct">13.2%</span></div><div class="vbar this" style="height:100%"><span class="vv">PENDING</span><div class="vfill" style="height:0%"></div><span class="vpct">PENDING</span></div></div><div class="vmeta"><span class="vm-lbl">Tool calls</span><span class="vm-wow flat">PENDING</span></div></div>
+      </div>
+          <div class="vlegend"><span><i class="vswatch" style="background:#c3ccd8"></i>Cowork — last wk</span><span><i class="vswatch" style="background:var(--cw)"></i>Cowork — this wk</span><span><i class="vswatch" style="background:#f5a623"></i>ODSP adoption %</span></div>
+        </div>
+<div class="tcard cw method g-m">
+          <div class="th">Methodology — ODSP in Cowork <span class="tag">DEFINITIONS</span></div>
+          <table>
+            <tr><th class="metric">Metric</th><th class="metric">How it is calculated</th></tr>
+            <tr><td class="mm">Active Users</td><td class="md">Distinct users who triggered <b>≥1 ODSP (SharePoint/OneDrive) tool call</b> inside Cowork.</td></tr>
+            <tr><td class="mm">Active Tenants</td><td class="md">Distinct tenants with <b>≥1 ODSP tool call</b> in Cowork.</td></tr>
+            <tr><td class="mm">Tasks</td><td class="md">Cowork tasks that <b>invoked ≥1 ODSP tool</b> in the window.</td></tr>
+            <tr><td class="mm">Tool calls</td><td class="md">Count of <b>ODSP SharePoint/OneDrive service tool calls</b> — the ODSP subset of Cowork total tool calls.</td></tr>
+            <tr><td class="mm">WoW</td><td class="md">(This week − Last week) ÷ Last week. ▲ up / ▼ down / ≈ flat. Both weeks Sunday–Saturday.</td></tr>
+          </table>
+          <div class="msrc">Source: Cowork Tools dashboard → Outbound Reliability → <b>SharePoint/OneDrive service dependency</b> (live CSC Kusto). ODSP footprint = association / penetration within Cowork.</div>
+        </div>
+    </div>
+
+    <div class="lvlhead"><span class="badge">401</span><h2>ODSP in Cowork — Performance</h2>
+      <span class="desc">flow: task → turn → tool call → ODSP · SharePoint/OneDrive service</span></div>
+    <div class="pair tri">
+      <div class="tcard cw">
+        <div class="th">ODSP in Cowork — Performance &amp; Task Success <span class="tag">LIVE</span></div>
+        <table>
+          <tr><th class="metric">Metric</th><th>Last wk <span class="wk cw-wk-last">(Aug 2–8)</span></th><th>This wk <span class="wk cw-wk-this">(Aug 9–15)</span></th><th>WoW</th></tr>
+          <tr><td class="subrow" colspan="4">Task funnel · counts</td></tr>
+          <tr><td class="metric">Total Tasks</td><td><span class="n">301,030</span></td><td><span class="n">283,838</span></td><td class="wow down">▼ 5.7%</td></tr>
+          <tr><td class="metric">Completed Tasks</td><td><span class="n">292,853</span></td><td><span class="n">282,611</span></td><td class="wow down">▼ 3.5%</td></tr>
+          <tr><td class="metric">— Clean tasks</td><td><span class="n">240,051</span></td><td><span class="n">216,016</span></td><td class="wow down">▼ 10%</td></tr>
+          <tr><td class="metric">— Recovered tasks</td><td><span class="n">52,802</span></td><td><span class="n">66,595</span></td><td class="wow up">▲ 26.1%</td></tr>
+          <tr><td class="metric">Poisoned (failed)</td><td><span class="n">8,177</span></td><td><span class="n">1,227</span></td><td class="wow down">▼ 85%</td></tr>
+          <tr><td class="subrow" colspan="4">Task success rates</td></tr>
+          <tr><td class="metric">Clean task success</td><td><span class="n">79.7%</span></td><td><span class="n">76.1%</span></td><td class="wow down" id="cw-tks-w">▼ 3.6pp</td></tr>
+          <tr><td class="metric">Overall task success</td><td><span class="n">97.3%</span></td><td><span class="n">99.6%</span></td><td class="wow up">▲ 2.3pp</td></tr>
+          <tr><td class="metric">Recovery rate</td><td><span class="n">86.6%</span></td><td><span class="n">98.2%</span></td><td class="wow up">▲ 11.6pp</td></tr>
+          <tr><td class="subrow" colspan="4">Turn level</td></tr>
+          <tr><td class="metric">Turn success rate</td><td><span class="n">87.3%</span></td><td><span class="n">83.3%</span></td><td class="wow down" id="cw-tr-w">▼ 4pp</td></tr>
+          <tr><td class="subrow" colspan="4">Tool level</td></tr>
+          <tr><td class="metric">Tool success rate</td><td><span class="n">96.5%</span></td><td><span class="n">95.8%</span></td><td class="wow down" id="cw-ts-w">▼ 0.7pp</td></tr>
+          <tr><td class="metric">Avg latency (tool call)</td><td><span class="n">1,000 ms</span></td><td><span class="n">PENDING</span></td><td class="wow flat" id="cw-lat-w">PENDING</td></tr>
+        </table>
+      </div>
+      <div class="panel cw">
+        <div class="ph">ODSP Tool Signals <span class="tag">LIVE</span></div>
+        <div class="pb">
+          <div class="sig"><span class="sk">ODSP tools tracked</span><span class="sv" id="cw-rk-count">10</span></div>
+          <div class="sig good"><span class="sk">Top tool by volume</span><span class="sv"><span id="cw-rk-topvol-v">ReadFileContent</span><small id="cw-rk-topvol-m">1.33M this · 1.20M last · <span class="wow up">▲ 11.1%</span></small></span></div>
+          <div class="sig"><span class="sk">Lowest tool by volume</span><span class="sv"><span id="cw-rk-lowvol-v">ListSubsites</span><small id="cw-rk-lowvol-m">1,083 this</small></span></div>
+          <div class="sig good"><span class="sk">Top tool by success</span><span class="sv"><span id="cw-rk-topsucc-v">ListMyDrives</span><small id="cw-rk-topsucc-m">99.8% this</small></span></div>
+          <div class="sig bad"><span class="sk">Lowest success · active tools</span><span class="sv"><span id="cw-rk-lowsucc-v">GetDriveItem</span><small id="cw-rk-lowsucc-m">86.5% this · 181.5K calls</small></span></div>
+          <div class="sig"><span class="sk">Slowest tool (P50)</span><span class="sv"><span id="cw-rk-slow-v">CreateFolder</span><small id="cw-rk-slow-m">21,309 ms this</small></span></div>
+          <div class="sig" style="display:block;border-top:1px solid var(--line);padding-top:8px"><span class="sk" style="font-size:10px;line-height:1.45;color:var(--faint)">Ranks all <b>16</b> ODSP tools in the verified Aug 9&ndash;15 cube. Success = 1 &minus; failures/calls. Latency signal uses tool-level P50; lower is better.</span></div>
+        </div>
+      </div>
+      <div class="tcard cw method">
+        <div class="th">Performance &amp; Task Success — Definitions <span class="tag">DEFINITIONS</span></div>
+        <table>
+          <tr><th class="metric">Metric</th><th class="metric">How it is calculated</th></tr>
+          <tr><td class="mm">Total Tasks</td><td class="md">All ODSP-in-Cowork tasks in the window — tasks where the <b>SharePoint+OneDrive plugin was invoked ≥1</b>.</td></tr>
+          <tr><td class="mm">Completed Tasks</td><td class="md">Tasks that produced a <b>final response</b> — Clean + Recovered.</td></tr>
+          <tr><td class="mm">Clean tasks / success</td><td class="md">Final response with <b>zero tool failures</b>. Rate = clean ÷ total tasks.</td></tr>
+          <tr><td class="mm">Recovered tasks</td><td class="md">Final response <b>despite ≥1 tool failure</b> (agent worked around it).</td></tr>
+          <tr><td class="mm">Poisoned (failed)</td><td class="md">Tasks with <b>no good final response</b>. Failure rate = poisoned ÷ total tasks.</td></tr>
+          <tr><td class="mm">Overall task success</td><td class="md">Any <b>successful final response</b> (Clean + Recovered) ÷ total tasks — includes recoveries.</td></tr>
+          <tr><td class="mm">Recovery rate</td><td class="md">Recovered ÷ (Recovered + Poisoned) — share of failed-tool tasks that still delivered.</td></tr>
+          <tr><td class="mm">Turn success rate</td><td class="md">Per-turn success across all turns in the slice (turn-level, not task-level).</td></tr>
+          <tr><td class="mm">Tool success rate</td><td class="md">Successful ODSP tool calls ÷ total ODSP tool calls (SharePoint/OneDrive service dependency).</td></tr>
+          <tr><td class="mm">Avg latency</td><td class="md"><b>Mean server-side latency</b> per ODSP tool call, in ms (lower = faster).</td></tr>
+          <tr><td class="mm">WoW</td><td class="md">Counts: (This − Last) ÷ Last. Rates: percentage-point delta (pp). Latency: % faster/slower.</td></tr>
+        </table>
+        <div class="msrc">Source: verified 17-region Cowork weekly cube (2026-08-18T12:57:39Z). Funnel base: Last wk 301,030 (Clean 240,051 + Recovered 52,802 + Poisoned 8,177) · This wk 283,838 (Clean 216,016 + Recovered 66,595 + Poisoned 1,227). Rates are cube-derived; mean tool latency is PENDING because the cube has no mean-latency field.</div>
+      </div>
+    </div>
+
+    <div class="lvlhead"><span class="badge">501</span><h2>ODSP Surface Split in Cowork — OneDrive · SharePoint</h2>
+      <span class="desc">how ODSP tool usage splits by surface · a task counts toward every surface it touched</span></div>
+    <p class="note" style="margin-top:0">Cowork emits ODSP as one combined plugin; three surfaces are derived from the tool name — <b>OneDrive</b>, <b>SharePoint</b>, and <b>Shared</b> (ReadFileContent / CreateFolder, applies to either file type). Tool-call mix: <b>Aug 2–8</b> OneDrive 42% · SharePoint 6% · Shared 52% · <b>Aug 9–15</b> OneDrive 41% · SharePoint 6% · Shared 53%. Shared (~52–53% of calls) is tracked but split out separately; the two first-party surfaces are shown below.</p>
+    <div class="pair tri">
+      <div class="tcard cw">
+        <div class="th">OneDrive — Task Success &amp; Volume <span class="tag">LIVE</span></div>
+        <table>
+          <tr><th class="metric">Metric</th><th>Last wk <span class="wk">(Aug 2–8)</span></th><th>This wk <span class="wk">(Aug 9–15)</span></th><th>WoW</th></tr>
+          <tr><td class="subrow" colspan="4">Tool calls · volume</td></tr>
+          <tr><td class="metric">Tool calls</td><td><span class="n">1,233,866</span></td><td><span class="n">1,258,793</span></td><td class="wow up">▲ 2%</td></tr>
+          <tr><td class="subrow" colspan="4">Task funnel · counts</td></tr>
+          <tr><td class="metric">Tasks on surface</td><td><span class="n">182,115</span></td><td><span class="n">201,836</span></td><td class="wow up">▲ 10.8%</td></tr>
+          <tr><td class="metric">— Clean tasks</td><td><span class="n">130,633</span></td><td><span class="n">137,169</span></td><td class="wow up">▲ 5.0%</td></tr>
+          <tr><td class="metric">— Recovered tasks</td><td><span class="n">43,792</span></td><td><span class="n">56,741</span></td><td class="wow up">▲ 29.6%</td></tr>
+          <tr><td class="metric">Poisoned (failed)</td><td><span class="n">7,690</span></td><td><span class="n">7,926</span></td><td class="wow down">▼ 3.1%</td></tr>
+          <tr><td class="subrow" colspan="4">Success rates</td></tr>
+          <tr><td class="metric">Clean task success</td><td><span class="n">71.7%</span></td><td><span class="n">68.0%</span></td><td class="wow down">▼ 3.7pp</td></tr>
+          <tr><td class="metric">Overall task success</td><td><span class="n">95.8%</span></td><td><span class="n">96.1%</span></td><td class="wow up">▲ 0.3pp</td></tr>
+          <tr><td class="metric">Recovered success</td><td><span class="n">24.0%</span></td><td><span class="n">28.1%</span></td><td class="wow up">▲ 4.1pp</td></tr>
+          <tr><td class="metric">Recovery rate</td><td><span class="n">85.1%</span></td><td><span class="n">87.7%</span></td><td class="wow up">▲ 2.6pp</td></tr>
+        </table>
+      </div>
+      <div class="tcard cw">
+        <div class="th">SharePoint — Task Success &amp; Volume <span class="tag">LIVE</span></div>
+        <table>
+          <tr><th class="metric">Metric</th><th>Last wk <span class="wk">(Aug 2–8)</span></th><th>This wk <span class="wk">(Aug 9–15)</span></th><th>WoW</th></tr>
+          <tr><td class="subrow" colspan="4">Tool calls · volume</td></tr>
+          <tr><td class="metric">Tool calls</td><td><span class="n">176,169</span></td><td><span class="n">169,663</span></td><td class="wow down">▼ 3.7%</td></tr>
+          <tr><td class="subrow" colspan="4">Task funnel · counts</td></tr>
+          <tr><td class="metric">Tasks on surface</td><td><span class="n">70,174</span></td><td><span class="n">68,121</span></td><td class="wow down">▼ 2.9%</td></tr>
+          <tr><td class="metric">— Clean tasks</td><td><span class="n">53,976</span></td><td><span class="n">48,799</span></td><td class="wow down">▼ 9.6%</td></tr>
+          <tr><td class="metric">— Recovered tasks</td><td><span class="n">14,432</span></td><td><span class="n">17,508</span></td><td class="wow up">▲ 21.3%</td></tr>
+          <tr><td class="metric">Poisoned (failed)</td><td><span class="n">1,766</span></td><td><span class="n">1,814</span></td><td class="wow down">▼ 2.7%</td></tr>
+          <tr><td class="subrow" colspan="4">Success rates</td></tr>
+          <tr><td class="metric">Clean task success</td><td><span class="n">76.9%</span></td><td><span class="n">71.6%</span></td><td class="wow down">▼ 5.3pp</td></tr>
+          <tr><td class="metric">Overall task success</td><td><span class="n">97.5%</span></td><td><span class="n">97.3%</span></td><td class="wow down">▼ 0.2pp</td></tr>
+          <tr><td class="metric">Recovered success</td><td><span class="n">20.6%</span></td><td><span class="n">25.7%</span></td><td class="wow up">▲ 5.1pp</td></tr>
+          <tr><td class="metric">Recovery rate</td><td><span class="n">89.1%</span></td><td><span class="n">90.6%</span></td><td class="wow up">▲ 1.5pp</td></tr>
+        </table>
+      </div>
+      <div class="tcard cw method">
+        <div class="th">Surface Split — Definitions <span class="tag">DEFINITIONS</span></div>
+        <table>
+          <tr><th class="metric">Metric</th><th class="metric">How it is calculated</th></tr>
+          <tr><td class="mm">Surface</td><td class="md">Derived from the <b>tool name</b>. OneDrive tools → OneDrive, SharePoint tools → SharePoint. <b>Shared</b> (ReadFileContent / CreateFolder) applies to either file type and is tracked separately.</td></tr>
+          <tr><td class="mm">Tasks on surface</td><td class="md">Tasks that called <b>≥1 tool on this surface</b>. A task counts toward <b>every</b> surface it touched, so surfaces overlap and do not sum to the plugin total.</td></tr>
+          <tr><td class="mm">Clean tasks</td><td class="md">Final response with <b>zero tool failures</b> on this surface. Rate = clean ÷ tasks touching.</td></tr>
+          <tr><td class="mm">Recovered tasks</td><td class="md">Final response <b>despite ≥1 tool failure</b> on this surface (agent worked around it).</td></tr>
+          <tr><td class="mm">Poisoned (failed)</td><td class="md">Tasks with <b>no good final response</b> on this surface.</td></tr>
+          <tr><td class="mm">Tool calls</td><td class="md">Total ODSP tool calls attributed to this surface in the window.</td></tr>
+          <tr><td class="mm">Clean task success</td><td class="md">Clean ÷ tasks touching — final response with no tool failures.</td></tr>
+          <tr><td class="mm">Overall task success</td><td class="md">(Clean + Recovered) ÷ tasks touching — any successful final response, includes recoveries.</td></tr>
+          <tr><td class="mm">Recovered success</td><td class="md">Recovered ÷ tasks touching — the recovery <b>lift</b> (overall − clean) in pp.</td></tr>
+          <tr><td class="mm">Recovery rate</td><td class="md">Recovered ÷ (Recovered + Poisoned) — share of failed-tool tasks that still delivered.</td></tr>
+          <tr><td class="mm">WoW</td><td class="md">Counts: (This − Last) ÷ Last. Rates: percentage-point delta (pp).</td></tr>
+        </table>
+        <div class="msrc">Source: verified Cowork weekly cube (SharePoint+OneDrive plugin, surface derived from tool name). Aug 2–8 → Aug 9–15. A task counts toward each surface it touched; surface counts overlap. Shared (~52–53% of tool calls) remains tracked separately.</div>
+      </div>
+    </div>
+    <p class="note fullnote" id="cw-note">Cowork = Aug 2–8 (last) vs Aug 9–15 (this), Sun→Sat. Verified ODSP footprint: users 107.2K → 106.2K, tenants 10.9K → 10.8K, tasks 263.9K → 283.8K, and tool calls 2.9M → 3.1M. Tool success moved 96.5% → 95.8%; turn success moved 87.3% → 83.3%. Current all-Cowork totals and dependent penetration percentages remain PENDING because the verified pull is ODSP-scoped; no all-up value is inferred.</p>
+  </section>
+
+  <!-- ============ SCOUT ============ -->
+  <section class="view" id="v-scout">
+    <div class="lvlhead sc"><span class="badge">201</span><h2>Scout – Agent Adoption</h2><span class="desc">Agent calling ODSP · pre-GA / limited preview</span></div>
+    <p class="note" style="margin-top:0"><b>Agent:</b> Scout (Lobster runtime) — an external agent that calls ODSP, <b>pre-GA / limited preview</b>. Scout <b>all-up</b> adoption (Active Users / tenants / sends / retention) is taken at each <b>week-ending Saturday</b> on Sun–Sat calendar weeks (last = Jul 12–18, this = Jul 19–25) to match the Cowork &amp; CS tabs. ODSP-facing signals — ODSP reach, tool-call volume + success — use the corrected leadership basis (see 301 / 401) and tie out to the 101 table.</p>
+    <div class="pair">
+      <div class="tcard sc">
+        <div class="th">Scout All-up Adoption <span class="tag">LIVE</span></div>
+        <table>
+          <tr><th class="metric">Metric</th><th>Last wk <span class="wk">(Jul 12–18)</span></th><th>This wk <span class="wk">(Jul 19–25)</span></th><th>WoW</th></tr>
+            <tr><td class="metric">Active Users</td><td><span class="n">23,726</span></td><td><span class="n">24,917</span></td><td class="wow up">▲ 5.0%</td></tr>
+            <tr><td class="metric">Active Tenants</td><td><span class="n">793</span></td><td><span class="n">736</span></td><td class="wow down">▼ 7.2%</td></tr>
+            <tr><td class="metric">Sends (messages)</td><td><span class="n">604,423</span></td><td><span class="n">659,197</span></td><td class="wow up">▲ 9.1%</td></tr>
+            <tr><td class="metric">Weekly retention</td><td><span class="n">67.3%</span></td><td><span class="n">66.9%</span></td><td class="wow down">▼ 0.4pp</td></tr>
+        </table>
+      </div>
+      <div class="tcard sc method">
+          <div class="th">Methodology – Scout All-up <span class="tag">DEFINITIONS</span></div>
+          <table>
+            <tr><th class="metric">Metric</th><th class="metric">How it is calculated / status</th></tr>
+            <tr><td class="mm">Active Users</td><td class="md">Distinct weekly active Scout users — the 7-day rolling WAU at the week-ending Saturday (Jul 25 = Jul 19–25), on Sun–Sat calendar weeks.</td></tr>
+            <tr><td class="mm">Active Tenants</td><td class="md">Distinct tenants with ≥1 weekly active user at the week-ending Saturday. 28-day reach ≈ 1,620 tenants.</td></tr>
+            <tr><td class="mm">Sends (messages)</td><td class="md">Messages sent in the Sun–Sat week (7-day rolling total at the week-ending Saturday). One send = one user message (turn-grain) — not a task; a Scout chat/session is the task-equivalent.</td></tr>
+            <tr><td class="mm">Weekly retention</td><td class="md">Returning weekly active users ÷ weekly active users, both at the week-ending Saturday. Feedback CSAT 52.8%.</td></tr>
+          </table>
+
+        </div>
+    </div>
+
+    <div class="lvlhead sc"><span class="badge">301</span><h2>ODSP in Scout – Footprint</h2><span class="desc">tenants &amp; users actually calling ODSP · % of Scout all-up · corrected leadership basis</span></div>
+    <div class="pair tri">
+      <div class="tcard sc">
+        <div class="th">ODSP in Scout Footprint <span class="tag">LIVE</span></div>
+        <table>
+          <tr><th class="metric">Metric</th><th>Last wk <span class="wk">(Jul 12–18)</span></th><th>This wk <span class="wk">(Jul 19–25)</span></th><th>WoW</th></tr>
+            <tr><td class="metric">Tenants calling ODSP</td><td><span class="n">4</span></td><td><span class="n">4</span></td><td class="wow flat">n/m</td></tr>
+            <tr><td class="metric">Users calling ODSP</td><td><span class="n">30</span></td><td><span class="n">36</span></td><td class="wow up">▲ 20.0%</td></tr>
+            <tr><td class="metric">Graph reach (all-Graph · upper bound)</td><td><span class="n">78</span></td><td><span class="n">83</span></td><td class="wow up">▲ 6.4%</td></tr>
+            <tr><td class="metric">% of Scout (users)</td><td><span class="n">0.13%</span></td><td><span class="n">0.14%</span></td><td class="wow flat">≈ 0.0pp</td></tr>
+        </table>
+      </div>
+      <div class="vchart sc">
+          <div class="ch">ODSP in Scout – reach WoW <span class="tag">LIVE</span></div>
+          <div class="vcb">
+            <div class="vgrp"><div class="vplot"><div class="vbar last" style="height:100.0%"><span class="vv">4</span></div><div class="vbar this" style="height:100.0%"><span class="vv">4</span></div></div><div class="vmeta"><span class="vm-lbl">ODSP tenants</span><span class="vm-wow flat">n/m</span></div></div>
+            <div class="vgrp"><div class="vplot"><div class="vbar last" style="height:83.3%"><span class="vv">30</span></div><div class="vbar this" style="height:100.0%"><span class="vv">36</span></div></div><div class="vmeta"><span class="vm-lbl">ODSP users</span><span class="vm-wow up">▲ 20.0%</span></div></div>
+            <div class="vgrp"><div class="vplot"><div class="vbar last" style="height:94.0%"><span class="vv">78</span></div><div class="vbar this" style="height:100.0%"><span class="vv">83</span></div></div><div class="vmeta"><span class="vm-lbl">Graph reach</span><span class="vm-wow up">▲ 6.4%</span></div></div>
+          </div>
+          <div class="vlegend"><span><i class="vswatch" style="background:#c3ccd8"></i>Last wk</span><span><i class="vswatch" style="background:var(--sc)"></i>This wk</span></div>
+        </div>
+        <div class="tcard sc method">
+          <div class="th">Methodology – ODSP in Scout <span class="tag">DEFINITIONS</span></div>
+          <table>
+            <tr><th class="metric">Metric</th><th class="metric">How it is calculated</th></tr>
+            <tr><td class="mm">Tenants calling ODSP</td><td class="md">Distinct tenants with ≥1 ODSP endpoint call. Pre-GA single-digit base — WoW shown as <b>n/m</b>.</td></tr>
+            <tr><td class="mm">Users calling ODSP</td><td class="md">Distinct users that made ≥1 ODSP endpoint call (OneDrive / SharePoint) — corrected leadership basis (CAP judge <code>primaryDomain=files</code> + Graph drive/search/site/file + <code>*.sharepoint.com</code>). Ties out to the 101 table.</td></tr>
+            <tr><td class="mm">Graph reach (upper bound)</td><td class="md">Distinct users acquiring a <b>Graph delegated (OBO) token</b> (scope <code>graph.microsoft/.default</code> = all Graph) — a superset of ODSP, shown for context.</td></tr>
+            <tr><td class="mm">% of Scout</td><td class="md">Footprint ÷ Scout all-up WAU (see 201).</td></tr>
+            <tr><td class="mm">WoW</td><td class="md">(This week − Last week) ÷ Last week. ▲ up / ▼ down / ≈ flat.</td></tr>
+          </table>
+
+        </div>
+    </div>
+
+    <div class="lvlhead sc"><span class="badge">401</span><h2>ODSP in Scout – Performance</h2><span class="desc">tool-call volume · success · latency live ; DSAT pending instrumentation</span></div>
+    <div class="pair tri">
+      <div class="tcard sc">
+        <div class="th">ODSP in Scout Performance <span class="tag">PARTIAL</span></div>
+        <table>
+          <tr><th class="metric">Metric</th><th>Last wk <span class="wk">(Jul 12–18)</span></th><th>This wk <span class="wk">(Jul 19–25)</span></th><th>WoW</th></tr>
+            <tr><td class="metric">ODSP tool-call volume</td><td><span class="n">5,462</span></td><td><span class="n">8,888</span></td><td class="wow up">▲ 62.7%</td></tr>
+            <tr><td class="metric">ODSP tool success rate</td><td><span class="n">93.7%</span></td><td><span class="n">86.8%</span></td><td class="wow down">▼ 6.9pp</td></tr>
+            <tr><td class="metric">Best ODSP tool (volume)</td><td><span class="n">SharePoint (workspace content)</span></td><td><span class="n">SharePoint (workspace content)</span></td><td class="wow flat">—</td></tr>
+            <tr><td class="metric">ODSP tool latency (p50)</td><td><span class="n">415 ms</span></td><td><span class="n">330 ms</span></td><td class="wow up">▲ faster 20.5%</td></tr>
+            <tr><td class="metric">ODSP tool DSAT%</td><td><span class="n empty">—</span></td><td><span class="n empty">—</span></td><td class="wow flat">—</td></tr>
+            <tr><td class="metric">Token-mint auth rejections</td><td><span class="n">177</span></td><td><span class="n">0</span></td><td class="wow up">▲ 100% fewer</td></tr>
+            <tr><td class="metric">LLM-forward reliability</td><td><span class="n">99.98%</span></td><td><span class="n">99.95%</span></td><td class="wow down">▼ 0.03pp</td></tr>
+        </table>
+      </div>
+      <div class="vchart sc">
+          <div class="ch">ODSP in Scout – performance WoW <span class="tag">LIVE</span></div>
+          <div class="vcb">
+            <div class="vgrp"><div class="vplot"><div class="vbar last" style="height:61.5%"><span class="vv">5,462</span></div><div class="vbar this" style="height:100.0%"><span class="vv">8,888</span></div></div><div class="vmeta"><span class="vm-lbl">ODSP volume</span><span class="vm-wow up">▲ 62.7%</span></div></div>
+            <div class="vgrp"><div class="vplot"><div class="vbar last" style="height:100.0%"><span class="vv">93.7%</span></div><div class="vbar this" style="height:92.6%"><span class="vv">86.8%</span></div></div><div class="vmeta"><span class="vm-lbl">ODSP success</span><span class="vm-wow down">▼ 6.9pp</span></div></div>
+            <div class="vgrp"><div class="vplot"><div class="vbar last" style="height:100.0%"><span class="vv">99.98%</span></div><div class="vbar this" style="height:99.97%"><span class="vv">99.95%</span></div></div><div class="vmeta"><span class="vm-lbl">LLM reliability</span><span class="vm-wow down">▼ 0.03pp</span></div></div>
+          </div>
+          <div class="vlegend"><span><i class="vswatch" style="background:#c3ccd8"></i>Last wk</span><span><i class="vswatch" style="background:var(--sc)"></i>This wk</span></div>
+        </div>
+        <div class="tcard sc method">
+          <div class="th">Performance – Definitions <span class="tag">DEFINITIONS</span></div>
+          <table>
+            <tr><th class="metric">Metric</th><th class="metric">How it is calculated / status</th></tr>
+            <tr><td class="mm">ODSP tool-call volume</td><td class="md">Container-proxy <b>forward</b> calls to OneDrive / SharePoint dispatched (<code>outcome=dispatching</code>) in the window. <b>Live.</b></td></tr>
+            <tr><td class="mm">ODSP tool success rate</td><td class="md">ODSP file-op execution success (CAP judge, model-scored) — corrected leadership basis; ties out to the 101 table. <b>Note:</b> the latency, token-mint &amp; LLM-forward rows are forward-line operational signals on a different (CSC forward) basis.</td></tr>
+            <tr><td class="mm">Best-performing ODSP tool</td><td class="md">Highest-volume ODSP tool family in the window (OneDrive drive · SharePoint Graph · SharePoint workspace content).</td></tr>
+            <tr><td class="mm">ODSP tool latency (p50)</td><td class="md">Median per-call duration (<code>duration_ms</code> on the <code>forward completed</code> line) across all ODSP forward calls (Graph + SharePoint hosts, incl. git-workspace) in the window. This wk p95 = <b>2,463 ms</b>. <b>Live.</b> Population is broader than the tool_id-scoped volume above.</td></tr>
+            <tr><td class="mm">ODSP tool DSAT%</td><td class="md">Human thumbs-down rate — lives in external OCV, no feed for Scout ODSP → <b>PENDING</b>.</td></tr>
+            <tr><td class="mm">Token-mint auth rejections</td><td class="md"><code>aad_rejected</code> OBO outcomes (access watch). <b>Lower is better.</b></td></tr>
+            <tr><td class="mm">LLM-forward reliability</td><td class="md">2xx ÷ all model-forward responses (<code>llm_provider.forward</code>). Model forwards, not ODSP calls.</td></tr>
+          </table>
+
+        </div>
+    </div>
+
+    <div class="pair">
+          <div class="panel sc">
+            <div class="ph">Signal Status <span class="tag">LIVE</span></div>
+            <div class="pb">
+              <div class="status"><span class="sd on"></span><span><b>ODSP tool-call volume &amp; success</b> — container-proxy forward (live, WoW)</span></div>
+              <div class="status"><span class="sd on"></span><span><b>ODSP reach</b> — tenants &amp; users calling ODSP (live, WoW)</span></div>
+              <div class="status"><span class="sd on"></span><span><b>Token-mint health</b> &amp; <b>LLM-forward reliability</b> (live, WoW)</span></div>
+              <div class="status"><span class="sd on"></span><span><b>ODSP tool latency</b> — p50·p95 from forward-line duration (live, WoW)</span></div>
+              <div class="status"><span class="sd off"></span><span><b>ODSP DSAT%</b> — no thumbs feed (external OCV)</span></div>
+              <div class="status"><span class="sd off"></span><span><b>All-up WAU / tenants / tasks / retention</b> — external, no access</span></div>
+            </div>
+          </div>
+          <div class="tcard sc method">
+            <div class="th">Reading this tab <span class="tag">DEFINITIONS</span></div>
+            <table>
+            <tr><th class="metric">Layer</th><th class="metric">What it shows</th></tr>
+            <tr><td class="mm">201 Adoption</td><td class="md">Scout <b>all-up</b> adoption (Sun–Sat calendar weeks).</td></tr>
+            <tr><td class="mm">301 Footprint</td><td class="md"><b>ODSP reach</b> inside Scout — tenants &amp; users actually calling ODSP (live, WoW).</td></tr>
+            <tr><td class="mm">401 Performance</td><td class="md">ODSP tool-call <b>volume + success + latency</b> live (WoW); DSAT PENDING.</td></tr>
+            <tr><td class="mm">Reach caveat</td><td class="md">"Graph reach" (OBO) is all-Graph → an <b>upper bound</b>; "calling ODSP" rows are the precise OneDrive/SharePoint slice.</td></tr>
+            </table>
+            <div class="msrc">Scout is an <b>early-preview</b> surface — volume, success + reach are live today; latency, DSAT + all-up land as instrumentation matures.</div>
+          </div>
+    </div>
+
+    <div class="lvlhead sf"><span class="badge">501</span><h2>ODSP Surfaces – First-Party</h2>
+      <span class="desc">Copilot in SharePoint · Copilot in OneDrive · first-party surfaces (IDEAS + OCV)</span></div>
+    <div class="pair">
+        <div class="tcard sf">
+          <div class="th">Copilot in SharePoint <span class="tag">PENDING</span></div>
+          <table>
+            <tr><th class="metric">Metric</th><th>Last wk <span class="wk">(Jul 12–18)</span></th><th>This wk <span class="wk">(Jul 19–25)</span></th><th>WoW</th></tr>
+            <tr><td class="metric">Active Users</td><td><span class="n empty">—</span></td><td><span class="n empty">—</span></td><td class="wow flat">—</td></tr>
+            <tr><td class="metric">Active Tenants</td><td><span class="n empty">—</span></td><td><span class="n empty">—</span></td><td class="wow flat">—</td></tr>
+            <tr><td class="metric">Tasks</td><td><span class="n empty">—</span></td><td><span class="n empty">—</span></td><td class="wow flat">—</td></tr>
+            <tr><td class="metric">Quality – DSAT%</td><td><span class="n empty">—</span></td><td><span class="n empty">—</span></td><td class="wow flat">—</td></tr>
+          </table>
+        </div>
+        <div class="tcard sf">
+          <div class="th">Copilot in OneDrive <span class="tag">PENDING</span></div>
+          <table>
+            <tr><th class="metric">Metric</th><th>Last wk <span class="wk">(Jul 12–18)</span></th><th>This wk <span class="wk">(Jul 19–25)</span></th><th>WoW</th></tr>
+            <tr><td class="metric">Active Users</td><td><span class="n empty">—</span></td><td><span class="n empty">—</span></td><td class="wow flat">—</td></tr>
+            <tr><td class="metric">Active Tenants</td><td><span class="n empty">—</span></td><td><span class="n empty">—</span></td><td class="wow flat">—</td></tr>
+            <tr><td class="metric">Tasks</td><td><span class="n empty">—</span></td><td><span class="n empty">—</span></td><td class="wow flat">—</td></tr>
+            <tr><td class="metric">Quality – DSAT%</td><td><span class="n empty">—</span></td><td><span class="n empty">—</span></td><td class="wow flat">—</td></tr>
+          </table>
+        </div>
+    </div>
+
+    <p class="note fullnote">Scout is a <b>pre-GA / limited preview</b> surface · this wk Jul 19–25 vs last wk Jul 12–18 (Sun–Sat). ODSP <b>reach</b> (301) + tool-call <b>volume / success</b> (401) use the corrected leadership basis and tie out to the 101 table; <b>Graph reach</b> is the all-Graph upper bound (context). ODSP <b>latency</b> (p50), token-mint health &amp; LLM-forward reliability are forward-line operational signals on a different basis; ODSP <b>DSAT%</b> is PENDING. This wk ODSP reach = <b>36 users</b> across <b>4 tenants</b> (users ▲ 20.0% WoW, tenants flat); <b>8,888</b> ODSP tool calls at <b>86.8%</b> execution success; top tool SharePoint (workspace content).</p>
+  </section>
+
+  <!-- ============ COPILOT STUDIO ============ -->
+  <section class="view" id="v-cs">
+    <div class="lvlhead cs"><span class="badge">201</span><h2>Copilot Studio &ndash; Platform Adoption</h2><span class="desc">Prod &amp; Non-Prod &middot; C1 / C2 / Total &middot; per reporting taxonomy</span></div>
+    <p class="note" style="margin-top:0"><b>Platform:</b> Microsoft Copilot Studio agentic runtime &middot; all tenants. <b>Canonical headline basis:</b> matched fixed Sun&ndash;Sat population across <b>17 CAP Analytics regions</b>; Italy North and UAE North are excluded. Users, tenants, agents and tasks are merged regional <b>HLL estimates</b>, not summed regional distinct counts. Tool and knowledge volumes are additive exact event counts. C1 / C2 and Prod / Non-Prod remain diagnostic breakouts and do not override the canonical totals.</p>
+
+    <!-- ===== PROD | NON-PROD SIDE BY SIDE ===== -->
+    <div class="half" style="margin-bottom:16px">
+    <div class="tcard cs" style="max-width:none">
+      <div class="th">Copilot Studio &mdash; Prod <span class="tag">REGION-SUMMED APPROX &middot; C1 / C2 / Total</span></div>
+      <table>
+        <tr><th class="metric" rowspan="2">Metric</th><th colspan="3">Last wk <span class="wk">(Aug 2&ndash;8)</span></th><th colspan="3" style="border-left:2px solid var(--line)">This wk <span class="wk">(Aug 9&ndash;15)</span></th></tr>
+        <tr><th>C1</th><th>C2</th><th>Total</th><th style="border-left:2px solid var(--line)">C1</th><th>C2</th><th>Total</th></tr>
+        <tr><td class="metric">Active Users</td><td><span class="n">8</span></td><td><span class="n">43,729</span></td><td><span class="n">43,737</span></td><td style="border-left:2px solid var(--line)"><span class="n">0</span></td><td><span class="n">48,054</span></td><td><span class="n">48,054</span></td></tr>
+        <tr><td class="metric">Active Tenants</td><td><span class="n">3</span></td><td><span class="n">8,213</span></td><td><span class="n">8,216</span></td><td style="border-left:2px solid var(--line)"><span class="n">0</span></td><td><span class="n">9,474</span></td><td><span class="n">9,474</span></td></tr>
+        <tr><td class="metric">Active Agents</td><td><span class="n">7</span></td><td><span class="n">27,321</span></td><td><span class="n">27,328</span></td><td style="border-left:2px solid var(--line)"><span class="n">0</span></td><td><span class="n">29,763</span></td><td><span class="n">29,763</span></td></tr>
+        <tr><td class="metric">Tasks</td><td><span class="n">16</span></td><td><span class="n">1,687,853</span></td><td><span class="n">1,687,869</span></td><td style="border-left:2px solid var(--line)"><span class="n">0</span></td><td><span class="n">1,839,147</span></td><td><span class="n">1,839,147</span></td></tr>
+        <tr><td class="metric">Tool Calls</td><td><span class="n">65</span></td><td><span class="n">6,541,503</span></td><td><span class="n">6,541,568</span></td><td style="border-left:2px solid var(--line)"><span class="n">0</span></td><td><span class="n">6,270,548</span></td><td><span class="n">6,270,548</span></td></tr>
+      </table>
+      <div class="msrc">Prod = <code>IsDesignMode == False</code> (live runtime). Active Users / Tenants / Agents / Tasks are regional distinct counts summed across 19 clusters; these segment values are transparent approximations and may double-count identities that span regions or tiers. Tool Calls are additive event counts.</div>
+    </div>
+
+    <div class="tcard cs" style="max-width:none">
+      <div class="th">Copilot Studio &mdash; Non-Prod <span class="tag">REGION-SUMMED APPROX &middot; C1 / C2 / Total</span></div>
+      <table>
+        <tr><th class="metric" rowspan="2">Metric</th><th colspan="3">Last wk <span class="wk">(Aug 2&ndash;8)</span></th><th colspan="3" style="border-left:2px solid var(--line)">This wk <span class="wk">(Aug 9&ndash;15)</span></th></tr>
+        <tr><th>C1</th><th>C2</th><th>Total</th><th style="border-left:2px solid var(--line)">C1</th><th>C2</th><th>Total</th></tr>
+        <tr><td class="metric">Active Users</td><td><span class="n">29,180</span></td><td><span class="n">3,389</span></td><td><span class="n">32,569</span></td><td style="border-left:2px solid var(--line)"><span class="n">37,394</span></td><td><span class="n">3,308</span></td><td><span class="n">40,702</span></td></tr>
+        <tr><td class="metric">Active Tenants</td><td><span class="n">11,921</span></td><td><span class="n">1,928</span></td><td><span class="n">13,849</span></td><td style="border-left:2px solid var(--line)"><span class="n">14,268</span></td><td><span class="n">2,007</span></td><td><span class="n">16,275</span></td></tr>
+        <tr><td class="metric">Active Agents</td><td><span class="n">51,567</span></td><td><span class="n">3,213</span></td><td><span class="n">54,780</span></td><td style="border-left:2px solid var(--line)"><span class="n">56,544</span></td><td><span class="n">3,141</span></td><td><span class="n">59,685</span></td></tr>
+        <tr><td class="metric">Tasks</td><td><span class="n">271,287</span></td><td><span class="n">12,938</span></td><td><span class="n">284,225</span></td><td style="border-left:2px solid var(--line)"><span class="n">312,141</span></td><td><span class="n">12,203</span></td><td><span class="n">324,344</span></td></tr>
+        <tr><td class="metric">Tool Calls</td><td><span class="n">1,138,869</span></td><td><span class="n">179,189</span></td><td><span class="n">1,318,058</span></td><td style="border-left:2px solid var(--line)"><span class="n">1,498,126</span></td><td><span class="n">195,975</span></td><td><span class="n">1,694,101</span></td></tr>
+      </table>
+      <div class="msrc">Non-Prod = <code>IsDesignMode == True</code> (design-mode / authoring &amp; test). Non-Prod is primarily C1 maker authoring and is folded into the All-up headline for v1. Active Users / Tenants / Agents / Tasks are regional distinct counts summed across 19 clusters; these segment values are approximations. Tool Calls are additive event counts.</div>
+    </div>
+    </div>
+
+    <!-- ===== ALL-UP (DE-DUPLICATED) + METHODOLOGY SIDE BY SIDE ===== -->
+    <div class="half" style="margin-top:16px">
+    <div class="tcard cs" style="max-width:none">
+      <div class="th">Copilot Studio &mdash; All-up <span class="tag">LIVE &middot; de-duplicated distinct</span></div>
+      <table>
+        <tr><th class="metric" rowspan="2">Metric</th><th colspan="3">Last wk <span class="wk">(Aug 2&ndash;8)</span></th><th colspan="3" style="border-left:2px solid var(--line)">This wk <span class="wk">(Aug 9&ndash;15)</span></th></tr>
+        <tr><th>C1</th><th>C2</th><th>Total</th><th style="border-left:2px solid var(--line)">C1</th><th>C2</th><th>Total</th></tr>
+        <tr><td class="metric">Active Users</td><td><span class="n">29,188</span></td><td><span class="n">47,118</span></td><td><span class="n">68,392</span></td><td style="border-left:2px solid var(--line)"><span class="n">37,316</span></td><td><span class="n">50,490</span></td><td><span class="n">80,378</span></td></tr>
+        <tr><td class="metric">Active Tenants</td><td><span class="n">11,924</span></td><td><span class="n">10,141</span></td><td><span class="n">14,192</span></td><td style="border-left:2px solid var(--line)"><span class="n">13,446</span></td><td><span class="n">9,887</span></td><td><span class="n">16,939</span></td></tr>
+        <tr><td class="metric">Active Agents</td><td><span class="n">51,574</span></td><td><span class="n">30,534</span></td><td><span class="n">68,913</span></td><td style="border-left:2px solid var(--line)"><span class="n">56,737</span></td><td><span class="n">32,881</span></td><td><span class="n">77,082</span></td></tr>
+        <tr><td class="metric">Tasks</td><td><span class="n">271,303</span></td><td><span class="n">1,700,791</span></td><td><span class="n">1,969,702</span></td><td style="border-left:2px solid var(--line)"><span class="n">312,014</span></td><td><span class="n">1,850,628</span></td><td><span class="n">2,162,976</span></td></tr>
+        <tr><td class="metric">Tool Calls</td><td><span class="n">1,138,934</span></td><td><span class="n">6,720,692</span></td><td><span class="n">7,857,160</span></td><td style="border-left:2px solid var(--line)"><span class="n">1,498,126</span></td><td><span class="n">6,466,523</span></td><td><span class="n">7,959,753</span></td></tr>
+      </table>
+      <div class="msrc"><b>All-up canonical headline:</b> <b>80,378 users · 16,939 tenants · 77,082 active agents · 2,162,976 tasks · 7,959,753 tool calls</b>. Total distinct metrics are published 17-region merged-HLL estimates. C1 / C2 values remain diagnostic and may not add to the canonical Total.</div>
+    </div>
+
+    <!-- ===== METHODOLOGY ===== -->
+    <div class="tcard cs method" style="max-width:none">
+      <div class="th">Methodology &ndash; Copilot Studio (201) <span class="tag">DEFINITIONS</span></div>
+      <table>
+        <tr><th class="metric">Metric</th><th class="metric">How it is calculated</th></tr>
+        <tr><td class="mm">Active Users</td><td class="md">Regional HLL sketches of <code>principalObjectId</code>, merged across the matched fixed 17-region all-up population.</td></tr>
+        <tr><td class="mm">Active Tenants</td><td class="md">Regional HLL sketches of <code>principalTenantId</code>, merged across the same matched population.</td></tr>
+        <tr><td class="mm">Active Agents</td><td class="md">Regional HLL sketches of <code>CdsBotId</code>, merged across the same matched population.</td></tr>
+        <tr><td class="mm">Tasks</td><td class="md">Regional HLL sketches of <code>ConversationId</code>, merged across the matched all-up event population; weekly regional values must not be summed.</td></tr>
+        <tr><td class="mm">Tool Calls</td><td class="md">Count of <b>AgenticLoopToolCallLatency</b> events across all connectors.</td></tr>
+        <tr><td class="mm">C1 / C2 / Total</td><td class="md"><b>Channel tier</b> (per taxonomy): <b>C1</b> = maker / authoring (<code>pva-studio</code>, <code>pva-maker-evaluation</code>) &middot; <b>C2</b> = end-user runtime (everything else). Users / tenants / agents are de-duplicated across tiers; Tasks Total is additive C1 + C2 under the owner method.</td></tr>
+        <tr><td class="mm">Prod / Non-Prod</td><td class="md">Prod = <code>IsDesignMode == False</code>; Non-Prod = design-mode / authoring. All agents are currently prod &mdash; Non-Prod is shown for transparency and folded into All-up for v1 (breakout later).</td></tr>
+      </table>
+      <div class="msrc">Source: CAP Analytics Kusto &middot; matched fixed 17-region population &middot; end-exclusive Sun&ndash;Sat windows. Published HLL totals use the platform-team calibration in <code>cs-canonical-overrides.json</code>; raw computed sketches remain retained for audit.</div>
+    </div>
+    </div>
+
+    <div class="lvlhead cs"><span class="badge">301</span><h2>ODSP in Copilot Studio – Footprint</h2><span class="desc">C1 / C2 / Total &middot; number &amp; % of Copilot Studio</span></div>
+    <!-- ===== 301 FOOTPRINT (C1/C2/Total) FULL WIDTH ===== -->
+    <div class="tcard cs" style="max-width:1000px">
+      <div class="th">ODSP in Copilot Studio Footprint <span class="tag">LIVE &middot; C1 / C2 / Total</span></div>
+      <table>
+        <tr><th class="metric" rowspan="2">Metric</th><th colspan="3">Last wk <span class="wk">(Aug 2&ndash;8)</span></th><th colspan="3" style="border-left:2px solid var(--line)">This wk <span class="wk">(Aug 9&ndash;15)</span></th></tr>
+        <tr><th>C1</th><th>C2</th><th>Total</th><th style="border-left:2px solid var(--line)">C1</th><th>C2</th><th>Total</th></tr>
+        <tr><td class="metric">Active Users</td><td><span class="n">9,603</span></td><td><span class="n">13,299</span></td><td><span class="n">21,260</span></td><td style="border-left:2px solid var(--line)"><span class="n">12,097</span></td><td><span class="n">14,894</span></td><td><span class="n">24,997</span></td></tr>
+        <tr><td class="metric">Active Tenants</td><td><span class="n">4,795</span></td><td><span class="n">3,376</span></td><td><span class="n">5,965</span></td><td style="border-left:2px solid var(--line)"><span class="n">5,670</span></td><td><span class="n">3,840</span></td><td><span class="n">7,068</span></td></tr>
+        <tr><td class="metric">Active Agents</td><td><span class="n">12,768</span></td><td><span class="n">7,729</span></td><td><span class="n">17,200</span></td><td style="border-left:2px solid var(--line)"><span class="n">15,074</span></td><td><span class="n">8,575</span></td><td><span class="n">20,061</span></td></tr>
+        <tr><td class="metric">Tasks</td><td><span class="n">68,297</span></td><td><span class="n">88,724</span></td><td><span class="n">155,819</span></td><td style="border-left:2px solid var(--line)"><span class="n">80,141</span></td><td><span class="n">119,846</span></td><td><span class="n">203,294</span></td></tr>
+        <tr><td class="metric">Tool calls <span class="wk">(SP/OD connectors)</span></td><td><span class="n">86,591</span></td><td><span class="n">97,440</span></td><td><span class="n">184,031</span></td><td style="border-left:2px solid var(--line)"><span class="n">120,182</span></td><td><span class="n">89,477</span></td><td><span class="n">209,659</span></td></tr>
+        <tr><td class="metric">Knowledge searches <span class="wk">(SharePoint)</span></td><td><span class="n">155,106</span></td><td><span class="n">218,707</span></td><td><span class="n">373,813</span></td><td style="border-left:2px solid var(--line)"><span class="n">218,901</span></td><td><span class="n">330,793</span></td><td><span class="n">549,694</span></td></tr>
+      </table>
+      <div class="msrc"><b>Canonical ODSP footprint:</b> merged HLL estimates across the matched 17-region tool-or-knowledge population. Tool and knowledge counts are exact additive events. Published totals: 24,997 users, 7,068 tenants, 20,061 agents, 203,294 tasks, 209,659 tool calls and 549,694 knowledge events.</div>
+    </div>
+
+    <div class="pair tri tri301">
+      <div class="tcard cs g-c">
+        <div class="th">ODSP in Copilot Studio – % of Copilot Studio <span class="tag">LIVE</span></div>
+        <table>
+          <tr><th class="metric">Metric</th><th>Last wk <span class="wk">(Aug 2–8)</span></th><th>This wk <span class="wk">(Aug 9–15)</span></th><th>WoW</th></tr>
+            <tr><td class="metric">Active Users</td><td><span class="n">31.1%</span></td><td><span class="n">31.1%</span></td><td class="wow flat">≈ 0pp</td></tr>
+            <tr><td class="metric">Active Tenants</td><td><span class="n">42.0%</span></td><td><span class="n">41.7%</span></td><td class="wow down">▼ 0.3pp</td></tr>
+            <tr><td class="metric">Active Agents</td><td><span class="n">25.0%</span></td><td><span class="n">26.0%</span></td><td class="wow up">▲ 1.0pp</td></tr>
+            <tr><td class="metric">Tasks</td><td><span class="n">7.9%</span></td><td><span class="n">9.4%</span></td><td class="wow up">▲ 1.5pp</td></tr>
+            <tr><td class="metric">Tool calls</td><td><span class="n">2.3%</span></td><td><span class="n">2.6%</span></td><td class="wow up">▲ 0.3pp</td></tr>
+        </table>
+        <div class="msrc">ODSP share % = ODSP footprint ÷ Copilot Studio all-up, per metric. WoW in percentage points (pp).</div>
+      </div>
+      <div class="vchart cs g-b">
+          <div class="ch">ODSP in Copilot Studio – WoW <span class="tag">LIVE</span></div>
+          <div class="vcb">
+            <div class="vgrp"><div class="vplot"><div class="vbar last" style="height:85%"><span class="vv">21,260</span></div><div class="vbar this" style="height:100%"><span class="vv">24,997</span></div></div><div class="vmeta"><span class="vm-lbl">Users</span><span class="vm-wow up">▲ 17.6%</span></div></div>
+            <div class="vgrp"><div class="vplot"><div class="vbar last" style="height:84%"><span class="vv">5,965</span></div><div class="vbar this" style="height:100%"><span class="vv">7,068</span></div></div><div class="vmeta"><span class="vm-lbl">Tenants</span><span class="vm-wow up">▲ 18.5%</span></div></div>
+            <div class="vgrp"><div class="vplot"><div class="vbar last" style="height:77%"><span class="vv">155,819</span></div><div class="vbar this" style="height:100%"><span class="vv">203,294</span></div></div><div class="vmeta"><span class="vm-lbl">Tasks</span><span class="vm-wow up">▲ 30.5%</span></div></div>
+            <div class="vgrp"><div class="vplot"><div class="vbar last" style="height:88%"><span class="vv">184,031</span></div><div class="vbar this" style="height:100%"><span class="vv">209,659</span></div></div><div class="vmeta"><span class="vm-lbl">Tool calls</span><span class="vm-wow up">▲ 13.9%</span></div></div>
+          </div>
+          <div class="vlegend"><span><i class="vswatch" style="background:#c3ccd8"></i>Last wk</span><span><i class="vswatch" style="background:var(--cs)"></i>This wk</span></div>
+        </div>
+      <div class="vchart cs vshare g-d">
+          <div class="ch">ODSP footprint in Copilot Studio – % of CS all-up <span class="tag">LIVE</span></div>
+          <div class="vsub">Total bar = Copilot Studio all-up (100%) · amber fill = ODSP share % · Last wk vs This wk</div>
+          <div class="vcb">
+        <div class="vgrp"><div class="vplot"><div class="vbar last" style="height:100%"><span class="vv">68.4K</span><div class="vfill" style="height:31.1%"></div><span class="vpct">31.1%</span></div><div class="vbar this" style="height:100%"><span class="vv">80.4K</span><div class="vfill" style="height:31.1%"></div><span class="vpct">31.1%</span></div></div><div class="vmeta"><span class="vm-lbl">Active Users</span><span class="vm-wow flat">≈ 0pp</span></div></div>
+        <div class="vgrp"><div class="vplot"><div class="vbar last" style="height:100%"><span class="vv">14.2K</span><div class="vfill" style="height:42.0%"></div><span class="vpct">42.0%</span></div><div class="vbar this" style="height:100%"><span class="vv">16.9K</span><div class="vfill" style="height:41.7%"></div><span class="vpct">41.7%</span></div></div><div class="vmeta"><span class="vm-lbl">Active Tenants</span><span class="vm-wow down">▼ 0.3pp</span></div></div>
+        <div class="vgrp"><div class="vplot"><div class="vbar last" style="height:100%"><span class="vv">2.0M</span><div class="vfill" style="height:7.9%"></div><span class="vpct">7.9%</span></div><div class="vbar this" style="height:100%"><span class="vv">2.2M</span><div class="vfill" style="height:9.4%"></div><span class="vpct">9.4%</span></div></div><div class="vmeta"><span class="vm-lbl">Tasks</span><span class="vm-wow up">▲ 1.5pp</span></div></div>
+        <div class="vgrp"><div class="vplot"><div class="vbar last" style="height:100%"><span class="vv">7.9M</span><div class="vfill" style="height:2.3%"></div><span class="vpct">2.3%</span></div><div class="vbar this" style="height:100%"><span class="vv">8.0M</span><div class="vfill" style="height:2.6%"></div><span class="vpct">2.6%</span></div></div><div class="vmeta"><span class="vm-lbl">Tool calls</span><span class="vm-wow up">▲ 0.3pp</span></div></div>
+      </div>
+          <div class="vlegend"><span><i class="vswatch" style="background:#c3ccd8"></i>Copilot Studio – last wk</span><span><i class="vswatch" style="background:var(--cs)"></i>Copilot Studio – this wk</span><span><i class="vswatch" style="background:#f5a623"></i>ODSP share %</span></div>
+        </div>
+      <div class="tcard cs method g-m">
+          <div class="th">Methodology – ODSP in Copilot Studio <span class="tag">DEFINITIONS</span></div>
+          <table>
+            <tr><th class="metric">Metric</th><th class="metric">How it is calculated</th></tr>
+            <tr><td class="mm">Active Users</td><td class="md">Distinct <code>principalObjectId</code> who triggered <b>≥1 ODSP surface</b> (SP/OD tool call <i>or</i> SharePoint knowledge search) in Copilot Studio.</td></tr>
+            <tr><td class="mm">Active Tenants</td><td class="md">Distinct <code>principalTenantId</code> with <b>≥1 ODSP surface</b> touch in Copilot Studio.</td></tr>
+            <tr><td class="mm">Tasks</td><td class="md">Distinct <code>ConversationId</code> that <b>invoked ≥1 ODSP surface</b> in the window.</td></tr>
+            <tr><td class="mm">Tool calls</td><td class="md">ODSP <b>tool calls</b> &mdash; <code>AgenticLoopToolCallLatency</code> with <code>ConnectorId</code> in <code>shared_sharepointonline</code> / <code>shared_onedriveforbusiness</code>.</td></tr>
+            <tr><td class="mm">Knowledge searches</td><td class="md">ODSP <b>knowledge</b> &mdash; <code>KnowledgeSourceLatency</code> with <code>KnowledgeSource</code> in <code>SharePoint</code> / <code>SharePointList</code> (authoritative ODSP-CS definition; OneDrive-for-Business knowledge is a separate source, excluded here).</td></tr>
+            <tr><td class="mm">C1 / C2</td><td class="md">Diagnostic channel-tier breakout only. Canonical headline totals use merged HLL sketches across the fixed 17-region population and are not derived by adding C1 + C2.</td></tr>
+            <tr><td class="mm">% of CS</td><td class="md">ODSP footprint ÷ Copilot Studio all-up, per metric · association / penetration.</td></tr>
+            <tr><td class="mm">WoW</td><td class="md">Counts: (This − Last) ÷ Last. Shares: percentage-point delta (pp).</td></tr>
+          </table>
+          <div class="msrc">Source: Dracarys Kusto (CAP Analytics). <b>ODSP-in-CS = two surfaces</b> (per reporting taxonomy): tool = <code>ConnectorId</code> <code>shared_sharepointonline</code> / <code>shared_onedriveforbusiness</code>; knowledge = <code>KnowledgeSource</code> in <code>SharePoint</code> / <code>SharePointList</code> (OneDrive-for-Business knowledge excluded, per the authoritative ODSP-CS query). <b>All fields read from the nested <code>customDimensions.CustomDimensions</code></b> object (ConnectorId / KnowledgeSource / Success), not the top level (top-level <code>Success</code> is unreliable / blank in older weeks). WorkIQ MCP connectors are a <i>separate</i> surface and excluded here. <b>This-wk counts pulled ≥3 days after week close</b> to let still-arriving tool / knowledge / task events settle. Distinct users / tenants globally de-duplicated via HLL push-down (not per-region summed).</div>
+        </div>
+    </div>
+
+    <div class="lvlhead cs"><span class="badge">401</span><h2>ODSP in Copilot Studio – Performance</h2><span class="desc">scenario &amp; tool health</span></div>
+    <div class="pair tri">
+      <div class="tcard cs">
+        <div class="th">ODSP in Copilot Studio Performance <span class="tag">LIVE</span></div>
+        <table>
+          <tr><th class="metric">Metric</th><th>Last wk <span class="wk">(Aug 2–8)</span></th><th>This wk <span class="wk">(Aug 9–15)</span></th><th>WoW</th></tr>
+            <tr><td class="metric">ODSP service success <span class="wk">(headline)</span></td><td><span class="n">91.8%</span></td><td><span class="n">92.2%</span></td><td class="wow up">▲ 0.4pp</td></tr>
+            <tr><td class="metric">End-to-end success <span class="wk">(incl. agent faults)</span></td><td><span class="n">90.1%</span></td><td><span class="n">90.5%</span></td><td class="wow up">▲ 0.4pp</td></tr>
+            <tr><td class="metric">Turn success rate <span class="wk">(platform)</span></td><td><span class="n">98.3%</span></td><td><span class="n">PENDING</span></td><td class="wow flat">PENDING</td></tr>
+            <tr><td class="metric">Latency P50 <span class="wk">(end-to-end)</span></td><td><span class="n">589 ms</span></td><td><span class="n">647 ms</span></td><td class="wow down">▼ slower 9.8%</td></tr>
+            <tr><td class="metric">Latency P95 <span class="wk">(end-to-end)</span></td><td><span class="n">2,581 ms</span></td><td><span class="n">2,729 ms</span></td><td class="wow down">▼ slower 5.7%</td></tr>
+        </table>
+        <div class="msrc"><b>Published ODSP service success = 92.2%</b> = 1 − 16,371 Service failures ÷ 209,659 ODSP tool-call events on the matched 17-region basis. The ConsentPending-excluded diagnostic is 91.7% over 197,389 executable calls. End-to-end success remains a secondary eligible-call diagnostic.</div>
+      </div>
+      <div class="vchart cs">
+          <div class="ch">ODSP in Copilot Studio Performance – WoW <span class="tag">LIVE</span></div>
+          <div class="vcb">
+            <div class="vgrp"><div class="vplot"><div class="vbar last" style="height:99%"><span class="vv">91.8%</span></div><div class="vbar this" style="height:100%"><span class="vv">92.2%</span></div></div><div class="vmeta"><span class="vm-lbl">Service succ</span><span class="vm-wow up">▲ 0.4pp</span></div></div>
+            <div class="vgrp"><div class="vplot"><div class="vbar last" style="height:100%"><span class="vv">90.1%</span></div><div class="vbar this" style="height:100%"><span class="vv">90.5%</span></div></div><div class="vmeta"><span class="vm-lbl">E2E succ</span><span class="vm-wow up">▲ 0.4pp</span></div></div>
+            <div class="vgrp"><div class="vplot"><div class="vbar last" style="height:91%"><span class="vv">589 ms</span></div><div class="vbar this" style="height:100%"><span class="vv">647 ms</span></div></div><div class="vmeta"><span class="vm-lbl">P50</span><span class="vm-wow down">▼ slower 9.8%</span></div></div>
+            <div class="vgrp"><div class="vplot"><div class="vbar last" style="height:95%"><span class="vv">2,581</span></div><div class="vbar this" style="height:100%"><span class="vv">2,729</span></div></div><div class="vmeta"><span class="vm-lbl">P95 ms</span><span class="vm-wow down">▼ slower 5.7%</span></div></div>
+          </div>
+          <div class="vlegend"><span><i class="vswatch" style="background:#c3ccd8"></i>Last wk</span><span><i class="vswatch" style="background:var(--cs)"></i>This wk</span></div>
+        </div>
+        <div class="tcard cs method">
+          <div class="th">Performance – Definitions <span class="tag">DEFINITIONS</span></div>
+          <table>
+            <tr><th class="metric">Metric</th><th class="metric">How it is calculated</th></tr>
+            <tr><td class="mm">ODSP service success</td><td class="md"><b>Headline.</b> 1 − (<code>FailureClass == "Service"</code> ÷ total ODSP tool calls) — isolates real ODSP-backend health, excluding agent-side (Author) and user-side faults. <code>ConsentPending</code> calls dropped from the denominator (consent prompts, not executions).</td></tr>
+            <tr><td class="mm">End-to-end success</td><td class="md">Successful calls ÷ all ODSP tool calls (<b>includes Author & User faults</b>) — the old single "tool success". Low mostly because agents call <code>PatchItem</code> on non-existent items (Author 404s).</td></tr>
+            <tr><td class="mm">Turn success rate</td><td class="md"><b>Copilot-Studio-wide</b> turn success (not ODSP-specific) · platform context.</td></tr>
+            <tr><td class="mm">Latency P50 / P95</td><td class="md"><b>True end-to-end tool-call time</b> from the nested <code>Value</code> field (not top-level <code>TotalMilliseconds</code>, which is only the HTTP leg — ~2.4× too small & often blank). Percentiles, not the mean, so the long tail is visible.</td></tr>
+            <tr><td class="mm">WoW</td><td class="md">Rates: percentage-point delta (pp). Latency: % change. ▲ up / ▼ down.</td></tr>
+          </table>
+          <div class="msrc">Source: Dracarys Kusto (live) · <code>AgenticLoopToolCallLatency</code>, fields read from nested <code>customDimensions.CustomDimensions</code> (<code>FailureClass</code> / <code>StatusClass</code> / <code>Value</code>). Service/Author/User = <code>FailureClass</code>. <code>ConsentPending</code> excluded. Turn-success is Copilot-Studio-wide.</div>
+        </div>
+    </div>
+
+    <div class="pair tri">
+          <div class="tcard cs">
+            <div class="th">ODSP Tools by Connector <span class="tag">LIVE</span></div>
+            <table>
+            <tr><th class="metric">ODSP connector</th><th>Share <span class="wk">(this)</span></th><th>Svc succ <span class="wk">last</span></th><th>Svc succ <span class="wk">this</span></th><th>WoW</th></tr>
+            <tr><td class="metric">SharePoint Online</td><td><span class="n">85%</span></td><td><span class="n">91.0%</span></td><td><span class="n">91%</span></td><td class="wow flat">≈ 0pp</td></tr>
+            <tr><td class="metric" style="padding-left:22px;font-weight:500">↳ C1 (maker)</td><td><span class="n">PENDING</span></td><td><span class="n">91.9%</span></td><td><span class="n">91.5%</span></td><td class="wow down">▼ 0.4pp</td></tr>
+            <tr><td class="metric" style="padding-left:22px;font-weight:500">↳ C2 (runtime)</td><td><span class="n">PENDING</span></td><td><span class="n">90.2%</span></td><td><span class="n">90.2%</span></td><td class="wow flat">≈ 0pp</td></tr>
+            <tr><td class="metric">OneDrive for Business</td><td><span class="n">15%</span></td><td><span class="n">92.8%</span></td><td><span class="n">94.6%</span></td><td class="wow up">▲ 1.8pp</td></tr>
+            </table>
+            <div class="msrc">The two authoritative ODSP tool connectors (<code>shared_sharepointonline</code>, <code>shared_onedriveforbusiness</code>). Share = % of ODSP tool calls this wk. <b>Success shown is ODSP service success</b> (<code>FailureClass == "Service"</code> excluded), call-weighted; WoW = pp delta. <b>Both connectors recovered this wk</b> (SharePoint 91.0%, OneDrive 92.8% service); C2 (end-user runtime) SharePoint recovered to 90.2%. This wk = Aug 9&ndash;15 vs Aug 2&ndash;8.</div>
+          </div>
+          <div class="panel cs">
+            <div class="ph">ODSP Failure &amp; Latency Breakdown <span class="tag">LIVE · Aug 9–15</span></div>
+            <div class="pb">
+            <div class="sig bad"><span class="sk">Failure mix (eligible calls)</span><span class="sv"><span>Service 88% · Author 11% · User 1%</span><small>Service 16,371 &middot; Author 2,074 &middot; User 218</small></span></div>
+            <div class="sig"><span class="sk">Status class</span><span class="sv"><span>4xx dominates</span><small>4xx 17,463 &middot; 5xx 495 &middot; timeout 76</small></span></div>
+            <div class="sig good"><span class="sk">PatchItem 404s resolved</span><span class="sv"><span>PatchItem</span><small>14,135 calls, 96.9% service / 96.9% e2e — the earlier 404 storm remains cleared</small></span></div>
+            <div class="sig"><span class="sk">Weakest high-volume op</span><span class="sv"><span>GetItems</span><small>84.5% service &middot; 83.9% e2e</small></span></div>
+            <div class="sig good"><span class="sk">Healthiest high-volume</span><span class="sv"><span>GetTables / ListAllRootFolders</span><small>98.4% / 98.2% service</small></span></div>
+            <div class="sig"><span class="sk">Latency (end-to-end)</span><span class="sv"><span>P50 647 ms · P95 2,729 ms</span><small>exact merged histogram of 197,455 calls from nested <code>Value</code></small></span></div>
+            <div class="sig" style="display:block;border-top:1px solid var(--line);padding-top:8px"><span class="sk" style="font-size:10px;line-height:1.45;color:var(--faint)">Canonical headline volumes use the matched 17-region population. Failure-class, end-to-end and latency diagnostics exclude <code>ConsentPending</code>; latency percentiles come from the 197,389 eligible-call histogram.</span></div>
+            </div>
+          </div>
+          <div class="tcard cs">
+            <div class="th">ODSP Tools by Operation <span class="tag">LIVE · Aug 9–15</span></div>
+            <table>
+            <tr><th class="metric">Operation</th><th>Calls</th><th>Service</th><th>End-to-end</th><th>Note</th></tr>
+            <tr><td class="metric">ListFolder</td><td><span class="n">28,490</span></td><td><span class="n">95%</span></td><td><span class="n">94.6%</span></td><td class="wk">highest volume</td></tr>
+            <tr><td class="metric">GetItems</td><td><span class="n">21,864</span></td><td><span class="n">84.5%</span></td><td><span class="n">83.9%</span></td><td class="wk">lowest high-volume</td></tr>
+            <tr><td class="metric">GetFileContent</td><td><span class="n">20,434</span></td><td><span class="n">93%</span></td><td><span class="n">90.2%</span></td><td class="wk">&mdash;</td></tr>
+            <tr><td class="metric">PostItem</td><td><span class="n">16,203</span></td><td><span class="n">92.5%</span></td><td><span class="n">92.4%</span></td><td class="wk">&mdash;</td></tr>
+            <tr><td class="metric">GetFileContentByPath</td><td><span class="n">15,152</span></td><td><span class="n">93.2%</span></td><td><span class="n">92.7%</span></td><td class="wk">&mdash;</td></tr>
+            <tr><td class="metric">PatchItem</td><td><span class="n">14,135</span></td><td><span class="n">96.9%</span></td><td><span class="n">96.9%</span></td><td class="wk">&mdash;</td></tr>
+            <tr><td class="metric">GetFileItems</td><td><span class="n">11,252</span></td><td><span class="n">88.1%</span></td><td><span class="n">87.7%</span></td><td class="wk">&mdash;</td></tr>
+            <tr><td class="metric">GetTables</td><td><span class="n">7,132</span></td><td><span class="n">98.4%</span></td><td><span class="n">97.7%</span></td><td class="wk">&mdash;</td></tr>
+            <tr><td class="metric">CreateFile</td><td><span class="n">6,654</span></td><td><span class="n">94.2%</span></td><td><span class="n">93.6%</span></td><td class="wk">&mdash;</td></tr>
+            </table>
+            <div class="msrc">Per-<code>OperationId</code> breakdown (top by volume). <b>Service</b> = ODSP-backend success (<code>FailureClass == "Service"</code> excluded); <b>End-to-end</b> includes Author / User faults. The earlier <code>PatchItem</code> 404 storm remains cleared (96.9% service / 96.9% e2e); <code>GetItems</code> is the weakest high-volume operation (84.5% / 83.9%). <code>ConsentPending</code> excluded.</div>
+          </div>
+    </div>
+
+<p class="note fullnote">Copilot Studio canonical Aug 9&ndash;15 basis = matched fixed 17-region HLL population. All-up: 80,378 users, 16,939 tenants, 77,082 agents, 2,162,976 tasks, 7,959,753 tool calls and 1,544,030 knowledge-source events. ODSP: 24,997 users, 7,068 tenants, 20,061 agents, 203,294 tasks, 209,659 tool calls and 549,694 knowledge events; tool + knowledge composition = 8.0%. Published service success = 92.2%; ConsentPending-excluded diagnostic = 91.7%. P50/P95 eligible-call latency = 647/2,729 ms.</p>
+  </section>
+
+  <!-- ============ ARCHIVE ============ -->
+  <section class="view" id="v-archive">
+    <div class="lvlhead"><span class="badge">Archive</span><h2>Weekly Snapshots</h2>
+      <span class="desc">Point-in-time dashboard per reporting week · Sun→Sat · Cowork GA baseline from Jun 16</span></div>
+    <div class="tcard">
+      <div class="th">ODSP in Agentic Work — Weekly Archive</div>
+      <table>
+        <tr><th class="metric">Reporting week (Sun→Sat)</th><th>Status</th><th>Cowork</th><th>Scout</th><th>Spark</th><th>Copilot Studio</th></tr>
+        <tr><td class="metric">Jun 14–20 <span class="wk">Cowork GA week 1 (Jun 16)</span></td><td><span class="pct">published · Cowork GA baseline</span></td><td><a href="#" class="snaplink" onclick="return openSnap('2026-06-20','cowork')">View snapshot ↗</a></td><td><a href="#" class="snaplink" onclick="return openSnap('2026-06-20','scout')">View snapshot ↗</a></td><td><span class="pct empty">—</span></td><td><a href="#" class="snaplink" onclick="return openSnap('2026-06-20','cs')">View snapshot ↗</a> <span class="wk">pre-correction methodology</span></td></tr>
+        <tr><td class="metric">Jun 21–27</td><td><span class="pct">published</span></td><td><a href="#" class="snaplink" onclick="return openSnap('2026-06-27','cowork')">View snapshot ↗</a></td><td><a href="#" class="snaplink" onclick="return openSnap('2026-06-27','scout')">View snapshot ↗</a></td><td><span class="pct empty">—</span></td><td><a href="#" class="snaplink" onclick="return openSnap('2026-06-27','cs')">View snapshot ↗</a> <span class="wk">pre-correction methodology</span></td></tr>
+        <tr><td class="metric">Jun 28–Jul 4</td><td><span class="pct">published</span></td><td><a href="#" class="snaplink" onclick="return openSnap('2026-07-04','cowork')">View snapshot ↗</a></td><td><a href="#" class="snaplink" onclick="return openSnap('2026-07-04','scout')">View snapshot ↗</a></td><td><span class="pct empty">—</span></td><td><a href="#" class="snaplink" onclick="return openSnap('2026-07-04','cs')">View snapshot ↗</a> <span class="wk">pre-correction methodology</span></td></tr>
+        <tr><td class="metric">Jul 5–11</td><td><span class="pct">published</span></td><td><a href="#" class="snaplink" onclick="return openSnap('2026-07-11','cowork')">View snapshot ↗</a></td><td><a href="#" class="snaplink" onclick="return openSnap('2026-07-11','scout')">View snapshot ↗</a></td><td><span class="pct empty">—</span></td><td><a href="#" class="snaplink" onclick="return openSnap('2026-07-11','cs')">View snapshot ↗</a></td></tr>
+        <tr><td class="metric">Jul 12–18</td><td><span class="pct">published</span></td><td><a href="#" class="snaplink" onclick="return openSnap('2026-07-18','cowork')">View snapshot ↗</a></td><td><a href="#" class="snaplink" onclick="return openSnap('2026-07-18','scout')">View snapshot ↗</a></td><td><span class="pct empty">—</span></td><td><a href="#" class="snaplink" onclick="return openSnap('2026-07-18','cs')">View snapshot ↗</a></td></tr>
+        <tr><td class="metric">Jul 19–25</td><td><span class="pct">published</span></td><td><a href="#" class="snaplink" onclick="return openSnap('2026-07-25','cowork')">View snapshot ↗</a></td><td><a href="#" class="snaplink" onclick="return openSnap('2026-07-25','scout')">View snapshot ↗</a></td><td><span class="pct empty">—</span></td><td><a href="#" class="snaplink" onclick="return openSnap('2026-07-25','cs')">View snapshot ↗</a></td></tr>
+        <tr><td class="metric">Jul 26–Aug 1 <span class="wk">last wk</span></td><td><span class="pct">published · last wk</span></td><td><a href="#" class="snaplink" onclick="return openSnap('2026-08-01','cowork')">View snapshot ↗</a></td><td><a href="#" class="snaplink" onclick="return openSnap('2026-08-01','scout')">View snapshot ↗</a> <span class="wk">Scout wk Jul 19–25</span></td><td><span class="pct empty">—</span></td><td><a href="#" class="snaplink" onclick="return openSnap('2026-08-01','cs')">View snapshot ↗</a></td></tr><tr><td class="metric">Aug 2–8 <span class="wk">last wk</span></td><td><span class="pct">published · last wk</span></td><td><a href="#" class="snaplink" onclick="return openSnap('2026-08-08','cowork')">View snapshot ↗</a></td><td><a href="#" class="snaplink" onclick="return openSnap('2026-08-08','scout')">View snapshot ↗</a> <span class="wk">Scout wk Jul 19–25</span></td><td><span class="pct empty">—</span></td><td><a href="#" class="snaplink" onclick="return openSnap('2026-08-08','cs')">View snapshot ↗</a></td></tr><tr><td class="metric">Aug 9–15 <span class="wk">current</span></td><td><span class="pct">published · current</span></td><td><a href="#" class="snaplink" onclick="return openSnap('2026-08-15','cowork')">View snapshot ↗</a></td><td><a href="#" class="snaplink" onclick="return openSnap('2026-08-15','scout')">View snapshot ↗</a> <span class="wk">Scout wk Jul 19–25</span></td><td><span class="pct empty">&mdash;</span></td><td><a href="#" class="snaplink" onclick="return openSnap('2026-08-15','cs')">View snapshot ↗</a></td></tr>
+      </table>
+    </div>
+    <p class="note fullnote">Each Monday refresh saves a dated, point-in-time copy of the dashboard to <code>archive/odsp-scorecard-YYYY-MM-DD.html</code> (week-ending Saturday) and activates its <b>View snapshot</b> link in that surface's column — so every published week stays reviewable per surface. Columns: <b>Cowork</b> · <b>Scout</b> · <b>Spark</b> · <b>Copilot Studio</b>. Cowork snapshots are live from Jun 14–20; <b>Copilot Studio</b> snapshots are now live per published week; <b>Scout</b> per-week snapshots are now live for every published week (Jun 14–20 onward) — ODSP tool-call volume, success rate and reach come from container-proxy forward telemetry; Jun 14–20 is an early-ramp partial week (instrumentation began mid-Jun 14) and its numbers are not yet representative; ODSP latency and DSAT remain PENDING (no duration field / no OCV thumbs feed); <b>Spark</b> per-week snapshots are pending a data feed and shown as “—” until published (no fabrication). Jun 14–20 is the first full reporting week after GA (Jun 16) and includes Juneteenth (Jun 19); it is published as a GA baseline (no prior week, so WoW is n/a). Snapshot links are relative, so the <code>archive/</code> folder must travel with this file (or be co-hosted) for them to resolve. <b>Copilot Studio methodology correction (2026-07-24):</b> the <b>Jul 5–11</b> CS snapshot was rebuilt to the corrected platform methodology. Earlier CS snapshots (<b>Jun 14–20</b>, <b>Jun 21–27</b>, <b>Jun 28–Jul 4</b>) are marked <span class="wk">pre-correction methodology</span> and left as originally published because telemetry retention prevents an accurate re-pull.</p>
+  </section>
+
+</div>
+
+<script>
+  var tabs=document.querySelectorAll('.tab');
+  var views=document.querySelectorAll('.view');
+  function show(v){
+    for(var i=0;i<tabs.length;i++){ if(tabs[i].getAttribute('data-v')===v){tabs[i].classList.add('active');}else{tabs[i].classList.remove('active');} }
+    for(var j=0;j<views.length;j++){ if(views[j].id==='v-'+v){views[j].classList.add('on');}else{views[j].classList.remove('on');} }
+    if(history.replaceState){ try{ history.replaceState(null,'','#'+v); }catch(e){} }
+    window.scrollTo(0,0);
+  }
+  function cwBind(node,val){ node.addEventListener('click',function(){show(val);}); }
+  for(var a=0;a<tabs.length;a++){ cwBind(tabs[a],tabs[a].getAttribute('data-v')); }
+  var acards=document.querySelectorAll('.acard[data-go]');
+  for(var b=0;b<acards.length;b++){ cwBind(acards[b],acards[b].getAttribute('data-go')); }
+  (function(){var h=(location.hash||'').replace('#',''); if(h&&document.getElementById('v-'+h)) show(h);})();
+  window.addEventListener('hashchange',function(){var h=(location.hash||'').replace('#',''); if(h&&document.getElementById('v-'+h)) show(h);});
+</script>
+
+<!-- COWORK-DATA:START (rewritten by cowork_refresh.py) -->
+<script id="cowork-data" type="application/json">{"meta":{"generated":"2026-08-18","this_week_end":"2026-08-15","last_week_end":"2026-08-08","window_this":"Aug 9–15","window_last":"Aug 2–8","holidays_this":[],"holidays_last":[],"source":"Cowork SharePoint+OneDrive plugin dashboard (TASKS/USERS/TENANTS) + Tools tab SP/OD category (TOOL CALLS, success%, latency, per-tool) · Sun→Sat weekly"},"this":{"odsp_tenants":10829,"odsp_users":106229,"odsp_tasks":283838,"tool_calls":3061109,"tool_success":95.8,"turn_success":83.3,"task_success":76.1,"latency_avg":null},"last":{"odsp_tenants":10867,"odsp_users":107182,"odsp_tasks":263945,"tool_calls":2927589,"tool_success":96.5,"turn_success":87.3,"task_success":79.7,"latency_avg":1000},"wow":{"tool_success_pp":-0.7,"turn_success_pp":-4,"tenants_pp_share":null},"tools":{"count":16,"top_volume":{"tool":"ReadFileContent","calls":1332958,"last_calls":1200000,"success":96.7,"last_success":97.9},"low_volume":{"tool":"ListSubsites","calls":1083,"last_calls":31},"top_success":{"tool":"ListMyDrives","success":99.8,"last_success":99.8},"low_success":{"tool":"GetDriveItem","success":86.5,"last_success":93.5},"slowest":{"tool":"CreateFolder","avg":21309,"last_avg":1700}}}</script>
+<!-- COWORK-DATA:END -->
+<script>
+  (function(){
+    var el=document.getElementById('cowork-data'); if(!el) return;
+    var d; try{ d=JSON.parse(el.textContent); }catch(e){ return; }
+    var t=d.this||{}, l=d.last||{}, tk=d.tools||{}, m=d.meta||{};
+    var g=function(id){return document.getElementById(id);};
+    var set=function(id,v){var n=g(id); if(n&&v!=null&&v!=='') n.textContent=v;};
+    var C=function(x){return (x==null)?'—':Number(x).toLocaleString('en-US');};
+    // compact big numbers (13.75M etc.) for rank captions
+    var K=function(x){ if(x==null) return '—'; x=Number(x);
+      if(x>=1e6) return (x/1e6).toFixed(1)+'M';
+      if(x>=1e3) return (x/1e3).toFixed(1).replace(/\.?0+$/,'')+'K'; return C(x); };
+    var wow=function(id,tv,lv,kind){
+      var n=g(id); if(!n||tv==null||lv==null) return;
+      var up,txt;
+      if(kind==='pp'){ var pp=Math.round((tv-lv)*10)/10; up=pp>=0; txt=(up?'▲ ':'▼ ')+Math.abs(pp)+'pp'; }
+      else if(kind==='lat'){ var f=Math.round((lv-tv)/lv*1000)/10; up=tv<=lv; txt=(up?'▲ faster ':'▼ slower ')+Math.abs(f)+'%'; }
+      else { var pc=Math.round((tv-lv)/lv*1000)/10; up=pc>=0; txt=(up?'▲ ':'▼ ')+Math.abs(pc)+'%'; }
+      n.textContent=txt; n.className='wow '+(up?'up':'down');
+    };
+    // hero
+    set('cw-hero-succ',t.tool_success!=null?t.tool_success+'%':null);
+    set('cw-hero-turn',t.turn_success!=null?t.turn_success+'%':null);
+    // week-window dates in table headers
+    if(m.window_last){ document.querySelectorAll('.cw-wk-last').forEach(function(x){x.textContent='('+m.window_last+')';}); }
+    if(m.window_this){ document.querySelectorAll('.cw-wk-this').forEach(function(x){x.textContent='('+m.window_this+')';}); }
+    // 301
+    set('cw-ten-l',K(l.odsp_tenants)); set('cw-ten-t',K(t.odsp_tenants)); wow('cw-ten-w',t.odsp_tenants,l.odsp_tenants);
+    set('cw-usr-l',K(l.odsp_users));   set('cw-usr-t',K(t.odsp_users));   wow('cw-usr-w',t.odsp_users,l.odsp_users);
+    set('cw-tsk-l',K(l.odsp_tasks));   set('cw-tsk-t',K(t.odsp_tasks));   wow('cw-tsk-w',t.odsp_tasks,l.odsp_tasks);
+    // 401
+    set('cw-tc-l',K(l.tool_calls));    set('cw-tc-t',K(t.tool_calls));    wow('cw-tc-w',t.tool_calls,l.tool_calls);
+    set('cw-ts-l',l.tool_success!=null?l.tool_success+'%':null); set('cw-ts-t',t.tool_success!=null?t.tool_success+'%':null); wow('cw-ts-w',t.tool_success,l.tool_success,'pp');
+    set('cw-tr-l',l.turn_success!=null?l.turn_success+'%':null); set('cw-tr-t',t.turn_success!=null?t.turn_success+'%':null); wow('cw-tr-w',t.turn_success,l.turn_success,'pp');
+    set('cw-tks-l',l.task_success!=null?l.task_success+'%':null); set('cw-tks-t',t.task_success!=null?t.task_success+'%':null); wow('cw-tks-w',t.task_success,l.task_success,'pp');
+    set('cw-lat-l',l.latency_avg!=null?C(l.latency_avg)+' ms':null); set('cw-lat-t',t.latency_avg!=null?C(t.latency_avg)+' ms':null); wow('cw-lat-w',t.latency_avg,l.latency_avg,'lat');
+    // ranks
+    var sigm=function(id,tstr,lstr,tv,lv,kind){var n=g(id); if(!n) return; var h=tstr+' this';
+      if(lstr!=null&&lv!=null&&tv!=null){var up,txt;
+        if(kind==='pp'){var pp=Math.round((tv-lv)*10)/10; up=pp>=0; txt=(up?'▲ ':'▼ ')+Math.abs(pp)+'pp';}
+        else if(kind==='lat'){var f=Math.round((lv-tv)/lv*1000)/10; up=tv<=lv; txt=(up?'▲ faster ':'▼ slower ')+Math.abs(f)+'%';}
+        else{var pc=Math.round((tv-lv)/lv*1000)/10; up=pc>=0; txt=(up?'▲ ':'▼ ')+Math.abs(pc)+'%';}
+        h+=' · '+lstr+' last · <span class="wow '+(up?'up':'down')+'">'+txt+'</span>';}
+      n.innerHTML=h;};
+    if(tk.top_volume){ set('cw-rk-topvol-v',tk.top_volume.tool); sigm('cw-rk-topvol-m',K(tk.top_volume.calls),tk.top_volume.last_calls!=null?K(tk.top_volume.last_calls):null,tk.top_volume.calls,tk.top_volume.last_calls); }
+    if(tk.low_volume){ set('cw-rk-lowvol-v',tk.low_volume.tool); sigm('cw-rk-lowvol-m',K(tk.low_volume.calls),null,tk.low_volume.calls,null); }
+    if(tk.count!=null) set('cw-rk-count',tk.count);
+    if(tk.top_success){ set('cw-rk-topsucc-v',tk.top_success.tool); sigm('cw-rk-topsucc-m',tk.top_success.success+'%',tk.top_success.last_success!=null?tk.top_success.last_success+'%':null,tk.top_success.success,tk.top_success.last_success,'pp'); }
+    if(tk.low_success){ set('cw-rk-lowsucc-v',tk.low_success.tool); sigm('cw-rk-lowsucc-m',tk.low_success.success+'%',tk.low_success.last_success!=null?tk.low_success.last_success+'%':null,tk.low_success.success,tk.low_success.last_success,'pp'); }
+    if(tk.slowest){ set('cw-rk-slow-v',tk.slowest.tool); sigm('cw-rk-slow-m',(tk.slowest.avg!=null?C(tk.slowest.avg)+' ms':'—'),null,tk.slowest.avg,null,'lat'); }
+    // ODSP in Cowork WoW vertical bar chart (kept in sync with 301)
+    (function(){
+      var box=g('cw-chart-odsp'); if(!box) return;
+      var rows=[
+        {label:'Users',  lv:l.odsp_users,   tv:t.odsp_users,   sl:'41.7%', st:'40.5%'},
+        {label:'Tenants',lv:l.odsp_tenants, tv:t.odsp_tenants, sl:'60.4%', st:'54.2%'},
+        {label:'Tasks',  lv:l.odsp_tasks,   tv:t.odsp_tasks,   sl:'20.2%', st:'21.6%'},
+        {label:'Tool calls', lv:l.tool_calls, tv:t.tool_calls, sl:'18.5%', st:'15.4%'}
+      ];
+      var html='';
+      rows.forEach(function(r){
+        if(r.lv==null||r.tv==null) return;
+        var mx=Math.max(r.lv,r.tv)||1;
+        var hl=Math.round(r.lv/mx*100), ht=Math.round(r.tv/mx*100);
+        var pc=Math.round((r.tv-r.lv)/r.lv*1000)/10, up=pc>=0;
+        html+='<div class="vgrp"><div class="vplot">'
+          +'<div class="vbar last" style="height:'+hl+'%"><span class="vv">'+K(r.lv)+'</span></div>'
+          +'<div class="vbar this" style="height:'+ht+'%"><span class="vv">'+K(r.tv)+'</span></div>'
+          +'</div><div class="vmeta"><span class="vm-lbl">'+r.label+'</span><span class="vm-wow '+(up?'up':'down')+'">'+(up?'▲ ':'▼ ')+Math.abs(pc)+'%</span></div></div>';
+      });
+      if(html) box.innerHTML=html;
+    })();
+  })();
+</script>
+<script>window.addEventListener('pageshow',function(e){if(e.persisted){location.reload();}});</script>
+</body>
+</html>
