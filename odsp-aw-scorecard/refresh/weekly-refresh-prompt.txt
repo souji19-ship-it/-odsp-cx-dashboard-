@@ -43,10 +43,21 @@ week chips Sun-Sat (e.g. "Jun 28-Jul 4" / "Jul 5-11") to stay consistent with al
 2) COPILOT STUDIO (CS) tab  --> refresh from CAPAnalytics / csinternaltelemetry Kusto and the
    Omega scorecards (https://qh.microsoft.com/omega/scorecards). Refresh CS 201 all-up, 301 ODSP
    footprint / % of CS, 401 performance, and 501 for the same two Sun-Sat weeks. CS numbers must
-   match the CS source dashboard / Omega. Keep the C1/C2 channel-tier split (ChannelId in
-   pva-studio, pva-maker-evaluation = C1; else C2). ODSP-in-CS = ConnectorId in
-   shared_sharepointonline / shared_onedriveforbusiness plus KnowledgeSource SharePoint /
-   SharePointList. Tenants = dcount(principalTenantId). If a cluster/query is unreachable, keep the
+   match the CS source dashboard / Omega. The publishable headline basis is the matched fixed
+   17-region CAPAnalytics population implemented by data-pipeline\pull-cs-canonical.js. Italy North
+   and UAE North are excluded from this owner17 population. Users, tenants, agents and tasks are HLL
+   estimates: build regional HLL sketches and merge them across the same 17 regions; NEVER sum
+   regional dcount values. ODSP tasks are ConversationId values touching an ODSP tool or knowledge
+   event; all-up tasks use the matched all-up event population. Tool and knowledge counts are exact
+   additive event counts. For publication, ODSP knowledge uses KnowledgeSource in
+   ('SharePoint','SharePointList'); this is the predicate that reconciles to the supplied canonical
+   Aug 9-15 value 549,694. Do not switch to KnowledgeCategory without a new platform-team
+   calibration because it also includes OneDriveBusiness and does not reconcile to the published
+   scorecard. Percentages are publishable only when numerator and denominator use the same week,
+   region set, event population and identity method. Keep C1/C2 only as a diagnostic breakout; it
+   must not override the canonical headline totals. Published service success uses Service failures
+   divided by the full ODSP tool-call volume; also retain the ConsentPending-excluded diagnostic.
+   If a cluster/query is unreachable, keep the
    prior value and mark it PENDING in the log — never fabricate.
 
 3) COWORK tab  --> DO NOT auto-update. Only touch Cowork if your pulled numbers EXACTLY match the

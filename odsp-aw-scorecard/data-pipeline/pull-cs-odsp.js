@@ -1,6 +1,7 @@
 // ============================================================================
 // pull-cs-odsp.js  —  Re-pull ODSP-in-Copilot-Studio 301/401 with Sandeep's
-// corrected methodology (nested CustomDimensions, KnowledgeCategory, FailureClass,
+// corrected methodology (nested CustomDimensions, KnowledgeSource in
+// SharePoint/SharePointList, FailureClass,
 // StatusClass, OperationId, Value latency, drop ConsentPending).
 // Fan-out over 19 FDA-Island clusters x 6 Sun-Sat weeks. Resumable + concurrent.
 // Writes per-cluster-week JSON into ./cs-pull/. Run: node pull-cs-odsp.js
@@ -32,6 +33,8 @@ const WEEKS = [
   ['Jul 5-11',     '2026-07-05','2026-07-12'],
   ['Jul 12-18',    '2026-07-12','2026-07-19'],
   ['Jul 19-25',    '2026-07-19','2026-07-26'],
+  ['Aug 2-8',      '2026-08-02','2026-08-09'],
+  ['Aug 9-15',     '2026-08-09','2026-08-16'],
 ];
 
 const APP = `applicationName in ("fabric:/CopilotStudio.AgenticRuntime","fabric:/CopilotStudio.AgenticLoopApp")`;
@@ -71,10 +74,10 @@ TraceEvents
 | extend odspHint = (eventName=='AgenticLoopToolCallLatency' and (customDimensions has 'shared_sharepointonline' or customDimensions has 'shared_onedriveforbusiness'))
                  or (eventName=='KnowledgeSourceLatency' and customDimensions has 'SharePoint')
 | extend nd = iff(odspHint, parse_json(tostring(meta.CustomDimensions)), dynamic(null))
-| extend Conn = tolower(tostring(nd.ConnectorId)), KCat = tostring(nd.KnowledgeCategory)
+| extend Conn = tolower(tostring(nd.ConnectorId)), KCat = tostring(nd.KnowledgeCategory), KSrc = tostring(nd.KnowledgeSource)
 | extend IsTool = eventName=='AgenticLoopToolCallLatency', IsTurn = eventName=='AgenticLoopTurnLatency'
 | extend IsODSPtool = IsTool and Conn in ('shared_sharepointonline','shared_onedriveforbusiness')
-| extend IsODSPknow = eventName=='KnowledgeSourceLatency' and KCat=='SharePoint'
+| extend IsODSPknow = eventName=='KnowledgeSourceLatency' and KSrc in ('SharePoint','SharePointList')
 | extend IsODSP = IsODSPtool or IsODSPknow
 | summarize
     ODSP_ToolCalls=countif(IsODSPtool), ODSP_Know=countif(IsODSPknow),

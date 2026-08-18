@@ -1,5 +1,5 @@
 const fs=require('fs'),path=require('path');
-const DIR=path.join(__dirname,'cs-validate-tier');
+const DIR=path.join(__dirname,process.env.CS_VALIDATE_OUT||'cs-validate-tier');
 const files=fs.readdirSync(DIR).filter(f=>f.endsWith('.json')&&!f.includes('ERROR'));
 // wk -> tier -> sets/counts ; plus 'Total' tier = union across tiers
 const wk={};
@@ -26,8 +26,9 @@ for(const L of Object.keys(wk).sort()){
       SuccPct:o.Tools?Math.round(1000*(1-o.SvcFail/o.Tools))/10:null,Patch:o.Patch,Knows:o.Knows};
   }
 }
-fs.writeFileSync('cs-validate-tier-agg.json',JSON.stringify(out,null,2));
-for(const L of ['07/12-07/18','07/19-07/25','07/26-08/01']){
+const outFile=process.env.CS_VALIDATE_AGG_OUT||'cs-validate-tier-agg.json';
+fs.writeFileSync(outFile,JSON.stringify(out,null,2));
+for(const L of Object.keys(out).sort()){
   console.log('\n=== '+L+' ===');
   console.table(out[L]);
 }

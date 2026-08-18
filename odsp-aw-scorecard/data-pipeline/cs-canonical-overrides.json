@@ -1,0 +1,45 @@
+{
+  "2026-08-02": {
+    "source": "Published platform-team weekly scorecard supplied by the user",
+    "ODSP": {
+      "Users": 21260,
+      "Tenants": 5965,
+      "Agents": 17200,
+      "Tasks": 155819,
+      "ToolCalls": 184031,
+      "PublishedServiceSuccess": 91.8
+    },
+    "Allup": {
+      "Users": 68392,
+      "Tenants": 14192,
+      "Agents": 68913,
+      "Tasks": 1969702,
+      "ToolCalls": 7857160
+    }
+  },
+  "2026-08-09": {
+    "source": "Published platform-team canonical values supplied by the user",
+    "ODSP": {
+      "Users": 24997,
+      "Tenants": 7068,
+      "Agents": 20061,
+      "Tasks": 203294,
+      "ToolCalls": 209659,
+      "KnowledgeSources": 549694,
+      "PublishedServiceSuccess": 92.2
+    },
+    "Allup": {
+      "Users": 80378,
+      "Tenants": 16939,
+      "Agents": 77082,
+      "Tasks": 2162976,
+      "ToolCalls": 7959753,
+      "KnowledgeSources": 1544030
+    },
+    "Combined": {
+      "ODSPToolCallsAndKnowledge": 759353,
+      "AllupToolCallsAndKnowledge": 9503783,
+      "WeightedComposition": 8.0
+    }
+  }
+}
