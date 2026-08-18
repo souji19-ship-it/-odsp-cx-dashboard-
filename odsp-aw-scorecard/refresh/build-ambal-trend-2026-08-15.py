@@ -12,8 +12,8 @@ from pptx.util import Inches, Pt
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA_PATH = ROOT / "data-pipeline" / "ambal-weekly-trend-2026-08-15.json"
-PPTX_PATH = ROOT / "dashboard" / "ODSP-AW-Ambal-Weekly-Trends-Jul5-Aug15-v2.pptx"
-PREVIEW_PATH = ROOT / "dashboard" / "ODSP-AW-Ambal-Weekly-Trends-Jul5-Aug15-v2-preview.png"
+PPTX_PATH = ROOT / "dashboard" / "ODSP-AW-Ambal-Weekly-Trends-Jul5-Aug15-v3.pptx"
+PREVIEW_PATH = ROOT / "dashboard" / "ODSP-AW-Ambal-Weekly-Trends-Jul5-Aug15-v3-preview.png"
 CSV_PATH = ROOT / "data-pipeline" / "ambal-weekly-trend-2026-08-15.csv"
 
 NAVY = "14263D"
@@ -31,6 +31,7 @@ LATEST = "FCE4EC"
 LATEST_LINE = "C63269"
 
 WEEKS = []
+COWORK_LATEST_CONTEXT = {}
 
 
 def rgb(value):
@@ -59,8 +60,8 @@ def delta(metric, values, offset):
         return "N/A", MUTED
     change = (current - baseline) / baseline * 100
     if abs(change) < 0.05:
-        return "≈ 0%", MUTED
-    return f"{'▲' if change > 0 else '▼'} {abs(change):.0f}%", GREEN if change > 0 else RED
+        return "≈ 0.0%", MUTED
+    return f"{'▲' if change > 0 else '▼'} {abs(change):.1f}%", GREEN if change > 0 else RED
 
 
 def add_box(slide, x, y, w, h, text="", fill=WHITE, line=GRID, color=TEXT,
@@ -143,9 +144,20 @@ def add_table(slide, title, y, metrics, values_by_metric):
         for week_index, value in enumerate(values):
             fill = LATEST if week_index == len(values) - 1 else base_fill
             line = LATEST_LINE if week_index == len(values) - 1 else GRID
+            cell_text = format_value(metric, value)
+            cell_size = 7.4
+            if (
+                title == "Cowork"
+                and week_index == len(values) - 1
+                and metric in COWORK_LATEST_CONTEXT.get("allUp", {})
+            ):
+                all_up = COWORK_LATEST_CONTEXT["allUp"][metric]
+                share = COWORK_LATEST_CONTEXT["odspShare"][metric]
+                cell_text = f"{cell_text}\n({all_up:,} · {share:.1f}%)"
+                cell_size = 6.4
             add_box(
                 slide, cursor, row_y, widths[2 + week_index], row_h,
-                format_value(metric, value), fill, line, TEXT, 7.4,
+                cell_text, fill, line, TEXT, cell_size,
                 week_index == len(values) - 1
             )
             cursor += widths[2 + week_index]
@@ -159,8 +171,9 @@ def add_table(slide, title, y, metrics, values_by_metric):
 
 
 def build_ppt(data):
-    global WEEKS
+    global COWORK_LATEST_CONTEXT, WEEKS
     WEEKS = data["weeks"]
+    COWORK_LATEST_CONTEXT = data.get("coworkLatestContext", {})
     prs = Presentation()
     prs.slide_width = Inches(13.333)
     prs.slide_height = Inches(7.5)
@@ -204,9 +217,10 @@ def build_ppt(data):
     p = tf.paragraphs[0]
     r = p.add_run()
     r.text = (
-        "Source: Jul 5–Aug 1 exact numerators and rates from Ambal's detailed July table "
-        "(ODSP-AW-Monthly-Summary-End-of-July 2). Aug 2–15 Copilot Studio values use the supplied "
-        "platform-team canonical matched 17-region HLL basis. MoM compares Aug 9–15 with Jul 12–18."
+        "Source: Jul 5–Aug 1 exact values from Ambal's detailed July table. Aug 2–15 Cowork values "
+        "use the supplied six-week trailing scorecard (reporting date Aug 15). Aug 2–15 Copilot "
+        "Studio uses the supplied platform-team canonical 17-region basis. MoM compares Aug 9–15 "
+        "with Jul 12–18."
     )
     r.font.name = "Aptos"
     r.font.size = Pt(7.2)

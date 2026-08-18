@@ -8,11 +8,11 @@
     "Aug 9-15"
   ],
   "cowork": {
-    "Active Users": [88488, 84368, 86811, 92373, 107182, 106229],
-    "Active Tenants": [11171, 8382, 8579, 9346, 10867, 10829],
+    "Active Users": [88488, 84368, 86811, 92373, 107182, 107159],
+    "Active Tenants": [11171, 8382, 8579, 9346, 10867, 10997],
     "Active Agents": [null, null, null, null, null, null],
-    "Tasks": [216402, 207406, 239748, 227624, 263945, 283838],
-    "Tool Calls": [2124966, 1876324, 2113159, 2332460, 2927589, 3061109],
+    "Tasks": [216402, 207406, 239748, 227624, 263945, 285878],
+    "Tool Calls": [2124966, 1876324, 2113159, 2332460, 2927589, 3090304],
     "Tool Success Rate": [95.8659, 95.7939, 95.6803, 96.3066, 96.5, 95.8]
   },
   "copilotStudio": {
@@ -24,8 +24,23 @@
     "Knowledge Search": [209075, 278109, 429132, 635836, 373813, 549694],
     "Tool Success Rate": [83.9, 94.7, 94.0, 89.6, 91.8, 92.2]
   },
+  "coworkLatestContext": {
+    "week": "Aug 9-15",
+    "allUp": {
+      "Active Users": 221960,
+      "Active Tenants": 17356,
+      "Tasks": 1217699,
+      "Tool Calls": 22404476
+    },
+    "odspShare": {
+      "Active Users": 48.3,
+      "Active Tenants": 63.4,
+      "Tasks": 23.5,
+      "Tool Calls": 13.8
+    }
+  },
   "methodology": {
-    "cowork": "Jul 5-Aug 1 values are the exact numerators from Ambal's ODSP-AW-Monthly-Summary-End-of-July 2 detailed table.",
+    "cowork": "Jul 5-Aug 1 values are the exact numerators from Ambal's detailed July table. Aug 2-15 values use the supplied Cowork six-week trailing scorecard for reporting date 2026-08-15.",
     "copilotStudioHistorical": "Jul 5-Aug 1 values are the exact numerators and published service-success rates from Ambal's ODSP-AW-Monthly-Summary-End-of-July 2 detailed table.",
     "copilotStudioCanonical": "Aug 2-15 uses the supplied platform-team canonical values on the matched fixed 17-region HLL basis.",
     "source": "Ambal's detailed July table: ODSP-AW-Monthly-Summary-End-of-July 2.html.",
