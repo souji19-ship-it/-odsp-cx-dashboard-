@@ -41,6 +41,14 @@ wiki-content-escaped.txt
 sharepoint-ai-report-*.txt
 page-full-text.txt
 
+# Raw Copilot Studio telemetry caches may contain user, tenant, agent, or conversation IDs.
+odsp-aw-scorecard/data-pipeline/cs-audit-aug15/
+odsp-aw-scorecard/data-pipeline/cs-audit-tool-reach-aug15/
+odsp-aw-scorecard/data-pipeline/cs-canonical-sketches-*/
+odsp-aw-scorecard/data-pipeline/cs-validate-tier-allup-*/
+odsp-aw-scorecard/data-pipeline/cs-validate-tier-aug15/
+odsp-aw-scorecard/data-pipeline/cs-validate-tier.bak-*/
+
 # Windows artifacts
 Thumbs.db
 Desktop.ini

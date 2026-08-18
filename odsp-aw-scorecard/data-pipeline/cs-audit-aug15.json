@@ -1,0 +1,20 @@
+{
+  "2026-08-02": {
+    "ODSP_Tasks_C1": 68752,
+    "ODSP_Tasks_C2": 88277,
+    "ODSP_Tasks_Total": 157029,
+    "CrossTierOverlap": 0,
+    "LatencyCalls": 171797,
+    "LatencyP50Ms": 589,
+    "LatencyP95Ms": 2581
+  },
+  "2026-08-09": {
+    "ODSP_Tasks_C1": 79873,
+    "ODSP_Tasks_C2": 119165,
+    "ODSP_Tasks_Total": 199038,
+    "CrossTierOverlap": 0,
+    "LatencyCalls": 197455,
+    "LatencyP50Ms": 647,
+    "LatencyP95Ms": 2729
+  }
+}

@@ -1,130 +1,162 @@
 {
   "07/12-07/18": {
     "C1": {
-      "Users": 8009,
-      "Tenants": 4087,
-      "Agents": 10938,
-      "Tasks": 57163,
-      "Tools": 61667,
-      "SuccPct": 92.2,
-      "Patch": 3722,
-      "Knows": 112157
+      "Users": 6885,
+      "Tenants": 3577,
+      "Agents": 9317,
+      "Tasks": 49134,
+      "Tools": 52486,
+      "SuccPct": 92.4,
+      "Patch": 3386,
+      "Knows": 97247
     },
     "C2": {
-      "Users": 8577,
-      "Tenants": 2527,
-      "Agents": 5382,
-      "Tasks": 78658,
-      "Tools": 140967,
-      "SuccPct": 96.2,
-      "Patch": 69977,
-      "Knows": 166924
+      "Users": 7167,
+      "Tenants": 2202,
+      "Agents": 4579,
+      "Tasks": 64110,
+      "Tools": 26095,
+      "SuccPct": 94.3,
+      "Patch": 2615,
+      "Knows": 157067
     },
     "Total": {
-      "Users": 15123,
-      "Tenants": 4797,
-      "Agents": 13713,
-      "Tasks": 135821,
-      "Tools": 202634,
-      "SuccPct": 95,
-      "Patch": 73699,
-      "Knows": 279081
+      "Users": 12820,
+      "Tenants": 4186,
+      "Agents": 11666,
+      "Tasks": 113244,
+      "Tools": 78581,
+      "SuccPct": 93,
+      "Patch": 6001,
+      "Knows": 254314
     }
   },
   "07/19-07/25": {
     "C1": {
-      "Users": 7639,
-      "Tenants": 3802,
-      "Agents": 11121,
-      "Tasks": 58501,
-      "Tools": 62222,
-      "SuccPct": 93.3,
-      "Patch": 2711,
-      "Knows": 109453
+      "Users": 6335,
+      "Tenants": 3228,
+      "Agents": 9350,
+      "Tasks": 48536,
+      "Tools": 53664,
+      "SuccPct": 93.4,
+      "Patch": 2491,
+      "Knows": 90565
     },
     "C2": {
-      "Users": 9450,
-      "Tenants": 2655,
-      "Agents": 6020,
-      "Tasks": 86862,
-      "Tools": 54707,
-      "SuccPct": 94.8,
-      "Patch": 3531,
-      "Knows": 186730
+      "Users": 7685,
+      "Tenants": 2304,
+      "Agents": 5119,
+      "Tasks": 79305,
+      "Tools": 41878,
+      "SuccPct": 95.7,
+      "Patch": 3312,
+      "Knows": 169334
     },
     "Total": {
-      "Users": 15545,
-      "Tenants": 4619,
-      "Agents": 14368,
-      "Tasks": 145363,
-      "Tools": 116929,
-      "SuccPct": 94,
-      "Patch": 6242,
-      "Knows": 296183
+      "Users": 12736,
+      "Tenants": 3955,
+      "Agents": 12126,
+      "Tasks": 127841,
+      "Tools": 95542,
+      "SuccPct": 94.4,
+      "Patch": 5803,
+      "Knows": 259899
     }
   },
   "07/26-08/01": {
     "C1": {
-      "Users": 7877,
-      "Tenants": 3908,
-      "Agents": 11780,
-      "Tasks": 64132,
-      "Tools": 70352,
-      "SuccPct": 91.1,
-      "Patch": 3800,
-      "Knows": 123217
+      "Users": 6559,
+      "Tenants": 3324,
+      "Agents": 9884,
+      "Tasks": 52897,
+      "Tools": 59493,
+      "SuccPct": 91.6,
+      "Patch": 2115,
+      "Knows": 100856
     },
     "C2": {
-      "Users": 10690,
-      "Tenants": 2837,
-      "Agents": 6468,
-      "Tasks": 153412,
-      "Tools": 75602,
-      "SuccPct": 88.2,
-      "Patch": 5640,
-      "Knows": 376946
+      "Users": 8684,
+      "Tenants": 2443,
+      "Agents": 5435,
+      "Tasks": 141830,
+      "Tools": 48364,
+      "SuccPct": 90,
+      "Patch": 5234,
+      "Knows": 354840
     },
     "Total": {
-      "Users": 17006,
-      "Tenants": 4839,
-      "Agents": 15476,
-      "Tasks": 217544,
-      "Tools": 145954,
-      "SuccPct": 89.6,
-      "Patch": 9440,
-      "Knows": 500163
+      "Users": 13932,
+      "Tenants": 4134,
+      "Agents": 12978,
+      "Tasks": 194727,
+      "Tools": 107857,
+      "SuccPct": 90.9,
+      "Patch": 7349,
+      "Knows": 455696
     }
   },
   "08/02-08/08": {
     "C1": {
-      "Users": 506,
-      "Tenants": 413,
-      "Agents": 903,
-      "Tasks": 2479,
-      "Tools": 3188,
-      "SuccPct": 92.7,
-      "Patch": 77,
-      "Knows": 4510
+      "Users": 9603,
+      "Tenants": 4795,
+      "Agents": 12768,
+      "Tasks": 68297,
+      "Tools": 86591,
+      "SuccPct": 92.9,
+      "Patch": 4230,
+      "Knows": 155106
     },
     "C2": {
-      "Users": 783,
-      "Tenants": 452,
-      "Agents": 738,
-      "Tasks": 7229,
-      "Tools": 7084,
-      "SuccPct": 82.4,
-      "Patch": 718,
-      "Knows": 16943
+      "Users": 13299,
+      "Tenants": 3376,
+      "Agents": 7729,
+      "Tasks": 88724,
+      "Tools": 97440,
+      "SuccPct": 90.9,
+      "Patch": 6309,
+      "Knows": 218707
     },
     "Total": {
-      "Users": 1222,
-      "Tenants": 729,
-      "Agents": 1523,
-      "Tasks": 9708,
-      "Tools": 10272,
-      "SuccPct": 85.6,
-      "Patch": 795,
-      "Knows": 21453
+      "Users": 21163,
+      "Tenants": 5937,
+      "Agents": 17342,
+      "Tasks": 157021,
+      "Tools": 184031,
+      "SuccPct": 91.8,
+      "Patch": 10539,
+      "Knows": 373813
+    }
+  },
+  "08/09-08/15": {
+    "C1": {
+      "Users": 1826,
+      "Tenants": 1198,
+      "Agents": 2254,
+      "Tasks": 8271,
+      "Tools": 13854,
+      "SuccPct": 93.3,
+      "Patch": 72,
+      "Knows": 20727
+    },
+    "C2": {
+      "Users": 2550,
+      "Tenants": 1107,
+      "Agents": 1857,
+      "Tasks": 11982,
+      "Tools": 9166,
+      "SuccPct": 90.6,
+      "Patch": 404,
+      "Knows": 29254
+    },
+    "Total": {
+      "Users": 4181,
+      "Tenants": 1835,
+      "Agents": 3716,
+      "Tasks": 20253,
+      "Tools": 23020,
+      "SuccPct": 92.2,
+      "Patch": 476,
+      "Knows": 49981
     }
   }
 }

@@ -1,0 +1,1 @@
+{"c":"fdislandsus.centralus","rows":[{"Prod":"NonProd","Tier":"C1","Users":12428,"Tenants":4566,"Agents":14976,"Tasks":89985,"Tools":474842},{"Prod":"Prod","Tier":"C2","Users":14203,"Tenants":2525,"Agents":8007,"Tasks":260182,"Tools":828819},{"Prod":"NonProd","Tier":"C2","Users":1622,"Tenants":768,"Agents":1648,"Tasks":7704,"Tools":174857}]}

@@ -1,0 +1,34 @@
+{
+  "08/09-08/15": {
+    "C1": {
+      "Users": 37316,
+      "Tenants": 13446,
+      "Agents": 56737,
+      "Tasks": 312141,
+      "Tools": 120305,
+      "SuccPct": 92.7,
+      "Patch": 5256,
+      "Knows": 219110
+    },
+    "C2": {
+      "Users": 50490,
+      "Tenants": 9887,
+      "Agents": 32881,
+      "Tasks": 1850978,
+      "Tools": 89478,
+      "SuccPct": 91.6,
+      "Patch": 9214,
+      "Knows": 330867
+    },
+    "Total": {
+      "Users": 80921,
+      "Tenants": 16724,
+      "Agents": 78254,
+      "Tasks": 2163119,
+      "Tools": 209783,
+      "SuccPct": 92.2,
+      "Patch": 14470,
+      "Knows": 549977
+    }
+  }
+}

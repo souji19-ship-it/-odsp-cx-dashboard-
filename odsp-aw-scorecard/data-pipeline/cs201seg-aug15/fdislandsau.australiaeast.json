@@ -1,0 +1,1 @@
+{"c":"fdislandsau.australiaeast","rows":[{"Prod":"Prod","Tier":"C2","Users":2587,"Tenants":693,"Agents":1560,"Tasks":49506,"Tools":229575},{"Prod":"NonProd","Tier":"C1","Users":1551,"Tenants":838,"Agents":2518,"Tasks":11781,"Tools":61046},{"Prod":"NonProd","Tier":"C2","Users":103,"Tenants":92,"Agents":102,"Tasks":272,"Tools":1455}]}

@@ -1,0 +1,65 @@
+{
+  "Prod_C1": {
+    "Users": 8,
+    "Tenants": 3,
+    "Agents": 7,
+    "Tasks": 16,
+    "Tools": 65
+  },
+  "Prod_C2": {
+    "Users": 43729,
+    "Tenants": 8213,
+    "Agents": 27321,
+    "Tasks": 1687853,
+    "Tools": 6541503
+  },
+  "Prod_T": {
+    "Users": 43737,
+    "Tenants": 8216,
+    "Agents": 27328,
+    "Tasks": 1687869,
+    "Tools": 6541568
+  },
+  "NonProd_C1": {
+    "Users": 29180,
+    "Tenants": 11921,
+    "Agents": 51567,
+    "Tasks": 271287,
+    "Tools": 1138869
+  },
+  "NonProd_C2": {
+    "Users": 3389,
+    "Tenants": 1928,
+    "Agents": 3213,
+    "Tasks": 12938,
+    "Tools": 179189
+  },
+  "NonProd_T": {
+    "Users": 32569,
+    "Tenants": 13849,
+    "Agents": 54780,
+    "Tasks": 284225,
+    "Tools": 1318058
+  },
+  "Allup_C1": {
+    "Users": 29188,
+    "Tenants": 11924,
+    "Agents": 51574,
+    "Tasks": 271303,
+    "Tools": 1138934
+  },
+  "Allup_C2": {
+    "Users": 47118,
+    "Tenants": 10141,
+    "Agents": 30534,
+    "Tasks": 1700791,
+    "Tools": 6720692
+  },
+  "Allup_T": {
+    "Users": 76306,
+    "Tenants": 22065,
+    "Agents": 82108,
+    "Tasks": 1972094,
+    "Tools": 7859626
+  }
+}
