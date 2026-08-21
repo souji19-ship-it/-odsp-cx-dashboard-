@@ -22,12 +22,14 @@ only swap the numbers/dates — **do not change the layout, section order, color
    spans 2 metric cols, Copilot Studio/Dracarys header purple `#7b34c0` spans 3.
    Values are **coarse-rounded** (e.g. `107.2K`, `flat`, `+8% WoW`, `96%`, `-1 pp WoW`).
 5. **M365 Agentic Work: ODSP share** — donut grid.
-   - Column header row: `2P Agent` + group boxes Adoption(2) / Engagement(2) / Reliability(1).
-   - **5 donuts per agent row** (NOT 6 — no separate Knowledge column):
-     Active Users, Active Tenants, Tasks, Tool Calls, success.
-   - Cowork success donut title = `Raw eligible-call success` (caption `TOOL SUCCESS`).
-   - CS 4th donut is **merged**: title `Tool Calls + Knowledge Search`; CS success = `Service success`.
-   - Reliability donut cells get a teal border. Donut fill = agent color (Cowork blue, CS purple).
+   - Pillars are **vertical colored bars** on the left of each group (steel-blue Adoption, orange
+     Engagement, green Reliability) — matching the 2P Scorecard's vertical pillar rail. A light
+     question caption sits above each group ("Who is using ODSP?" etc.); `2P Agent` labels col 1.
+   - **5 donut positions per agent row** (Active Users, Active Tenants, Tasks, Tool Calls, success).
+   - Cowork success donut title = `Tool Success Rate`, caption `ODSP share`.
+   - CS Engagement 2nd cell is **one box holding two color-coded donuts**: `Tool Calls` (CS purple)
+     and `Knowledge Searches` (teal `--know #12a594`), each with its own % and pp delta.
+   - CS success = `Tool Success Rate`. Reliability donut cells get a teal border.
 6. **This week's 2P story** — intro + 5 kicker sections
    (Growth × engagement, Breadth × depth, Reliability, Architecture runway, Leadership watch) + **Overall**.
 7. **Methodology** — grouped box: Adoption / Engagement / Reliability, colored left borders.

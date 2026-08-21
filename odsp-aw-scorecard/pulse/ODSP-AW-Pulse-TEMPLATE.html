@@ -6,7 +6,7 @@
   :root{
     --cw:#3355cc; --cs:#7b34c0;
     --adopt:#5b7fa6; --engage:#d98a1a; --reli:#16916f;
-    --up:#1a8f4c; --down:#c62828; --flat:#6b7280;
+    --up:#1a8f4c; --down:#c62828; --flat:#6b7280; --know:#12a594;
     --ink:#1b2233; --muted:#6b7280; --line:#e6e9ee; --bg:#eef1f4;
   }
   *{box-sizing:border-box}
@@ -54,11 +54,11 @@
   .mc .w{font-size:11px;font-weight:700}
 
   /* donut grid */
-  .dg{display:grid;grid-template-columns:150px repeat(5,1fr);gap:10px}
-  .grp{border:1px solid var(--line);border-top:3px solid var(--muted);border-radius:8px;padding:8px 12px}
-  .grp.adopt{border-top-color:var(--adopt)} .grp.engage{border-top-color:var(--engage)} .grp.reli{border-top-color:var(--reli)}
-  .grp .gn{font-size:14px;font-weight:700;color:#20304a}
-  .grp .gq{font-size:10.5px;color:var(--muted)}
+  .dg{display:grid;grid-template-columns:150px 26px 1fr 1fr 26px 1fr 1fr 26px 1fr;gap:10px}
+  .pv{border-radius:8px;color:#fff;font-weight:800;font-size:10px;letter-spacing:.3px;text-transform:uppercase;writing-mode:vertical-rl;transform:rotate(180deg);display:flex;align-items:center;justify-content:center;white-space:nowrap}
+  .pv.adopt{background:var(--adopt)} .pv.engage{background:var(--engage)} .pv.reli{background:var(--reli)}
+  .qh{display:flex;flex-direction:column;justify-content:flex-end;padding:4px 6px 8px}
+  .qh .gq{font-size:10.5px;color:var(--muted);line-height:1.35}
   .agenthd{display:flex;align-items:flex-end;justify-content:center;font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--muted);padding-bottom:6px}
   .agent{display:flex;flex-direction:column;justify-content:center;gap:3px;border:1px solid var(--line);border-radius:10px;padding:12px 14px}
   .agent .bar{width:26px;height:4px;border-radius:2px}
@@ -70,6 +70,11 @@
   .donut .pct{font-size:19px;font-weight:800;fill:var(--ink)}
   .dc .cap{font-size:8.5px;font-weight:700;letter-spacing:.4px;color:var(--muted);text-transform:uppercase;margin-top:2px}
   .dc .dw{font-size:11px;font-weight:700;margin-top:4px}
+  .dc2{padding:8px 6px 10px}
+  .dc2 .mini{display:flex;gap:6px;justify-content:center;align-items:flex-start;width:100%}
+  .dc2 .mn{display:flex;flex-direction:column;align-items:center;gap:2px;flex:1 1 0;min-width:0}
+  .dc2 .dt2{font-size:10px;font-weight:600;color:#3a4252;min-height:24px;display:flex;align-items:center;text-align:center}
+  .donut2 .pct2{font-size:15px;font-weight:800;fill:var(--ink)}
   .dc .na{font-size:20px;font-weight:800;color:#9aa2ad}
 
   /* story */
@@ -122,13 +127,17 @@
     .sc .mc[style*="span 2"],.sc .mc[style*="span 3"]{grid-column:1 / -1 !important}
     .sc .mc .v{font-size:21px}
 
-    /* donut grid -> 2-up donuts, full-width group + agent headers */
+    /* donut grid -> 2-up donuts, full-width pillar + agent headers */
     .dg{grid-template-columns:1fr 1fr}
+    .dg>*{grid-row:auto !important}
     .dg .agenthd{display:none}
-    .dg .grp{grid-column:1 / -1 !important}
+    .dg .pv{grid-column:1 / -1 !important;writing-mode:horizontal-tb;transform:none;
+            padding:7px 12px;font-size:11px;letter-spacing:1px;justify-content:flex-start}
+    .dg .qh{grid-column:1 / -1 !important;padding:2px 4px 0}
     .dg .agent{grid-column:1 / -1 !important;flex-direction:row;align-items:center;gap:10px}
     .dg .agent .bar{margin:0}
     .dg .dc{grid-column:auto !important}
+    .dg .dc2{grid-column:1 / -1 !important}
     .donut{width:78px;height:78px}
 
     /* methodology add-table -> stack rows */
@@ -204,25 +213,33 @@
     <p class="vsub">Week of <span class="accent">Aug 9–15, 2026</span> compared with Aug 2–8, 2026. Pre ODSP MCP / WorkIQ integration benchmark.</p>
     <div class="dg">
       <div class="agenthd" style="grid-column:1;grid-row:1">2P Agent</div>
-      <div class="grp adopt" style="grid-column:2 / span 2"><div class="gn">Adoption</div><div class="gq">Who is using ODSP?</div></div>
-      <div class="grp engage" style="grid-column:4 / span 2"><div class="gn">Engagement</div><div class="gq">How much ODSP-backed work is happening?</div></div>
-      <div class="grp reli" style="grid-column:6 / span 1"><div class="gn">Reliability</div><div class="gq">Can agents depend on ODSP?</div></div>
+      <div class="pv adopt" style="grid-column:2;grid-row:1 / span 3">Adoption</div>
+      <div class="pv engage" style="grid-column:5;grid-row:1 / span 3">Engagement</div>
+      <div class="pv reli" style="grid-column:8;grid-row:1 / span 3">Reliability</div>
+      <div class="qh" style="grid-column:3 / span 2;grid-row:1"><div class="gq">Who is using ODSP?</div></div>
+      <div class="qh" style="grid-column:6 / span 2;grid-row:1"><div class="gq">How much ODSP-backed work is happening?</div></div>
+      <div class="qh" style="grid-column:9;grid-row:1"><div class="gq">Can agents depend on ODSP?</div></div>
 
       <!-- COWORK -->
-      <div class="agent"><span class="bar" style="background:var(--cw)"></span><span class="an">Cowork</span><span class="wk">Aug 9–15, 2026</span></div>
-      <div class="dc"><div class="dt">Active Users</div><svg class="donut" width="88" height="88" viewBox="0 0 84 84"><circle cx="42" cy="42" r="34" fill="none" stroke="#e9edf2" stroke-width="10"/><circle cx="42" cy="42" r="34" fill="none" stroke="var(--cw)" stroke-width="10" stroke-dasharray="102.54 111.09" stroke-dashoffset="53.41" stroke-linecap="round"/><text x="42" y="48" text-anchor="middle" class="pct">48%</text></svg><div class="cap">ODSP share</div><div class="dw down">-0.4 pp WoW</div></div>
-      <div class="dc"><div class="dt">Active Tenants</div><svg class="donut" width="88" height="88" viewBox="0 0 84 84"><circle cx="42" cy="42" r="34" fill="none" stroke="#e9edf2" stroke-width="10"/><circle cx="42" cy="42" r="34" fill="none" stroke="var(--cw)" stroke-width="10" stroke-dasharray="134.59 79.04" stroke-dashoffset="53.41" stroke-linecap="round"/><text x="42" y="48" text-anchor="middle" class="pct">63%</text></svg><div class="cap">ODSP share</div><div class="dw down">-0.6 pp WoW</div></div>
-      <div class="dc"><div class="dt">Tasks</div><svg class="donut" width="88" height="88" viewBox="0 0 84 84"><circle cx="42" cy="42" r="34" fill="none" stroke="#e9edf2" stroke-width="10"/><circle cx="42" cy="42" r="34" fill="none" stroke="var(--cw)" stroke-width="10" stroke-dasharray="51.27 162.36" stroke-dashoffset="53.41" stroke-linecap="round"/><text x="42" y="48" text-anchor="middle" class="pct">24%</text></svg><div class="cap">ODSP share</div><div class="dw up">+0.5 pp WoW</div></div>
-      <div class="dc"><div class="dt">Tool Calls</div><svg class="donut" width="88" height="88" viewBox="0 0 84 84"><circle cx="42" cy="42" r="34" fill="none" stroke="#e9edf2" stroke-width="10"/><circle cx="42" cy="42" r="34" fill="none" stroke="var(--cw)" stroke-width="10" stroke-dasharray="29.91 183.72" stroke-dashoffset="53.41" stroke-linecap="round"/><text x="42" y="48" text-anchor="middle" class="pct">14%</text></svg><div class="cap">ODSP share</div><div class="dw up">+0.6 pp WoW</div></div>
-      <div class="dc reli"><div class="dt">Tool Success Rate</div><svg class="donut" width="88" height="88" viewBox="0 0 84 84"><circle cx="42" cy="42" r="34" fill="none" stroke="#e9edf2" stroke-width="10"/><circle cx="42" cy="42" r="34" fill="none" stroke="var(--cw)" stroke-width="10" stroke-dasharray="205.08 8.55" stroke-dashoffset="53.41" stroke-linecap="round"/><text x="42" y="48" text-anchor="middle" class="pct">96%</text></svg><div class="cap">ODSP share</div><div class="dw down">-0.7 pp WoW</div></div>
+      <div class="agent" style="grid-column:1;grid-row:2"><span class="bar" style="background:var(--cw)"></span><span class="an">Cowork</span><span class="wk">Aug 9–15, 2026</span></div>
+      <div class="dc" style="grid-column:3;grid-row:2"><div class="dt">Active Users</div><svg class="donut" width="88" height="88" viewBox="0 0 84 84"><circle cx="42" cy="42" r="34" fill="none" stroke="#e9edf2" stroke-width="10"/><circle cx="42" cy="42" r="34" fill="none" stroke="var(--cw)" stroke-width="10" stroke-dasharray="102.54 111.09" stroke-dashoffset="53.41" stroke-linecap="round"/><text x="42" y="48" text-anchor="middle" class="pct">48%</text></svg><div class="cap">ODSP share</div><div class="dw down">-0.4 pp WoW</div></div>
+      <div class="dc" style="grid-column:4;grid-row:2"><div class="dt">Active Tenants</div><svg class="donut" width="88" height="88" viewBox="0 0 84 84"><circle cx="42" cy="42" r="34" fill="none" stroke="#e9edf2" stroke-width="10"/><circle cx="42" cy="42" r="34" fill="none" stroke="var(--cw)" stroke-width="10" stroke-dasharray="134.59 79.04" stroke-dashoffset="53.41" stroke-linecap="round"/><text x="42" y="48" text-anchor="middle" class="pct">63%</text></svg><div class="cap">ODSP share</div><div class="dw down">-0.6 pp WoW</div></div>
+      <div class="dc" style="grid-column:6;grid-row:2"><div class="dt">Tasks</div><svg class="donut" width="88" height="88" viewBox="0 0 84 84"><circle cx="42" cy="42" r="34" fill="none" stroke="#e9edf2" stroke-width="10"/><circle cx="42" cy="42" r="34" fill="none" stroke="var(--cw)" stroke-width="10" stroke-dasharray="51.27 162.36" stroke-dashoffset="53.41" stroke-linecap="round"/><text x="42" y="48" text-anchor="middle" class="pct">24%</text></svg><div class="cap">ODSP share</div><div class="dw up">+0.5 pp WoW</div></div>
+      <div class="dc" style="grid-column:7;grid-row:2"><div class="dt">Tool Calls</div><svg class="donut" width="88" height="88" viewBox="0 0 84 84"><circle cx="42" cy="42" r="34" fill="none" stroke="#e9edf2" stroke-width="10"/><circle cx="42" cy="42" r="34" fill="none" stroke="var(--cw)" stroke-width="10" stroke-dasharray="29.91 183.72" stroke-dashoffset="53.41" stroke-linecap="round"/><text x="42" y="48" text-anchor="middle" class="pct">14%</text></svg><div class="cap">ODSP share</div><div class="dw up">+0.6 pp WoW</div></div>
+      <div class="dc reli" style="grid-column:9;grid-row:2"><div class="dt">Tool Success Rate</div><svg class="donut" width="88" height="88" viewBox="0 0 84 84"><circle cx="42" cy="42" r="34" fill="none" stroke="#e9edf2" stroke-width="10"/><circle cx="42" cy="42" r="34" fill="none" stroke="var(--cw)" stroke-width="10" stroke-dasharray="205.08 8.55" stroke-dashoffset="53.41" stroke-linecap="round"/><text x="42" y="48" text-anchor="middle" class="pct">96%</text></svg><div class="cap">ODSP share</div><div class="dw down">-0.7 pp WoW</div></div>
 
       <!-- COPILOT STUDIO / DRACARYS -->
-      <div class="agent"><span class="bar" style="background:var(--cs)"></span><span class="an">Copilot Studio / Dracarys</span><span class="wk">Aug 9–15, 2026</span></div>
-      <div class="dc"><div class="dt">Active Users</div><svg class="donut" width="88" height="88" viewBox="0 0 84 84"><circle cx="42" cy="42" r="34" fill="none" stroke="#e9edf2" stroke-width="10"/><circle cx="42" cy="42" r="34" fill="none" stroke="var(--cs)" stroke-width="10" stroke-dasharray="66.22 147.41" stroke-dashoffset="53.41" stroke-linecap="round"/><text x="42" y="48" text-anchor="middle" class="pct">31%</text></svg><div class="cap">ODSP share</div><div class="dw down">-9 pp WoW</div></div>
-      <div class="dc"><div class="dt">Active Tenants</div><svg class="donut" width="88" height="88" viewBox="0 0 84 84"><circle cx="42" cy="42" r="34" fill="none" stroke="#e9edf2" stroke-width="10"/><circle cx="42" cy="42" r="34" fill="none" stroke="var(--cs)" stroke-width="10" stroke-dasharray="89.72 123.91" stroke-dashoffset="53.41" stroke-linecap="round"/><text x="42" y="48" text-anchor="middle" class="pct">42%</text></svg><div class="cap">ODSP share</div><div class="dw down">-5 pp WoW</div></div>
-      <div class="dc"><div class="dt">Tasks</div><svg class="donut" width="88" height="88" viewBox="0 0 84 84"><circle cx="42" cy="42" r="34" fill="none" stroke="#e9edf2" stroke-width="10"/><circle cx="42" cy="42" r="34" fill="none" stroke="var(--cs)" stroke-width="10" stroke-dasharray="19.23 194.40" stroke-dashoffset="53.41" stroke-linecap="round"/><text x="42" y="48" text-anchor="middle" class="pct">9%</text></svg><div class="cap">ODSP share</div><div class="dw down">-1 pp WoW</div></div>
-      <div class="dc"><div class="dt">Tool Calls + Knowledge Search</div><svg class="donut" width="88" height="88" viewBox="0 0 84 84"><circle cx="42" cy="42" r="34" fill="none" stroke="#e9edf2" stroke-width="10"/><circle cx="42" cy="42" r="34" fill="none" stroke="var(--cs)" stroke-width="10" stroke-dasharray="17.09 196.54" stroke-dashoffset="53.41" stroke-linecap="round"/><text x="42" y="48" text-anchor="middle" class="pct">8%</text></svg><div class="cap">ODSP share</div><div class="dw up">+2 pp WoW</div></div>
-      <div class="dc reli"><div class="dt">Tool Success Rate</div><svg class="donut" width="88" height="88" viewBox="0 0 84 84"><circle cx="42" cy="42" r="34" fill="none" stroke="#e9edf2" stroke-width="10"/><circle cx="42" cy="42" r="34" fill="none" stroke="var(--cs)" stroke-width="10" stroke-dasharray="196.54 17.09" stroke-dashoffset="53.41" stroke-linecap="round"/><text x="42" y="48" text-anchor="middle" class="pct">92%</text></svg><div class="cap">ODSP share</div><div class="dw up">+0.4 pp WoW</div></div>
+      <div class="agent" style="grid-column:1;grid-row:3"><span class="bar" style="background:var(--cs)"></span><span class="an">Copilot Studio / Dracarys</span><span class="wk">Aug 9–15, 2026</span></div>
+      <div class="dc" style="grid-column:3;grid-row:3"><div class="dt">Active Users</div><svg class="donut" width="88" height="88" viewBox="0 0 84 84"><circle cx="42" cy="42" r="34" fill="none" stroke="#e9edf2" stroke-width="10"/><circle cx="42" cy="42" r="34" fill="none" stroke="var(--cs)" stroke-width="10" stroke-dasharray="66.22 147.41" stroke-dashoffset="53.41" stroke-linecap="round"/><text x="42" y="48" text-anchor="middle" class="pct">31%</text></svg><div class="cap">ODSP share</div><div class="dw down">-9 pp WoW</div></div>
+      <div class="dc" style="grid-column:4;grid-row:3"><div class="dt">Active Tenants</div><svg class="donut" width="88" height="88" viewBox="0 0 84 84"><circle cx="42" cy="42" r="34" fill="none" stroke="#e9edf2" stroke-width="10"/><circle cx="42" cy="42" r="34" fill="none" stroke="var(--cs)" stroke-width="10" stroke-dasharray="89.72 123.91" stroke-dashoffset="53.41" stroke-linecap="round"/><text x="42" y="48" text-anchor="middle" class="pct">42%</text></svg><div class="cap">ODSP share</div><div class="dw down">-5 pp WoW</div></div>
+      <div class="dc" style="grid-column:6;grid-row:3"><div class="dt">Tasks</div><svg class="donut" width="88" height="88" viewBox="0 0 84 84"><circle cx="42" cy="42" r="34" fill="none" stroke="#e9edf2" stroke-width="10"/><circle cx="42" cy="42" r="34" fill="none" stroke="var(--cs)" stroke-width="10" stroke-dasharray="19.23 194.40" stroke-dashoffset="53.41" stroke-linecap="round"/><text x="42" y="48" text-anchor="middle" class="pct">9%</text></svg><div class="cap">ODSP share</div><div class="dw down">-1 pp WoW</div></div>
+      <div class="dc dc2" style="grid-column:7;grid-row:3">
+        <div class="mini">
+          <div class="mn"><div class="dt2">Tool Calls</div><svg class="donut2" width="60" height="60" viewBox="0 0 84 84"><circle cx="42" cy="42" r="34" fill="none" stroke="#e9edf2" stroke-width="10"/><circle cx="42" cy="42" r="34" fill="none" stroke="var(--cs)" stroke-width="10" stroke-dasharray="6.41 207.22" stroke-dashoffset="53.41" stroke-linecap="round"/><text x="42" y="49" text-anchor="middle" class="pct2">3%</text></svg><div class="cap">ODSP share</div><div class="dw up">+1 pp WoW</div></div>
+          <div class="mn"><div class="dt2">Knowledge Searches</div><svg class="donut2" width="60" height="60" viewBox="0 0 84 84"><circle cx="42" cy="42" r="34" fill="none" stroke="#e9edf2" stroke-width="10"/><circle cx="42" cy="42" r="34" fill="none" stroke="var(--know)" stroke-width="10" stroke-dasharray="76.91 136.72" stroke-dashoffset="53.41" stroke-linecap="round"/><text x="42" y="49" text-anchor="middle" class="pct2">36%</text></svg><div class="cap">ODSP share</div><div class="dw up">+14 pp WoW</div></div>
+        </div>
+      </div>
+      <div class="dc reli" style="grid-column:9;grid-row:3"><div class="dt">Tool Success Rate</div><svg class="donut" width="88" height="88" viewBox="0 0 84 84"><circle cx="42" cy="42" r="34" fill="none" stroke="#e9edf2" stroke-width="10"/><circle cx="42" cy="42" r="34" fill="none" stroke="var(--cs)" stroke-width="10" stroke-dasharray="196.54 17.09" stroke-dashoffset="53.41" stroke-linecap="round"/><text x="42" y="48" text-anchor="middle" class="pct">92%</text></svg><div class="cap">ODSP share</div><div class="dw up">+0.4 pp WoW</div></div>
     </div>
   </div>
 
