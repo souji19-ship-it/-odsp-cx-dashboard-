@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>2P Integration — Weekly Pulse</title>
 <style>
   :root{
@@ -9,7 +10,7 @@
     --ink:#1b2233; --muted:#6b7280; --line:#e6e9ee; --bg:#eef1f4;
   }
   *{box-sizing:border-box}
-  body{margin:0;background:var(--bg);font-family:'Segoe UI',Arial,sans-serif;color:var(--ink)}
+  body{margin:0;background:var(--bg);font-family:'Segoe UI',Arial,sans-serif;color:var(--ink);overflow-x:hidden}
   .page{max-width:1180px;margin:0 auto;padding:16px}
   .card{background:#fff;border-radius:14px;padding:20px 24px;margin:14px 0;box-shadow:0 1px 3px rgba(16,26,45,.06)}
   h2{font-size:20px;margin:0 0 4px}
@@ -97,6 +98,47 @@
   .metricadd .mb{display:grid;grid-template-columns:190px 1fr;border-top:1px solid var(--line)}
   .metricadd .mb .k{padding:12px 14px;font-weight:700;color:#20304a;font-size:12.5px}
   .metricadd .mb .d{padding:12px 14px;font-size:12px;line-height:1.55;color:#4a5262}
+
+  /* ============ MOBILE-SAFE (stacks grids on narrow screens) ============ */
+  @media (max-width:760px){
+    .page{padding:10px}
+    .card{padding:16px 15px;border-radius:12px}
+    .hdr{padding:18px 16px}
+    .hdr h1{font-size:21px}
+    .hdr .sub{font-size:11.5px}
+    h2{font-size:18px}
+
+    /* included box -> single column */
+    .inc ul{grid-template-columns:1fr;gap:10px}
+
+    /* scorecard -> 2-up metric cards, full-width band + pill headers */
+    .sc{grid-template-columns:1fr 1fr}
+    .sc>div[style*="grid-column:1"]{display:none !important}
+    .sc .ah.cw,.sc .ah.cs{grid-column:1 / -1 !important;font-size:12.5px}
+    .sc .pl{grid-column:1 / -1 !important;writing-mode:horizontal-tb;transform:none;
+            padding:7px 12px;font-size:11px;letter-spacing:1px;justify-content:flex-start}
+    .sc .mc{grid-column:auto !important}
+    .sc .mc[style*="span 2"],.sc .mc[style*="span 3"]{grid-column:1 / -1 !important}
+    .sc .mc .v{font-size:21px}
+
+    /* donut grid -> 2-up donuts, full-width group + agent headers */
+    .dg{grid-template-columns:1fr 1fr}
+    .dg .agenthd{display:none}
+    .dg .grp{grid-column:1 / -1 !important}
+    .dg .agent{grid-column:1 / -1 !important;flex-direction:row;align-items:center;gap:10px}
+    .dg .agent .bar{margin:0}
+    .dg .dc{grid-column:auto !important}
+    .donut{width:78px;height:78px}
+
+    /* methodology add-table -> stack rows */
+    .metricadd .mh{display:none}
+    .metricadd .mb{grid-template-columns:1fr}
+    .metricadd .mb .k{padding-bottom:0}
+  }
+  @media (max-width:430px){
+    .sc,.dg{grid-template-columns:1fr}
+    .sc .ah.cw,.sc .ah.cs,.sc .pl{grid-column:1 / -1 !important}
+  }
 </style></head>
 <body><div class="page">
 
