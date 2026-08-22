@@ -21,15 +21,17 @@ only swap the numbers/dates — **do not change the layout, section order, color
    (ADOPTION steel-blue, ENGAGEMENT orange, RELIABILITY green); Cowork header blue `#3355cc`
    spans 2 metric cols, Copilot Studio/Dracarys header purple `#7b34c0` spans 3.
    Values are **coarse-rounded** (e.g. `107.2K`, `flat`, `+8% WoW`, `96%`, `-1 pp WoW`).
-5. **M365 Agentic Work: ODSP share** — donut grid.
-   - Pillars are **vertical colored bars** on the left of each group (steel-blue Adoption, orange
-     Engagement, green Reliability) — matching the 2P Scorecard's vertical pillar rail. A light
-     question caption sits above each group ("Who is using ODSP?" etc.); `2P Agent` labels col 1.
-   - **5 donut positions per agent row** (Active Users, Active Tenants, Tasks, Tool Calls, success).
-   - Cowork success donut title = `Tool Success Rate`, caption `ODSP share`.
-   - CS Engagement 2nd cell is **one box holding two color-coded donuts**: `Tool Calls` (CS purple)
-     and `Knowledge Searches` (teal `--know #12a594`), each with its own % and pp delta.
-   - CS success = `Tool Success Rate`. Reliability donut cells get a teal border.
+5. **M365 Agentic Work: ODSP share** — donut grid, laid out to **mirror the 2P Scorecard**:
+   pillars are **vertical rows** on a left rail (steel-blue Adoption, orange Engagement, green
+   Reliability) and the two agents are **column-group headers** on top (blue `Copilot Cowork —
+   ODSP footprint`, purple `Copilot Studio / Dracarys — ODSP footprint`), each spanning its two
+   metric columns. Grid = `46px repeat(4,1fr)`; no question captions (matches scorecard).
+   - **Adoption row**: Cowork Active Users / Active Tenants, then CS Active Users / Active Tenants.
+   - **Engagement row**: Cowork Tasks / Tool Calls, then CS Tasks, then a **split box** (CS col 5)
+     holding two color-coded donuts — `Tool Calls` (CS purple) and `Knowledge Searches` (teal
+     `--know #12a594`), each with its own % and pp delta.
+   - **Reliability row**: one `Tool Success Rate` donut per agent, **spanning both** of that agent's
+     columns (Cowork cols 2–3, CS cols 4–5); reliability cells get a teal border. Caption `ODSP share`.
 6. **This week's 2P story** — intro + 5 kicker sections
    (Growth × engagement, Breadth × depth, Reliability, Architecture runway, Leadership watch) + **Overall**.
 7. **Methodology** — grouped box: Adoption / Engagement / Reliability, colored left borders.
