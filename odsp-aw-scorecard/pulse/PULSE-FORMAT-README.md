@@ -30,12 +30,14 @@ only swap the numbers/dates — **do not change the layout, section order, color
    - **Engagement row**: Cowork Tasks / Tool Calls, then CS Tasks, then a **split box** (CS col 5)
      holding two color-coded donuts — `Tool Calls` (CS purple) and `Knowledge Searches` (teal
      `--know #12a594`), each with its own % and pp delta.
-   - **Reliability row**: one `Tool Success Rate` donut per agent, **spanning both** of that agent's
-     columns (Cowork cols 2–3, CS cols 4–5); reliability cells get a teal border. Caption `ODSP share`.
+   - **Reliability row**: one success donut per agent, **spanning both** of that agent's columns —
+     Cowork = `Tool Success Rate` (cols 2–3), CS = `Service Success Rate` (cols 4–5, matches the
+     scorecard's "ODSP service success"); reliability cells get a teal border. Caption `ODSP share`.
 6. **This week's 2P story** — intro + 5 kicker sections
    (Growth × engagement, Breadth × depth, Reliability, Architecture runway, Leadership watch) + **Overall**.
 7. **Methodology** — grouped box: Adoption / Engagement / Reliability, colored left borders.
-   Tool Success Rate def = "Percentage of ODSP tool calls that completed successfully."
+   Tool Success Rate = "Percentage of ODSP tool calls that completed successfully" (Cowork);
+   Service Success Rate = "Percentage of ODSP service calls that completed successfully" (CS).
 
 ## Number & color rules
 
