@@ -54,6 +54,12 @@ only swap the numbers/dates — **do not change the layout, section order, color
 Worked values: 48→102.54, 63→134.59, 24→51.27, 14→29.91, 96→205.08, 31→66.22, 42→89.72, 9→19.23,
 8→17.09, 92→196.54.
 
+## Mobile / viewport
+
+The template uses a **fixed-width viewport** `<meta name="viewport" content="width=1180">`, so phones
+render an **exact scaled-down replica** of the desktop Pulse (no reflow) — identical to the inline
+email image. Do not add responsive breakpoints; keep one layout across desktop and mobile.
+
 ## Render / export
 
 Edge headless to verify, then (optionally) python-pptx full-bleed portrait slide:
