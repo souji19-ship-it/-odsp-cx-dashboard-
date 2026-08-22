@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=1180">
 <title>2P Integration — Weekly Pulse</title>
 <style>
   :root{
@@ -105,46 +105,8 @@
   .metricadd .mb .k{padding:12px 14px;font-weight:700;color:#20304a;font-size:12.5px}
   .metricadd .mb .d{padding:12px 14px;font-size:12px;line-height:1.55;color:#4a5262}
 
-  /* ============ MOBILE-SAFE (stacks grids on narrow screens) ============ */
-  @media (max-width:760px){
-    .page{padding:10px}
-    .card{padding:16px 15px;border-radius:12px}
-    .hdr{padding:18px 16px}
-    .hdr h1{font-size:21px}
-    .hdr .sub{font-size:11.5px}
-    h2{font-size:18px}
-
-    /* included box -> single column */
-    .inc ul{grid-template-columns:1fr;gap:10px}
-
-    /* scorecard -> 2-up metric cards, full-width band + pill headers */
-    .sc{grid-template-columns:1fr 1fr}
-    .sc>div[style*="grid-column:1"]{display:none !important}
-    .sc .ah.cw,.sc .ah.cs{grid-column:1 / -1 !important;font-size:12.5px}
-    .sc .pl{grid-column:1 / -1 !important;writing-mode:horizontal-tb;transform:none;
-            padding:7px 12px;font-size:11px;letter-spacing:1px;justify-content:flex-start}
-    .sc .mc{grid-column:auto !important}
-    .sc .mc[style*="span 2"],.sc .mc[style*="span 3"]{grid-column:1 / -1 !important}
-    .sc .mc .v{font-size:21px}
-
-    /* donut grid -> 2-up donuts, full-width pillar + agent headers */
-    .dg{grid-template-columns:1fr 1fr}
-    .dg>*{grid-row:auto !important;grid-column:auto !important}
-    .dg .ahd{grid-column:1 / -1 !important}
-    .dg .pv{grid-column:1 / -1 !important;writing-mode:horizontal-tb;transform:none;
-            padding:7px 12px;font-size:11px;letter-spacing:1px;justify-content:flex-start}
-    .dg .dc2{grid-column:1 / -1 !important}
-    .donut{width:78px;height:78px}
-
-    /* methodology add-table -> stack rows */
-    .metricadd .mh{display:none}
-    .metricadd .mb{grid-template-columns:1fr}
-    .metricadd .mb .k{padding-bottom:0}
-  }
-  @media (max-width:430px){
-    .sc,.dg{grid-template-columns:1fr}
-    .sc .ah.cw,.sc .ah.cs,.sc .pl{grid-column:1 / -1 !important}
-  }
+  /* Fixed-width viewport (width=1180) makes phones render an exact scaled
+     replica of the desktop Pulse — no reflow, identical to the email PNG. */
 </style></head>
 <body><div class="page">
 
