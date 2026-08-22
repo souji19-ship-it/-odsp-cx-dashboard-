@@ -64,9 +64,10 @@ verified numbers — never redesigning the layout and never inventing data.
    way to keep the format 100% intact), attach the HTML source, and `Display` (open, do not send).
 8. Store the finished week's HTML in `odsp-aw-scorecard/pulse/` and commit.
 
-## Mobile-safe requirement
-The template already includes `<meta name="viewport">`, `overflow-x:hidden`, and responsive breakpoints
-(≤760px → 2-up stacking; ≤430px → single column). Keep these intact when editing.
+## Mobile requirement
+The template uses a **fixed-width viewport** `<meta name="viewport" content="width=1180">` so phones
+render an **exact scaled-down replica** of the desktop Pulse (no reflow) — matching the inline email
+PNG. Do NOT add responsive reflow breakpoints; keep the layout identical across desktop and mobile.
 
 ## Definition of done
 - Numbers reconciled and transcribed exactly; zero fabricated values.
