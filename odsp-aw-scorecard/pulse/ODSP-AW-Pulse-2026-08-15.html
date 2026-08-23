@@ -360,6 +360,12 @@ h1 { margin-bottom: 8px; font-size: clamp(26px, 4vw, 38px); line-height: 1.15; }
 
 /* MTD reuses the weekly .matrix / .surface / .pillar-cell / .metric / .donut layout. */
 .movement.na { color: var(--cp-text-muted); }
+.metric.mtd .m-title { display: block; color: var(--cp-text-muted); font-size: 12px; margin-bottom: 8px; }
+.metric.mtd .m-pair { display: flex; gap: 10px; }
+.metric.mtd .m-pair > div { display: flex; flex-direction: column; }
+.metric.mtd .m-pair span { display: block; margin: 0 0 2px; color: var(--cp-text-muted); font-size: 10px; font-weight: 700; letter-spacing: .03em; text-transform: uppercase; }
+.metric.mtd .m-pair strong { display: block; font-size: 18px; line-height: 1.1; white-space: nowrap; }
+.metric.mtd .movement { display: block; margin-top: 8px; }
 </style>
 </head>
 <body>
@@ -569,14 +575,14 @@ h1 { margin-bottom: 8px; font-size: clamp(26px, 4vw, 38px); line-height: 1.15; }
           <div class="matrix-head reliability"><strong>Reliability</strong><span>Can agents depend on ODSP?</span></div>
 
           <div class="surface cowork"><strong>Copilot Cowork</strong><span>ODSP footprint</span></div>
-          <div class="pillar-cell adoption"><div class="metrics"><div class="metric"><strong>107.2K</strong><span>ODSP-active users</span><b class="movement up">+16% vs Jul</b></div><div class="metric"><strong>11.0K</strong><span>ODSP-active tenants</span><b class="movement up">+18% vs Jul</b></div></div></div>
-          <div class="pillar-cell engagement"><div class="metrics"><div class="metric"><strong>285.9K</strong><span>ODSP-backed tasks</span><b class="movement up">+26% vs Jul</b></div><div class="metric"><strong>8.15M</strong><span>ODSP tool calls</span><b class="movement up">+33% pace</b></div></div></div>
-          <div class="pillar-cell reliability"><div class="metrics"><div class="metric"><strong>96%</strong><span>Eligible-call success rate</span><b class="movement flat">+0 pp vs Jul</b></div></div></div>
+          <div class="pillar-cell adoption"><div class="metrics"><div class="metric mtd"><span class="m-title">ODSP-active users</span><div class="m-pair"><div><span>July</span><strong>92.4K</strong></div><div><span>Aug MTD</span><strong>107.2K</strong></div></div><b class="movement up">+16%</b></div><div class="metric mtd"><span class="m-title">ODSP-active tenants</span><div class="m-pair"><div><span>July</span><strong>9.35K</strong></div><div><span>Aug MTD</span><strong>11.0K</strong></div></div><b class="movement up">+18%</b></div></div></div>
+          <div class="pillar-cell engagement"><div class="metrics"><div class="metric mtd"><span class="m-title">ODSP-backed tasks</span><div class="m-pair"><div><span>July</span><strong>227.6K</strong></div><div><span>Aug MTD</span><strong>285.9K</strong></div></div><b class="movement up">+26%</b></div><div class="metric mtd"><span class="m-title">ODSP tool calls</span><div class="m-pair"><div><span>July</span><strong>9.98M</strong></div><div><span>Aug MTD</span><strong>8.15M</strong></div></div><b class="movement up">+33% pace</b></div></div></div>
+          <div class="pillar-cell reliability"><div class="metrics"><div class="metric mtd"><span class="m-title">Eligible-call success</span><div class="m-pair"><div><span>July</span><strong>96%</strong></div><div><span>Aug MTD</span><strong>96%</strong></div></div><b class="movement flat">+0 pp</b></div></div></div>
 
           <div class="surface studio"><strong>Copilot Studio / Dracarys</strong><span>ODSP footprint</span></div>
-          <div class="pillar-cell adoption"><div class="metrics"><div class="metric"><strong>25.0K</strong><span>ODSP-active users</span><b class="movement na">N/A</b></div><div class="metric"><strong>7.07K</strong><span>ODSP-active tenants</span><b class="movement na">N/A</b></div><div class="metric"><strong>20.1K</strong><span>ODSP-active agents</span><b class="movement na">N/A</b></div></div></div>
-          <div class="pillar-cell engagement"><div class="metrics"><div class="metric"><strong>203.3K</strong><span>ODSP-backed tasks</span><b class="movement na">N/A</b></div><div class="metric"><strong>393.7K</strong><span>ODSP tool calls</span><b class="movement up">+21% pace</b></div><div class="metric"><strong>953.5K</strong><span>ODSP knowledge searches</span><b class="movement na">N/A</b></div></div></div>
-          <div class="pillar-cell reliability"><div class="metrics"><div class="metric"><strong>92%</strong><span>Service success rate</span><b class="movement up">+1 pp vs Jul</b></div></div></div>
+          <div class="pillar-cell adoption"><div class="metrics"><div class="metric mtd"><span class="m-title">ODSP-active users</span><div class="m-pair"><div><span>July</span><strong>16.9K</strong></div><div><span>Aug MTD</span><strong>25.0K</strong></div></div><b class="movement na">N/A</b></div><div class="metric mtd"><span class="m-title">ODSP-active tenants</span><div class="m-pair"><div><span>July</span><strong>4.89K</strong></div><div><span>Aug MTD</span><strong>7.07K</strong></div></div><b class="movement na">N/A</b></div><div class="metric mtd"><span class="m-title">ODSP-active agents</span><div class="m-pair"><div><span>July</span><strong>15.4K</strong></div><div><span>Aug MTD</span><strong>20.1K</strong></div></div><b class="movement na">N/A</b></div></div></div>
+          <div class="pillar-cell engagement"><div class="metrics"><div class="metric mtd"><span class="m-title">ODSP-backed tasks</span><div class="m-pair"><div><span>July</span><strong>217.9K</strong></div><div><span>Aug MTD</span><strong>203.3K</strong></div></div><b class="movement na">N/A</b></div><div class="metric mtd"><span class="m-title">ODSP tool calls</span><div class="m-pair"><div><span>July</span><strong>486.5K</strong></div><div><span>Aug MTD</span><strong>393.7K</strong></div></div><b class="movement up">+21% pace</b></div><div class="metric mtd"><span class="m-title">ODSP knowledge searches</span><div class="m-pair"><div><span>July</span><strong>916.3K</strong></div><div><span>Aug MTD</span><strong>953.5K</strong></div></div><b class="movement na">N/A</b></div></div></div>
+          <div class="pillar-cell reliability"><div class="metrics"><div class="metric mtd"><span class="m-title">Service success</span><div class="m-pair"><div><span>July</span><strong>91%</strong></div><div><span>Aug MTD</span><strong>92%</strong></div></div><b class="movement up">+1 pp</b></div></div></div>
         </div>
       </div>
     </section>

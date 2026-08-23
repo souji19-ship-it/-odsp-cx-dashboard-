@@ -66,13 +66,12 @@ The dashboard is a tabbed view. A `.tabs` bar sits under the hero with two `.tab
 - **Month-to-Date** (`#tab-mtd`) — **uses the exact same `.matrix` layout as the Weekly tab**
   (agents as ROWS, the three pillars as COLUMN groups: Adoption / Engagement / Reliability),
   so both tabs are visually identical in structure and color (Cowork blue rail, Studio grey rail;
-  Adoption grey, Engagement amber, Reliability near-black pillar heads). A `.mtd-banner` template
-  notice sits above two sections that mirror the weekly ones: a **Scorecard** whose `.metric` big
-  number is the **Aug MTD** value with the movement showing the change **vs July** (`N/A` where not
-  publishable, `+NN% pace` for run-rate compares), and an **ODSP share** matrix whose `.donut`s show
-  the **Aug MTD** share with a `+NN pp vs Jul` movement. MTD numbers are placeholders until August
-  settles. Only the period copy and the vs-July framing differ from Weekly; the layout and color
-  tokens are shared.
+    Adoption grey, Engagement amber, Reliability near-black pillar heads). Two sections mirror the
+    weekly ones: a **Scorecard** whose `.metric.mtd` cards show the metric name then a **July | Aug MTD**
+    value pair with the change below (`N/A` where not publishable, `+NN% pace` for run-rate compares),
+    and an **ODSP share** matrix whose `.donut`s show the **Aug MTD** share with a `+NN pp vs Jul`
+    movement. MTD numbers are transcribed from Ambal's mockup until August settles. Only the period copy
+    and the July/Aug framing differ from Weekly; the layout and color tokens are shared.
 
 ## Matrix grid spec (shared by Scorecard + Share)
 
