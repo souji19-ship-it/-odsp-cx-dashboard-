@@ -69,9 +69,9 @@ The dashboard is a tabbed view. A `.tabs` bar sits under the hero with two `.tab
     Adoption grey, Engagement amber, Reliability near-black pillar heads). Two sections mirror the
     weekly ones: a **Scorecard** whose `.metric.mtd` cards show the metric name then a **July | Aug MTD**
     value pair with the change below (`N/A` where not publishable, `+NN% pace` for run-rate compares),
-    and an **ODSP share** matrix whose `.donut`s show the **Aug MTD** share with a `July NN%` baseline
-    (`.share-ref`) and a `+NN pp` movement below, matching Ambal's mockup (both agents cover all six
-    metrics; gaps shown as `N/A`). MTD-specific styling: white metric cards, each pillar's metrics kept
+    and an **ODSP share** matrix whose cells show the ODSP share as **two donuts — July and Aug MTD**
+    side-by-side (`.sm-pair`), mirroring the two-month 2P scorecard, with the `pp` movement below
+    (both agents cover all six metrics; gaps shown as `N/A`). MTD-specific styling: white metric cards, each pillar's metrics kept
   on a single row, and pillar columns sized proportional to metric count (Adoption/Engagement wider,
   Reliability narrower). The `.pulse` container is widened to 1520px so all three pillars fit in one
   row; the mobile media query still stacks everything on small screens.
