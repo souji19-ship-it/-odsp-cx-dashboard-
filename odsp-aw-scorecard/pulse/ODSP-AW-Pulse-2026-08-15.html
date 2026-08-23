@@ -388,8 +388,8 @@ h1 { margin-bottom: 8px; font-size: clamp(26px, 4vw, 38px); line-height: 1.15; }
 <main class="pulse">
   <header class="hero">
     <p class="eyebrow">Aug 21, 2026</p>
-    <h1>2P ODSP Integration - Weekly Pulse</h1>
-    <p>Week of <strong>Aug 9-15, 2026</strong> compared with Aug 2-8, 2026. Pre ODSP MCP / WorkIQ integration benchmark.</p>
+    <h1 id="hero-title">2P ODSP Integration - Weekly Pulse</h1>
+    <p id="hero-sub">Week of <strong>Aug 9-15, 2026</strong> compared with Aug 2-8, 2026. Pre ODSP MCP / WorkIQ integration benchmark.</p>
   </header>
 
   <nav class="tabs" role="tablist">
@@ -638,6 +638,15 @@ h1 { margin-bottom: 8px; font-size: clamp(26px, 4vw, 38px); line-height: 1.15; }
       document.querySelectorAll('.tab-panel').forEach(function (p) { p.hidden = true; });
       btn.classList.add('active');
       document.getElementById(btn.dataset.target).hidden = false;
+      var title = document.getElementById('hero-title');
+      var sub = document.getElementById('hero-sub');
+      if (btn.dataset.target === 'tab-mtd') {
+        title.textContent = '2P ODSP Integration - Month-to-Date';
+        sub.innerHTML = '<strong>August 2026 MTD</strong> compared with July 2026. Pre ODSP MCP / WorkIQ integration benchmark.';
+      } else {
+        title.textContent = '2P ODSP Integration - Weekly Pulse';
+        sub.innerHTML = 'Week of <strong>Aug 9-15, 2026</strong> compared with Aug 2-8, 2026. Pre ODSP MCP / WorkIQ integration benchmark.';
+      }
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   });
