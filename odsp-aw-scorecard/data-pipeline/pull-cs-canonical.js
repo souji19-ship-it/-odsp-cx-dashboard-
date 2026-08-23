@@ -9,8 +9,13 @@ const path = require('path');
 const DRIVER = 'https://fdislandsus.centralus.kusto.windows.net';
 const START = process.env.CS_START || '2026-08-09';
 const END = process.env.CS_END || '2026-08-16';
+const GRAIN = process.env.CS_GRAIN || 'week';
 const OUT = process.env.CS_OUT || path.join(__dirname, `cs-canonical-${START}.json`);
 const OVERRIDES_FILE = path.join(__dirname, 'cs-canonical-overrides.json');
+if (!['week', 'period'].includes(GRAIN)) {
+  throw new Error(`Unsupported CS_GRAIN "${GRAIN}"; expected "week" or "period"`);
+}
+const BUCKET = GRAIN === 'period' ? 'Start' : 'startofweek(env_time)';
 
 // Fixed owner population. Italy North and UAE North are not in the canonical matched set.
 const CLUSTERS = [
@@ -61,7 +66,7 @@ let D = (T:(env_time:datetime, applicationName:string, eventName:string, princip
              TenantId = tostring(principalTenantId),
              AgentId = tostring(meta.CdsBotId),
              ConversationId = tostring(meta.ConversationId),
-             Week = startofweek(env_time)
+             Week = ${BUCKET}
     | extend IsTool = eventName == 'AgenticLoopToolCallLatency',
              IsKnowledge = eventName == 'KnowledgeSourceLatency',
              IsODSPTool = eventName == 'AgenticLoopToolCallLatency' and Connector in (Connectors),
@@ -122,7 +127,7 @@ let Base =
            TenantId = tostring(principalTenantId),
            AgentId = tostring(meta.CdsBotId),
            ConversationId = tostring(meta.ConversationId),
-           Week = startofweek(env_time)
+           Week = ${BUCKET}
   | extend IsTool = eventName == 'AgenticLoopToolCallLatency',
            IsKnowledge = eventName == 'KnowledgeSourceLatency',
            IsODSPTool = eventName == 'AgenticLoopToolCallLatency' and Connector in (Connectors),
@@ -185,7 +190,7 @@ async function executeRetry(client, query, timeoutMinutes = 5, attempts = 4) {
 }
 
 async function pullAndMergeRegionalSketches() {
-  const cacheDir = path.join(__dirname, `cs-canonical-sketches-${START}`);
+  const cacheDir = path.join(__dirname, `cs-canonical-sketches-${START}-${END}-${GRAIN}`);
   fs.mkdirSync(cacheDir, { recursive: true });
   let next = 0;
   const regionalRows = [];
@@ -329,6 +334,7 @@ async function main() {
         regions: CLUSTERS,
         start: START,
         endExclusive: END,
+        grain: GRAIN,
         distinctMethod: 'regional HLL sketches merged across the fixed 17-region population',
         odspKnowledge: "KnowledgeSource in ('SharePoint','SharePointList')",
       },
