@@ -365,66 +365,8 @@ h1 { margin-bottom: 8px; font-size: clamp(26px, 4vw, 38px); line-height: 1.15; }
   color: var(--cp-text); font-size: 13px; line-height: 1.5;
 }
 
-/* --- MTD scorecard: pillars = rows, agents = columns --- */
-.mtd-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 3px; }
-.mtd-scorecard { min-width: 960px; display: grid; grid-template-columns: 120px 1fr 1fr; gap: 8px; }
-.mtd-corner {
-  display: flex; align-items: end; padding: 14px 4px;
-  color: var(--cp-text-muted); font-size: 12px; font-weight: 750;
-  letter-spacing: .05em; text-transform: uppercase;
-}
-.mtd-agenthead {
-  padding: 12px 14px; border-radius: .625rem; color: #fff;
-  font-weight: 750; font-size: 14px; display: flex; align-items: center;
-}
-.mtd-agenthead.cowork { background: var(--cp-link); }
-.mtd-agenthead.studio { background: var(--cp-text-soft); }
-.mtd-pillar {
-  display: flex; align-items: center; justify-content: center; text-align: center;
-  border-radius: .625rem; color: #fff; font-weight: 800; font-size: 12px;
-  letter-spacing: .05em; text-transform: uppercase; padding: 14px 6px;
-}
-.mtd-pillar.adoption { background: var(--cp-border-strong); }
-.mtd-pillar.engagement { background: var(--cp-warning); }
-.mtd-pillar.reliability { background: var(--cp-text); }
-.mtd-agentcells { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px; }
-.mtd-metric { border: 1px solid var(--cp-border); border-radius: .625rem; background: var(--cp-surface); padding: 11px 12px; }
-.mtd-mlabel { color: var(--cp-text-muted); font-size: 11px; margin-bottom: 8px; }
-.mtd-vals { display: flex; gap: 16px; }
-.mtd-vals > div { display: flex; flex-direction: column; }
-.mtd-vals span { color: var(--cp-text-muted); font-size: 10px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
-.mtd-vals strong { font-size: 19px; line-height: 1.15; }
-.mtd-metric .movement { display: block; margin-top: 8px; font-size: 12px; font-weight: 800; }
+/* MTD reuses the weekly .matrix / .surface / .pillar-cell / .metric / .donut layout. */
 .movement.na { color: var(--cp-text-muted); }
-.share-ref { display: block; margin-top: 6px; color: var(--cp-text-muted); font-size: 11px; }
-
-/* --- MTD share matrix: agents = rows, 6 metric columns under 3 pillar headers --- */
-.mtd-share-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 3px; }
-.mtd-share { min-width: 1080px; display: grid; grid-template-columns: 180px repeat(6, 1fr); gap: 10px; align-items: stretch; }
-.msh-pillar { border: 1px solid var(--cp-border); border-radius: .625rem; background: var(--cp-surface); padding: 12px 14px; border-top: 5px solid var(--cp-border); }
-.msh-pillar strong { display: block; font-size: 15px; }
-.msh-pillar span { display: block; color: var(--cp-text-muted); font-size: 12px; font-weight: 500; }
-.msh-pillar.adoption { border-top-color: var(--cp-border-strong); }
-.msh-pillar.engagement { border-top-color: var(--cp-warning); }
-.msh-pillar.reliability { border-top-color: var(--cp-text); }
-.msh-metrichead { align-self: end; padding: 4px 2px 8px; text-align: center; color: var(--cp-text-muted); font-size: 11px; font-weight: 750; letter-spacing: .03em; text-transform: uppercase; }
-.msh-agentlabel-head { align-self: end; padding: 4px 2px 8px; color: var(--cp-text-muted); font-size: 11px; font-weight: 750; letter-spacing: .05em; text-transform: uppercase; }
-.msh-agent { display: flex; flex-direction: column; justify-content: center; gap: 8px; border: 1px solid var(--cp-border); border-radius: .625rem; background: var(--cp-surface); padding: 16px; border-left: 6px solid var(--series); }
-.msh-agent.cowork { --series: var(--cp-link); }
-.msh-agent.studio { --series: var(--cp-text-soft); }
-.msh-agent strong { font-size: 16px; line-height: 1.25; }
-.msh-swatch { width: 26px; height: 5px; border-radius: 3px; background: var(--series); }
-.msh-cell { display: flex; flex-direction: column; align-items: center; gap: 8px; border: 1px solid var(--cp-border); border-radius: .625rem; background: var(--cp-surface-soft); padding: 14px 8px; text-align: center; }
-.msh-cell.cowork { --series: var(--cp-link); }
-.msh-cell.studio { --series: var(--cp-text-soft); }
-.donut2 { width: 96px; height: 96px; border-radius: 50%; display: grid; place-items: center; background: conic-gradient(var(--series) calc(var(--share) * 1%), var(--cp-border) 0); }
-.donut2.na { background: var(--cp-border); }
-.donut2-inner { width: 72px; height: 72px; border-radius: 50%; background: var(--cp-surface); display: grid; place-items: center; align-content: center; text-align: center; border: 1px solid var(--cp-border); }
-.donut2-inner strong { font-size: 20px; font-weight: 800; line-height: 1; }
-.donut2-inner span { margin-top: 3px; font-size: 8px; font-weight: 700; letter-spacing: .03em; color: var(--cp-text-muted); text-transform: uppercase; }
-.msh-ref { min-height: 14px; color: var(--cp-text-muted); font-size: 11px; }
-.msh-delta { font-size: 12px; font-weight: 800; }
-.msh-delta.na { color: var(--cp-text-muted); }
 </style>
 </head>
 <body>
@@ -629,25 +571,24 @@ h1 { margin-bottom: 8px; font-size: clamp(26px, 4vw, 38px); line-height: 1.15; }
     </div>
 
     <section class="section">
-      <h2>2P Integration: Scorecard</h2>
+      <h2>2P ODSP Integration: Scorecard</h2>
       <p class="period">July 2026 compared with August MTD. Card tooltips disclose whether each value is a snapshot, an exact additive total or a weighted rate.</p>
-      <div class="mtd-scroll">
-        <div class="mtd-scorecard">
-          <div class="mtd-corner">Pillar</div>
-          <div class="mtd-agenthead cowork">Copilot Cowork &mdash; ODSP footprint</div>
-          <div class="mtd-agenthead studio">Copilot Studio &mdash; ODSP footprint</div>
+      <div class="matrix-scroll">
+        <div class="matrix">
+          <div class="matrix-corner">2P agent</div>
+          <div class="matrix-head adoption"><strong>Adoption</strong><span>Who is using ODSP?</span></div>
+          <div class="matrix-head engagement"><strong>Engagement</strong><span>How much ODSP-backed work is happening?</span></div>
+          <div class="matrix-head reliability"><strong>Reliability</strong><span>Can agents depend on ODSP?</span></div>
 
-          <div class="mtd-pillar adoption">Adoption</div>
-          <div class="mtd-agentcells"><div class="mtd-metric"><p class="mtd-mlabel">ODSP active users</p><div class="mtd-vals"><div><span>July</span><strong>92.4K</strong></div><div><span>Aug MTD</span><strong>107.2K</strong></div></div><b class="movement up">+16%</b></div><div class="mtd-metric"><p class="mtd-mlabel">ODSP active tenants</p><div class="mtd-vals"><div><span>July</span><strong>9.35K</strong></div><div><span>Aug MTD</span><strong>11.0K</strong></div></div><b class="movement up">+18%</b></div></div>
-          <div class="mtd-agentcells"><div class="mtd-metric"><p class="mtd-mlabel">ODSP active users</p><div class="mtd-vals"><div><span>July</span><strong>16.9K</strong></div><div><span>Aug MTD</span><strong>25.0K</strong></div></div><b class="movement na">N/A</b></div><div class="mtd-metric"><p class="mtd-mlabel">ODSP active tenants</p><div class="mtd-vals"><div><span>July</span><strong>4.89K</strong></div><div><span>Aug MTD</span><strong>7.07K</strong></div></div><b class="movement na">N/A</b></div><div class="mtd-metric"><p class="mtd-mlabel">ODSP active agents</p><div class="mtd-vals"><div><span>July</span><strong>15.4K</strong></div><div><span>Aug MTD</span><strong>20.1K</strong></div></div><b class="movement na">N/A</b></div></div>
+          <div class="surface cowork"><strong>Copilot Cowork</strong><span>ODSP footprint</span></div>
+          <div class="pillar-cell adoption"><div class="metrics"><div class="metric"><strong>107.2K</strong><span>ODSP-active users</span><b class="movement up">+16% vs Jul</b></div><div class="metric"><strong>11.0K</strong><span>ODSP-active tenants</span><b class="movement up">+18% vs Jul</b></div></div></div>
+          <div class="pillar-cell engagement"><div class="metrics"><div class="metric"><strong>285.9K</strong><span>ODSP-backed tasks</span><b class="movement up">+26% vs Jul</b></div><div class="metric"><strong>8.15M</strong><span>ODSP tool calls</span><b class="movement up">+33% pace</b></div></div></div>
+          <div class="pillar-cell reliability"><div class="metrics"><div class="metric"><strong>96%</strong><span>Eligible-call success rate</span><b class="movement flat">+0 pp vs Jul</b></div></div></div>
 
-          <div class="mtd-pillar engagement">Engagement</div>
-          <div class="mtd-agentcells"><div class="mtd-metric"><p class="mtd-mlabel">ODSP-backed tasks</p><div class="mtd-vals"><div><span>July</span><strong>227.6K</strong></div><div><span>Aug MTD</span><strong>285.9K</strong></div></div><b class="movement up">+26%</b></div><div class="mtd-metric"><p class="mtd-mlabel">ODSP tool calls</p><div class="mtd-vals"><div><span>July</span><strong>9.98M</strong></div><div><span>Aug MTD</span><strong>8.15M</strong></div></div><b class="movement up">+33% pace</b></div></div>
-          <div class="mtd-agentcells"><div class="mtd-metric"><p class="mtd-mlabel">ODSP-backed tasks</p><div class="mtd-vals"><div><span>July</span><strong>217.9K</strong></div><div><span>Aug MTD</span><strong>203.3K</strong></div></div><b class="movement na">N/A</b></div><div class="mtd-metric"><p class="mtd-mlabel">ODSP tool calls</p><div class="mtd-vals"><div><span>July</span><strong>486.5K</strong></div><div><span>Aug MTD</span><strong>393.7K</strong></div></div><b class="movement up">+21% pace</b></div><div class="mtd-metric"><p class="mtd-mlabel">ODSP knowledge searches</p><div class="mtd-vals"><div><span>July</span><strong>916.3K</strong></div><div><span>Aug MTD</span><strong>953.5K</strong></div></div><b class="movement na">N/A</b></div></div>
-
-          <div class="mtd-pillar reliability">Reliability</div>
-          <div class="mtd-agentcells"><div class="mtd-metric"><p class="mtd-mlabel">Eligible-call success</p><div class="mtd-vals"><div><span>July</span><strong>96%</strong></div><div><span>Aug MTD</span><strong>96%</strong></div></div><b class="movement flat">+0 pp</b></div></div>
-          <div class="mtd-agentcells"><div class="mtd-metric"><p class="mtd-mlabel">Service success</p><div class="mtd-vals"><div><span>July</span><strong>91%</strong></div><div><span>Aug MTD</span><strong>92%</strong></div></div><b class="movement up">+1 pp</b></div></div>
+          <div class="surface studio"><strong>Copilot Studio / Dracarys</strong><span>ODSP footprint</span></div>
+          <div class="pillar-cell adoption"><div class="metrics"><div class="metric"><strong>25.0K</strong><span>ODSP-active users</span><b class="movement na">N/A</b></div><div class="metric"><strong>7.07K</strong><span>ODSP-active tenants</span><b class="movement na">N/A</b></div><div class="metric"><strong>20.1K</strong><span>ODSP-active agents</span><b class="movement na">N/A</b></div></div></div>
+          <div class="pillar-cell engagement"><div class="metrics"><div class="metric"><strong>203.3K</strong><span>ODSP-backed tasks</span><b class="movement na">N/A</b></div><div class="metric"><strong>393.7K</strong><span>ODSP tool calls</span><b class="movement up">+21% pace</b></div><div class="metric"><strong>953.5K</strong><span>ODSP knowledge searches</span><b class="movement na">N/A</b></div></div></div>
+          <div class="pillar-cell reliability"><div class="metrics"><div class="metric"><strong>92%</strong><span>Service success rate</span><b class="movement up">+1 pp vs Jul</b></div></div></div>
         </div>
       </div>
     </section>
@@ -655,36 +596,22 @@ h1 { margin-bottom: 8px; font-size: clamp(26px, 4vw, 38px); line-height: 1.15; }
     <section class="section">
       <h2>M365 Agentic Work: ODSP share</h2>
       <p class="period">July close (Jul 26-Aug 1) compared with the latest settled August MTD snapshot (Aug 9-15). N/A means the denominator or comparison basis is not publishable.</p>
-      <div class="mtd-share-scroll">
-        <div class="mtd-share">
-          <div></div>
-          <div class="msh-pillar adoption" style="grid-column: span 2"><strong>Adoption</strong><span>Who is using ODSP?</span></div>
-          <div class="msh-pillar engagement" style="grid-column: span 3"><strong>Engagement</strong><span>How much ODSP-backed work is happening?</span></div>
-          <div class="msh-pillar reliability" style="grid-column: span 1"><strong>Reliability</strong><span>Can agents depend on ODSP?</span></div>
+      <div class="matrix-scroll">
+        <div class="matrix">
+          <div class="matrix-corner">2P agent</div>
+          <div class="matrix-head adoption"><strong>Adoption</strong><span>Who is using ODSP?</span></div>
+          <div class="matrix-head engagement"><strong>Engagement</strong><span>How much ODSP-backed work is happening?</span></div>
+          <div class="matrix-head reliability"><strong>Reliability</strong><span>Can agents depend on ODSP?</span></div>
 
-          <div class="msh-agentlabel-head">2P agent</div>
-          <div class="msh-metrichead">Active users</div>
-          <div class="msh-metrichead">Active tenants</div>
-          <div class="msh-metrichead">Tasks</div>
-          <div class="msh-metrichead">Tool calls</div>
-          <div class="msh-metrichead">Knowledge searches</div>
-          <div class="msh-metrichead">Surface-specific success rate</div>
+          <div class="surface cowork"><strong>Copilot Cowork</strong><span>ODSP footprint</span></div>
+          <div class="pillar-cell cowork adoption"><div class="metrics"><div class="share-metric"><div class="donut" style="--share:48" data-value="48%"></div><div class="share-copy"><strong>ODSP-active users</strong><span class="movement up">+3 pp vs Jul</span></div></div><div class="share-metric"><div class="donut" style="--share:63" data-value="63%"></div><div class="share-copy"><strong>ODSP-active tenants</strong><span class="movement up">+3.2 pp vs Jul</span></div></div></div></div>
+          <div class="pillar-cell cowork engagement"><div class="metrics"><div class="share-metric"><div class="donut" style="--share:24" data-value="24%"></div><div class="share-copy"><strong>ODSP-backed tasks</strong><span class="movement up">+2.5 pp vs Jul</span></div></div><div class="share-metric"><div class="donut" style="--share:0" data-value="N/A"></div><div class="share-copy"><strong>ODSP tool calls</strong><span class="movement na">N/A</span></div></div></div></div>
+          <div class="pillar-cell cowork reliability"><div class="metrics"><div class="share-metric"><div class="donut" style="--share:96" data-value="96%"></div><div class="share-copy"><strong>ODSP tool success rate</strong><span class="movement flat">+0 pp vs Jul</span></div></div></div></div>
 
-          <div class="msh-agent cowork"><span class="msh-swatch"></span><strong>Cowork</strong></div>
-          <div class="msh-cell cowork"><div class="donut2" style="--share:48"><div class="donut2-inner"><strong>48%</strong><span>ODSP share</span></div></div><div class="msh-ref">July 45%</div><div class="msh-delta up">+3 pp</div></div>
-          <div class="msh-cell cowork"><div class="donut2" style="--share:63"><div class="donut2-inner"><strong>63%</strong><span>ODSP share</span></div></div><div class="msh-ref">July 60%</div><div class="msh-delta up">+3.2 pp</div></div>
-          <div class="msh-cell cowork"><div class="donut2" style="--share:24"><div class="donut2-inner"><strong>24%</strong><span>ODSP share</span></div></div><div class="msh-ref">July 21%</div><div class="msh-delta up">+2.5 pp</div></div>
-          <div class="msh-cell cowork"><div class="donut2 na" style="--share:0"><div class="donut2-inner"><strong>N/A</strong><span>ODSP share</span></div></div><div class="msh-ref">July 14%</div><div class="msh-delta na">N/A</div></div>
-          <div class="msh-cell cowork"><div class="donut2 na" style="--share:0"><div class="donut2-inner"><strong>N/A</strong><span>ODSP share</span></div></div><div class="msh-ref"></div><div class="msh-delta na">N/A</div></div>
-          <div class="msh-cell cowork"><div class="donut2" style="--share:96"><div class="donut2-inner"><strong>96%</strong><span>Success rate</span></div></div><div class="msh-ref">July 96%</div><div class="msh-delta flat">+0 pp</div></div>
-
-          <div class="msh-agent studio"><span class="msh-swatch"></span><strong>Copilot Studio / Dracarys</strong></div>
-          <div class="msh-cell studio"><div class="donut2" style="--share:31"><div class="donut2-inner"><strong>31%</strong><span>ODSP share</span></div></div><div class="msh-ref">July 30%</div><div class="msh-delta na">N/A</div></div>
-          <div class="msh-cell studio"><div class="donut2" style="--share:42"><div class="donut2-inner"><strong>42%</strong><span>ODSP share</span></div></div><div class="msh-ref">July 43%</div><div class="msh-delta na">N/A</div></div>
-          <div class="msh-cell studio"><div class="donut2" style="--share:9"><div class="donut2-inner"><strong>9%</strong><span>ODSP share</span></div></div><div class="msh-ref">July 10%</div><div class="msh-delta na">N/A</div></div>
-          <div class="msh-cell studio"><div class="donut2" style="--share:3"><div class="donut2-inner"><strong>3%</strong><span>ODSP share</span></div></div><div class="msh-ref">July 2%</div><div class="msh-delta up">+0.8 pp</div></div>
-          <div class="msh-cell studio"><div class="donut2" style="--share:36"><div class="donut2-inner"><strong>36%</strong><span>ODSP share</span></div></div><div class="msh-ref">July 28%</div><div class="msh-delta na">N/A</div></div>
-          <div class="msh-cell studio"><div class="donut2" style="--share:92"><div class="donut2-inner"><strong>92%</strong><span>Success rate</span></div></div><div class="msh-ref">July 91%</div><div class="msh-delta up">+1 pp</div></div>
+          <div class="surface studio"><strong>Copilot Studio / Dracarys</strong><span>ODSP footprint</span></div>
+          <div class="pillar-cell studio adoption"><div class="metrics"><div class="share-metric"><div class="donut" style="--share:31" data-value="31%"></div><div class="share-copy"><strong>ODSP-active users</strong><span class="movement na">N/A</span></div></div><div class="share-metric"><div class="donut" style="--share:42" data-value="42%"></div><div class="share-copy"><strong>ODSP-active tenants</strong><span class="movement na">N/A</span></div></div></div></div>
+          <div class="pillar-cell studio engagement"><div class="metrics"><div class="share-metric"><div class="donut" style="--share:9" data-value="9%"></div><div class="share-copy"><strong>ODSP-backed tasks</strong><span class="movement na">N/A</span></div></div><div class="share-metric"><div class="donut" style="--share:3" data-value="3%"></div><div class="share-copy"><strong>ODSP tool calls</strong><span class="movement up">+0.8 pp vs Jul</span></div></div><div class="share-metric"><div class="donut" style="--share:36" data-value="36%"></div><div class="share-copy"><strong>ODSP knowledge searches</strong><span class="movement na">N/A</span></div></div></div></div>
+          <div class="pillar-cell studio reliability"><div class="metrics"><div class="share-metric"><div class="donut" style="--share:92" data-value="92%"></div><div class="share-copy"><strong>ODSP tool success rate</strong><span class="movement up">+1 pp vs Jul</span></div></div></div></div>
         </div>
       </div>
     </section>

@@ -63,16 +63,16 @@ The dashboard is a tabbed view. A `.tabs` bar sits under the hero with two `.tab
 `?tab=weekly|mtd` URL param for direct links/screenshots.
 
 - **Weekly** (`#tab-weekly`, default) — sections 2–6 above.
-- **Month-to-Date** (`#tab-mtd`) — Ambal's MTD format, colored with the **same tokens as the Weekly
-  tab** (Cowork blue, Studio grey; Adoption grey, Engagement amber, Reliability near-black):
-  a `.mtd-banner` template notice, then a **Scorecard with pillars as ROWS and agents as COLUMNS**
-  (`.mtd-scorecard`: `.mtd-pillar` bands × `.mtd-agenthead` Cowork/Studio, each `.mtd-metric` showing
-  **July vs Aug MTD** side-by-side + change, `N/A` where a delta is not publishable, `+NN% pace` for
-  run-rate compares), then an **MTD share** grid (`.mtd-share`) laid out as **agent rows × six metric
-  columns grouped under three `.msh-pillar` headers**; each `.msh-cell` has a `.donut2` (center value +
-  `ODSP SHARE`/`SUCCESS RATE` sublabel, arc = agent color) with a `July NN%` baseline and a `+NN pp`
-  delta below. MTD numbers are placeholders until August settles. The MTD scorecard orientation is the
-  transpose of the weekly scorecard; pillar/agent color tokens stay identical across both tabs.
+- **Month-to-Date** (`#tab-mtd`) — **uses the exact same `.matrix` layout as the Weekly tab**
+  (agents as ROWS, the three pillars as COLUMN groups: Adoption / Engagement / Reliability),
+  so both tabs are visually identical in structure and color (Cowork blue rail, Studio grey rail;
+  Adoption grey, Engagement amber, Reliability near-black pillar heads). A `.mtd-banner` template
+  notice sits above two sections that mirror the weekly ones: a **Scorecard** whose `.metric` big
+  number is the **Aug MTD** value with the movement showing the change **vs July** (`N/A` where not
+  publishable, `+NN% pace` for run-rate compares), and an **ODSP share** matrix whose `.donut`s show
+  the **Aug MTD** share with a `+NN pp vs Jul` movement. MTD numbers are placeholders until August
+  settles. Only the period copy and the vs-July framing differ from Weekly; the layout and color
+  tokens are shared.
 
 ## Matrix grid spec (shared by Scorecard + Share)
 
