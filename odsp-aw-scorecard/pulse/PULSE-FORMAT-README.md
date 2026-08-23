@@ -63,14 +63,16 @@ The dashboard is a tabbed view. A `.tabs` bar sits under the hero with two `.tab
 `?tab=weekly|mtd` URL param for direct links/screenshots.
 
 - **Weekly** (`#tab-weekly`, default) — sections 2–6 above.
-- **Month-to-Date** (`#tab-mtd`) — Ambal's MTD format: a `.mtd-banner` template notice, then a
-  **Scorecard with pillars as ROWS and agents as COLUMNS** (`.mtd-scorecard`: `.mtd-pillar` bands
-  Adoption/Engagement/Reliability × `.mtd-agenthead` Cowork/Studio, each `.mtd-metric` showing
-  **July vs Aug MTD** side-by-side + change, `n/a` where a delta is not publishable, `+NN% pace`
-  for run-rate compares), then an **MTD share** grid reusing `.matrix`/`.donut` (Aug MTD share with
-  a `July —` reference line pending baselines). MTD numbers are placeholders until August settles.
-  Note the MTD scorecard orientation is the transpose of the weekly scorecard; pillar/agent color
-  tokens stay identical across both tabs.
+- **Month-to-Date** (`#tab-mtd`) — Ambal's MTD format, colored with the **same tokens as the Weekly
+  tab** (Cowork blue, Studio grey; Adoption grey, Engagement amber, Reliability near-black):
+  a `.mtd-banner` template notice, then a **Scorecard with pillars as ROWS and agents as COLUMNS**
+  (`.mtd-scorecard`: `.mtd-pillar` bands × `.mtd-agenthead` Cowork/Studio, each `.mtd-metric` showing
+  **July vs Aug MTD** side-by-side + change, `N/A` where a delta is not publishable, `+NN% pace` for
+  run-rate compares), then an **MTD share** grid (`.mtd-share`) laid out as **agent rows × six metric
+  columns grouped under three `.msh-pillar` headers**; each `.msh-cell` has a `.donut2` (center value +
+  `ODSP SHARE`/`SUCCESS RATE` sublabel, arc = agent color) with a `July NN%` baseline and a `+NN pp`
+  delta below. MTD numbers are placeholders until August settles. The MTD scorecard orientation is the
+  transpose of the weekly scorecard; pillar/agent color tokens stay identical across both tabs.
 
 ## Matrix grid spec (shared by Scorecard + Share)
 
