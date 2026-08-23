@@ -106,9 +106,10 @@ union isfuzzy=true
 | order by Week asc, Scope asc
 `;
 
-const REGION_KQL = `
-let Start = datetime(${START});
-let End = datetime(${END});
+function regionKql(start, end) {
+  return `
+let Start = datetime(${start});
+let End = datetime(${end});
 let Apps = dynamic(['fabric:/CopilotStudio.AgenticRuntime','fabric:/CopilotStudio.AgenticLoopApp']);
 let Connectors = dynamic(['shared_sharepointonline','shared_onedriveforbusiness']);
 let Base =
@@ -152,6 +153,7 @@ union
     hU=tostring(hU), hT=tostring(hT), hA=tostring(hA), hC=tostring(hC),
     Tools, Knowledge, EligibleTools, ServiceFailures
 `;
+}
 
 function clientFor(cluster) {
   return new Client(KustoConnectionStringBuilder.withTokenCredential(
@@ -194,6 +196,20 @@ async function pullAndMergeRegionalSketches() {
   fs.mkdirSync(cacheDir, { recursive: true });
   let next = 0;
   const regionalRows = [];
+  function weeklyChunks() {
+    const chunks = [];
+    let start = new Date(`${START}T00:00:00Z`);
+    const finalEnd = new Date(`${END}T00:00:00Z`);
+    while (start < finalEnd) {
+      const end = new Date(Math.min(start.getTime() + 7 * 86400000, finalEnd.getTime()));
+      chunks.push([
+        start.toISOString().slice(0, 10),
+        end.toISOString().slice(0, 10),
+      ]);
+      start = end;
+    }
+    return chunks;
+  }
   async function worker() {
     while (next < CLUSTERS.length) {
       const cluster = CLUSTERS[next++];
@@ -206,19 +222,31 @@ async function pullAndMergeRegionalSketches() {
       }
       const client = clientFor(cluster);
       try {
-        const rows = await executeRetry(client, REGION_KQL, 6);
-        if (rows.length !== 2) throw new Error(`${cluster} returned ${rows.length} scopes`);
+        let rows;
+        try {
+          rows = await executeRetry(client, regionKql(START, END), 6);
+        } catch (error) {
+          console.warn(`${cluster} full-period query unavailable; retrying in weekly chunks.`);
+          rows = [];
+          for (const [start, end] of weeklyChunks()) {
+            rows.push(...await executeRetry(client, regionKql(start, end), 6));
+          }
+        }
+        if (rows.length < 2 || rows.length % 2 !== 0) {
+          throw new Error(`${cluster} returned ${rows.length} scope rows`);
+        }
         fs.writeFileSync(cacheFile, JSON.stringify(rows));
         regionalRows.push(...rows);
-        console.log(`[${regionalRows.length / 2}/${CLUSTERS.length}] ${cluster}`);
+        console.log(`${cluster} (${rows.length / 2} period chunk${rows.length === 2 ? '' : 's'})`);
       } finally {
         await client.close?.();
       }
     }
   }
   await Promise.all(Array.from({ length: 4 }, worker));
-  if (regionalRows.length !== CLUSTERS.length * 2) {
-    throw new Error(`Expected ${CLUSTERS.length * 2} regional scope rows; got ${regionalRows.length}`);
+  const cachedClusters = fs.readdirSync(cacheDir).filter(file => file.endsWith('.json')).length;
+  if (cachedClusters !== CLUSTERS.length) {
+    throw new Error(`Expected ${CLUSTERS.length} regional cache files; got ${cachedClusters}`);
   }
   const driver = clientFor('fdislandsus.centralus');
   async function mergeRows(rows, finalize) {
