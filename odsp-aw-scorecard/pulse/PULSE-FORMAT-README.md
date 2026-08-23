@@ -1,70 +1,92 @@
 # ODSP-AW Weekly Pulse — canonical format
 
-`ODSP-AW-Pulse-TEMPLATE.html` is the **approved Ambal-format Pulse layout** (locked Aug 21, 2026,
-Aug 9–15 data as the worked example). When asked to build "next week's Pulse", clone this file and
-only swap the numbers/dates — **do not change the layout, section order, colors, or wording scaffold.**
+`ODSP-AW-Pulse-TEMPLATE.html` is the **approved Ambal-format Pulse layout** (Ambal's "Scout"-style
+design, adopted Aug 23, 2026, with Aug 9–15 data as the worked example). When asked to build
+"next week's Pulse", clone this file and only swap the numbers/dates — **do not change the layout,
+section order, colors, or wording scaffold.**
 
 > Ground rules (inherit from ../README.md):
 > 1. **Never fabricate a number.** Every value is source-derived. If a source is unreachable, keep the
 >    prior value and flag it — do not invent.
-> 2. **No personal names** anywhere (leadership-shared).
-> 3. Transcribe exactly from the source the owner points to; don't silently "correct" to finer values.
+> 2. Transcribe exactly from the source the owner points to; don't silently "correct" to finer values.
+> 3. Never use the words **"strong" / "weak"** to characterize a metric (owner's standing rule).
+
+## Ambal's feedback — locked design principles
+
+These are the reasons the layout looks the way it does. **Preserve all four every week:**
+
+1. **Pillars are COLUMNS, 2P agents are ROWS — in BOTH grids.** The Scorecard and the ODSP-share
+   grid use the identical column structure (2P-agent rail → Adoption → Engagement → Reliability) so
+   each **raw number in the Scorecard lines up visually above its % in the share grid.**
+2. **Story sections are aligned to pillars**, each with a pillar-colored left border, plus a
+   **Leadership watch** card. Movement is **+ in green, − in red.**
+3. **Pillar colors are identical across every section** (scorecard, share, story, methodology).
+4. **2P agent colors are identical across every section.**
+
+### Canonical colors (do not diverge across sections)
+
+| Role | Token | Light value |
+| --- | --- | --- |
+| Pillar · Adoption | `--cp-border-strong` | `#919191` (grey) |
+| Pillar · Engagement | `--cp-warning` | `#f59e0b` (amber) |
+| Pillar · Reliability | `--cp-text` | `#242424` (near-black) |
+| Story · Architecture runway | `--cp-border-strong` | `#919191` (grey) |
+| Story · Leadership watch | `--cp-accent` | `#b11f4b` (crimson) |
+| Agent · Copilot Cowork | `--cp-link` | `#0078d4` (blue) |
+| Agent · Copilot Studio / Dracarys | `--cp-text-soft` | `#6f6f6f` (grey) |
+| Movement up | `--cp-success` | `#16a34a` (green) |
+| Movement down | `--cp-danger` | `#dc2626` (red) |
+| Movement flat / n-a | `--cp-text-muted` | `#5c5c5c` (grey) |
+
+The template ships light **and** dark themes (`html[data-theme]`, auto from
+`prefers-color-scheme`); every token above has a dark-mode value — always change the **token**,
+never a hard-coded hex, so both themes stay in sync.
 
 ## Section order (top → bottom)
 
-1. **Header** — dark navy (`#10233b`), gold date badge (e.g. `AUG 21, 2026`), title
-   `2P Integration — Weekly Pulse`, subtitle `Week of <this week> compared with <prior week>. Pre ODSP MCP / WorkIQ integration benchmark.`
-2. **New! callout** — purple left border; announces the current highlight
-   (e.g. Copilot Studio / Dracarys now includes Knowledge Search).
-3. **What is included** — blue top-border box, 2-column bullet list of the 4 sections.
-4. **2P Integration: Scorecard** — agent-box grid. Col1 = pillar rail
-   (ADOPTION steel-blue, ENGAGEMENT orange, RELIABILITY green); Cowork header blue `#3355cc`
-   spans 2 metric cols, Copilot Studio/Dracarys header purple `#7b34c0` spans 3.
-   Values are **coarse-rounded** (e.g. `107.2K`, `flat`, `+8% WoW`, `96%`, `-1 pp WoW`).
-5. **M365 Agentic Work: ODSP share** — donut grid, laid out to **mirror the 2P Scorecard**:
-   pillars are **vertical rows** on a left rail (steel-blue Adoption, orange Engagement, green
-   Reliability) and the two agents are **column-group headers** on top (blue `Copilot Cowork —
-   ODSP footprint`, purple `Copilot Studio / Dracarys — ODSP footprint`), each spanning its two
-   metric columns. Grid = `46px repeat(4,1fr)`; no question captions (matches scorecard).
-   - **Adoption row**: Cowork Active Users / Active Tenants, then CS Active Users / Active Tenants.
-   - **Engagement row**: Cowork Tasks / Tool Calls, then CS Tasks, then a **split box** (CS col 5)
-     holding two color-coded donuts — `Tool Calls` (CS purple) and `Knowledge Searches` (teal
-     `--know #12a594`), each with its own % and pp delta.
-   - **Reliability row**: one success donut per agent, **spanning both** of that agent's columns —
-     Cowork = `Tool Success Rate` (cols 2–3), CS = `Service Success Rate` (cols 4–5, matches the
-     scorecard's "ODSP service success"); reliability cells get a teal border. Caption `ODSP share`.
-6. **This week's 2P story** — intro + 5 kicker sections
-   (Growth × engagement, Breadth × depth, Reliability, Architecture runway, Leadership watch) + **Overall**.
-7. **Methodology** — grouped box: Adoption / Engagement / Reliability, colored left borders.
-   Tool Success Rate = "Percentage of ODSP tool calls that completed successfully" (Cowork);
-   Service Success Rate = "Percentage of ODSP service calls that completed successfully" (CS).
+1. **Hero** (`.hero`) — off-white surface, black top border; amber `.eyebrow` date badge
+   (e.g. `Aug 21, 2026`), `h1` = `2P ODSP Integration - Weekly Pulse`, subtitle
+   `Week of <this week> compared with <prior week>. Pre ODSP MCP / WorkIQ integration benchmark.`
+2. **What is included** (`.included`, blue top border) — 4 cards in a 2-col grid; the current
+   highlight card gets `.new` (crimson left border, e.g. "New! Copilot Studio / Dracarys Knowledge Search").
+3. **2P ODSP Integration: Scorecard** (`.matrix`) — see grid spec below. Raw values + WoW movement.
+4. **M365 Agentic Work: ODSP share** (`.matrix`) — same grid, `.share-metric` donuts + pp movement.
+5. **This week's 2P ODSP Integration story** (`.story`, crimson top border) — intro + pillar-colored
+   `.story-card`s: Adoption, Engagement, Reliability, Architecture runway, **Leadership watch**, Overall.
+6. **Methodology** (`.methodology`) — 3 pillar-colored cards (Adoption / Engagement / Reliability).
+7. **Footer** (`.footer`) — sign-off line.
 
-## Number & color rules
+## Matrix grid spec (shared by Scorecard + Share)
 
-- **Scorecard boxes**: coarse rounding (whole %, whole pp); `flat` for ~0 count change.
-- **Donut pp deltas**: finer (e.g. `-0.4 pp`, `-9 pp`, `+2 pp`) — match the owner's donut-source image exactly.
-- **Story text %s**: round to whole numbers to match the scorecard/donut slides above.
-- **Color coding** (spans `.up` / `.down` / `.flat`):
-  - green `#1a8f4c` = metric rose MoM
-  - red `#c62828` = metric dropped MoM
-  - grey `#6b7280` = flat / no delta (`—`)
-  - Share levels in the story are colored by their **pp direction** from the donut grid.
+- `grid-template-columns: 190px repeat(3, minmax(0,1fr))`, wrapped in `.matrix-scroll`
+  (`min-width:1040px`, horizontal scroll on small screens).
+- **Row 1** = `.matrix-corner` ("2P agent") + 3 `.matrix-head` pillar headers, each with a
+  plain-language question and a pillar-colored 5px top border:
+  - Adoption — "Who is using ODSP?"
+  - Engagement — "How much ODSP-backed work is happening?"
+  - Reliability — "Can agents depend on ODSP?"
+- **Rows 2–3** = one row per agent: a `.surface` agent label (colored 6px left border via
+  `--series`) followed by 3 `.pillar-cell`s (one per pillar), each holding a `.metrics` auto-fit grid.
+- **Scorecard cell** = `.metric` → `<strong>` value, `<span>` label, `.movement` WoW.
+- **Share cell** = `.share-metric` → `.donut` + `.share-copy` (label + pp movement). The donut is a
+  pure-CSS `conic-gradient(var(--series) calc(var(--share)*1%), …)`; set `style="--share:NN"` and
+  `data-value="NN%"`. Donut arc uses the **agent** series color (blue Cowork, grey Studio).
+- Alignment rule (Ambal #1): keep the **same metric in the same column position** in both grids so
+  a reader can drop straight down from a raw number to its share. Metrics with no share value
+  (e.g. Active Agents) simply have no donut in the share grid.
 
-## Donut geometry (r=34, C≈213.63, `viewBox 0 0 84 84`)
+## Number & wording rules
 
-`stroke-dasharray = "<pct/100 * 213.63> <remainder>"`, `stroke-dashoffset="53.41"` (starts at 12 o'clock).
-Worked values: 48→102.54, 63→134.59, 24→51.27, 14→29.91, 96→205.08, 31→66.22, 42→89.72, 9→19.23,
-8→17.09, 92→196.54.
-
-## Mobile / viewport
-
-The template uses a **fixed-width viewport** `<meta name="viewport" content="width=1180">`, so phones
-render an **exact scaled-down replica** of the desktop Pulse (no reflow) — identical to the inline
-email image. Do not add responsive breakpoints; keep one layout across desktop and mobile.
+- Scorecard/share values are **coarse-rounded** (whole %, whole pp; `flat` for ~0 change).
+- Story text %s should match the scorecard/share rounding; keep the **Overall** card and
+  **Why it matters** lines qualitative, not speculative.
+- No "strong/weak"; no fabricated or interpolated values.
 
 ## Render / export
 
-Edge headless to verify, then (optionally) python-pptx full-bleed portrait slide:
+Edge headless to verify (light theme is default; append `?scoutTheme=dark` to preview dark):
 ```
-msedge --headless --disable-gpu --force-device-scale-factor=1.25 --window-size=1240,3050 --screenshot=out.png "<file-uri>"
+msedge --headless --disable-gpu --force-device-scale-factor=1.25 --window-size=1300,4200 --screenshot=out.png "<file-uri>"
 ```
+The template is **responsive** (single-column below 760px) — do not re-introduce a fixed-width
+viewport; keep the `width=device-width` meta.

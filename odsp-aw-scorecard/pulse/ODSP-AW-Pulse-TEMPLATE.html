@@ -1,271 +1,511 @@
-<!DOCTYPE html>
-<html lang="en"><head><meta charset="utf-8">
-<meta name="viewport" content="width=1180">
-<title>2P Integration — Weekly Pulse</title>
+<!doctype html>
+<html lang="en">
+<head>
+<script>
+  (() => {
+    const param = new URLSearchParams(window.location.search).get("scoutTheme");
+    const theme =
+      param || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+    document.documentElement.setAttribute("data-theme", theme);
+  })();
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2P ODSP Integration - Weekly Pulse</title>
 <style>
-  :root{
-    --cw:#3355cc; --cs:#7b34c0;
-    --adopt:#5b7fa6; --engage:#d98a1a; --reli:#16916f;
-    --up:#1a8f4c; --down:#c62828; --flat:#6b7280; --know:#12a594;
-    --ink:#1b2233; --muted:#6b7280; --line:#e6e9ee; --bg:#eef1f4;
-  }
-  *{box-sizing:border-box}
-  body{margin:0;background:var(--bg);font-family:'Segoe UI',Arial,sans-serif;color:var(--ink);overflow-x:hidden}
-  .page{max-width:1180px;margin:0 auto;padding:16px}
-  .card{background:#fff;border-radius:14px;padding:20px 24px;margin:14px 0;box-shadow:0 1px 3px rgba(16,26,45,.06)}
-  h2{font-size:20px;margin:0 0 4px}
-  .vsub{font-size:12px;color:var(--muted);margin:0 0 16px}
-  .accent{color:var(--cw);font-weight:700}
-  .up{color:var(--up)} .down{color:var(--down)} .flat{color:var(--flat)}
+:root {
+  color-scheme: light;
+  --cp-bg: #f7f4ef;
+  --cp-bg-elevated: #fcfbf8;
+  --cp-surface: #ffffff;
+  --cp-surface-soft: #f5f5f5;
+  --cp-border: #dedede;
+  --cp-border-strong: #919191;
+  --cp-text: #242424;
+  --cp-text-muted: #5c5c5c;
+  --cp-text-soft: #6f6f6f;
+  --cp-accent: #b11f4b;
+  --cp-accent-hover: #9a1a41;
+  --cp-accent-soft: rgba(177, 31, 75, 0.08);
+  --cp-accent-fg: #ffffff;
+  --cp-success: #16a34a;
+  --cp-danger: #dc2626;
+  --cp-warning: #f59e0b;
+  --cp-link: #0078d4;
+  --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.12);
+  --cp-overlay: rgba(255, 255, 255, 0.8);
+  --cp-panel: rgba(255, 255, 255, 0.86);
+  --cp-panel-strong: rgba(255, 255, 255, 0.96);
+  --cp-sheen: rgba(255, 255, 255, 0.55);
+  --cp-highlight: rgba(177, 31, 75, 0.12);
+}
+html[data-theme="dark"] {
+  color-scheme: dark;
+  --cp-bg: #3d3b3a;
+  --cp-bg-elevated: #343231;
+  --cp-surface: #292929;
+  --cp-surface-soft: #2e2e2e;
+  --cp-border: #474747;
+  --cp-border-strong: #5f5f5f;
+  --cp-text: #dedede;
+  --cp-text-muted: #919191;
+  --cp-text-soft: #b0b0b0;
+  --cp-accent: #fd8ea1;
+  --cp-accent-hover: #fb7b91;
+  --cp-accent-soft: rgba(253, 142, 161, 0.14);
+  --cp-accent-fg: #1a1a1a;
+  --cp-success: #4ade80;
+  --cp-danger: #f87171;
+  --cp-warning: #fbbf24;
+  --cp-link: #4da6ff;
+  --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.32);
+  --cp-overlay: rgba(41, 41, 41, 0.88);
+  --cp-panel: rgba(41, 41, 41, 0.72);
+  --cp-panel-strong: rgba(41, 41, 41, 0.96);
+  --cp-sheen: rgba(255, 255, 255, 0.04);
+  --cp-highlight: rgba(253, 142, 161, 0.12);
+}
+* { box-sizing: border-box; }
+html { background: var(--cp-bg); }
+body {
+  margin: 0;
+  padding: 24px;
+  background: var(--cp-bg);
+  color: var(--cp-text);
+  font-family: "Segoe UI", Aptos, Calibri, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+}
+.pulse {
+  width: min(1240px, 100%);
+  margin: 0 auto;
+}
+.hero,
+.section {
+  border: 1px solid var(--cp-border);
+  background: var(--cp-surface);
+  box-shadow: 0 0 2px var(--cp-border), 0 1px 2px var(--cp-border);
+}
+.hero {
+  padding: 24px 28px;
+  border-radius: 16px;
+  border-top: 5px solid var(--cp-text);
+}
+.eyebrow {
+  margin: 0 0 6px;
+  color: var(--cp-warning);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+h1, h2, h3, h4, p { margin-top: 0; }
+h1 { margin-bottom: 8px; font-size: clamp(26px, 4vw, 38px); line-height: 1.15; }
+.hero p:last-child { margin-bottom: 0; color: var(--cp-text-muted); }
+.section {
+  margin-top: 18px;
+  padding: 22px;
+  border-radius: 16px;
+}
+.section > h2 { margin-bottom: 8px; font-size: 24px; }
+.period {
+  margin-bottom: 18px;
+  color: var(--cp-text-muted);
+  font-size: 14px;
+}
+.period strong { color: var(--cp-text); }
+.included { border-top: 5px solid var(--cp-link); }
+.included-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px 16px;
+}
+.included-item {
+  padding: 12px 14px;
+  border: 1px solid var(--cp-border);
+  border-radius: .625rem;
+  background: var(--cp-surface-soft);
+  font-weight: 650;
+}
+.included-item.new {
+  border-left: 5px solid var(--cp-accent);
+  background: var(--cp-accent-soft);
+}
+.included-item small {
+  display: block;
+  margin-top: 3px;
+  color: var(--cp-text-muted);
+  font-weight: 400;
+}
+.matrix-scroll { overflow-x: auto; padding-bottom: 3px; }
+.matrix {
+  min-width: 1040px;
+  display: grid;
+  grid-template-columns: 190px repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+.matrix-head,
+.surface,
+.pillar-cell {
+  border: 1px solid var(--cp-border);
+  border-radius: .625rem;
+  background: var(--cp-surface);
+}
+.matrix-head {
+  padding: 14px;
+  border-top-width: 5px;
+}
+.matrix-head span {
+  display: block;
+  color: var(--cp-text-muted);
+  font-size: 12px;
+  font-weight: 500;
+}
+.matrix-head.adoption { border-top-color: var(--cp-border-strong); }
+.matrix-head.engagement { border-top-color: var(--cp-warning); }
+.matrix-head.reliability { border-top-color: var(--cp-text); }
+.matrix-corner {
+  display: flex;
+  align-items: end;
+  padding: 14px 4px;
+  color: var(--cp-text-muted);
+  font-size: 12px;
+  font-weight: 750;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+}
+.surface {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 150px;
+  padding: 16px;
+  border-left: 6px solid var(--series);
+}
+.surface strong { font-size: 18px; line-height: 1.25; }
+.surface span { margin-top: 5px; color: var(--cp-text-muted); font-size: 12px; }
+.cowork { --series: var(--cp-link); }
+.studio { --series: var(--cp-text-soft); }
+.pillar-cell {
+  min-height: 150px;
+  padding: 14px;
+}
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(125px, 1fr));
+  gap: 8px;
+  height: 100%;
+}
+.metric {
+  padding: 11px;
+  border: 1px solid var(--cp-border);
+  border-radius: .625rem;
+  background: var(--cp-surface-soft);
+}
+.metric strong { display: block; font-size: 25px; line-height: 1.1; }
+.metric span { display: block; margin: 5px 0; color: var(--cp-text-muted); font-size: 12px; }
+.movement { font-size: 12px; font-weight: 800; }
+.up { color: var(--cp-success); }
+.down { color: var(--cp-danger); }
+.flat { color: var(--cp-text-muted); }
+.share-metric {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
+  padding: 11px;
+  border: 1px solid var(--cp-border);
+  border-radius: .625rem;
+  background: var(--cp-surface-soft);
+}
+.donut {
+  width: 66px;
+  height: 66px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: conic-gradient(var(--series) calc(var(--share) * 1%), var(--cp-surface-soft) 0);
+}
+.donut::after {
+  content: attr(data-value);
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--cp-border);
+  border-radius: 50%;
+  background: var(--cp-surface);
+  color: var(--cp-text);
+  font-size: 17px;
+  font-weight: 800;
+}
+.share-copy { width: 100%; }
+.share-copy strong {
+  display: block;
+  color: var(--cp-text-muted);
+  font-size: 12px;
+  font-weight: 500;
+}
+.share-copy span { display: block; margin-top: 5px; }
+.story { border-top: 5px solid var(--cp-accent); }
+.story-intro { color: var(--cp-text-muted); }
+.story-grid { display: grid; gap: 12px; }
+.story-card {
+  padding: 17px 18px;
+  border: 1px solid var(--cp-border);
+  border-left: 5px solid var(--pillar);
+  border-radius: .625rem;
+  background: var(--cp-surface-soft);
+}
+.story-card.adoption { --pillar: var(--cp-border-strong); }
+.story-card.engagement { --pillar: var(--cp-warning); }
+.story-card.reliability { --pillar: var(--cp-text); }
+.story-card.architecture { --pillar: var(--cp-border-strong); }
+.story-card.leadership { --pillar: var(--cp-accent); }
+.story-card.overall { --pillar: var(--cp-text); }
+.story-card .label {
+  margin-bottom: 5px;
+  color: var(--pillar);
+  font-size: 11px;
+  font-weight: 850;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+.story-card h3 { margin-bottom: 7px; font-size: 18px; }
+.story-card p { margin-bottom: 8px; color: var(--cp-text-muted); }
+.story-card p:last-child { margin-bottom: 0; }
+.why strong { color: var(--cp-text); }
+.methodology {
+  padding: 14px;
+  border-top: 4px solid var(--cp-text);
+}
+.methodology > h2 {
+  margin-bottom: 6px;
+  font-size: 14px;
+}
+.methodology-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+.method {
+  padding: 10px;
+  border: 1px solid var(--cp-border);
+  border-top: 3px solid var(--pillar);
+  border-radius: .625rem;
+  background: var(--cp-surface-soft);
+}
+.method.adoption { --pillar: var(--cp-border-strong); }
+.method.engagement { --pillar: var(--cp-warning); }
+.method.reliability { --pillar: var(--cp-text); }
+.method h3 { margin-bottom: 4px; font-size: 11px; }
+.method p { margin-bottom: 3px; color: var(--cp-text-muted); font-size: 8.5px; line-height: 1.3; }
+.method p:last-child { margin-bottom: 0; }
+.method strong { color: var(--cp-text); }
+.footer {
+  padding: 22px 4px 4px;
+  color: var(--cp-text-muted);
+  font-size: 14px;
+}
+.footer p { margin-bottom: 0; }
+@media (max-width: 760px) {
+  body { padding: 10px; }
+  .hero, .section { padding: 17px; }
+  .included-grid, .methodology-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<main class="pulse">
+  <header class="hero">
+    <p class="eyebrow">Aug 21, 2026</p>
+    <h1>2P ODSP Integration - Weekly Pulse</h1>
+    <p>Week of <strong>Aug 9-15, 2026</strong> compared with Aug 2-8, 2026. Pre ODSP MCP / WorkIQ integration benchmark.</p>
+  </header>
 
-  /* header */
-  .hdr{background:#10233b;border-radius:14px;color:#fff;padding:22px 26px;margin:0 0 14px}
-  .hdr .date{font-size:11px;font-weight:800;letter-spacing:1.5px;color:#f0c14b;margin:0 0 10px}
-  .hdr h1{font-size:26px;margin:0 0 6px}
-  .hdr .sub{font-size:12px;color:#c3ccd8;margin:0}
-  .hdr .sub b{color:#fff}
-
-  /* callout */
-  .callout{border-left:5px solid var(--cs);background:#f6f3fb;border-radius:12px;padding:16px 22px}
-  .callout h3{margin:0 0 6px;font-size:17px;color:#20304a}
-  .callout p{margin:0;font-size:12.5px;color:#4a5262;line-height:1.55}
-
-  /* included box */
-  .inc{border-top:4px solid var(--cw)}
-  .inc h2{font-size:19px;color:#20304a;margin:0 0 14px}
-  .inc ul{margin:0;padding:0;list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:14px 40px}
-  .inc li{font-size:13px;color:#39414f;padding-left:16px;position:relative}
-  .inc li:before{content:"\2022";position:absolute;left:0;color:var(--muted)}
-  .inc .nw{color:var(--cs);font-weight:700}
-  .inc .kw{color:var(--cw)}
-
-  /* scorecard */
-  .sc{display:grid;grid-template-columns:74px repeat(5,1fr);gap:8px}
-  .sc .ah{border-radius:8px;color:#fff;font-weight:700;font-size:13.5px;padding:9px 14px;display:flex;align-items:center}
-  .sc .ah.cw{background:var(--cw);grid-column:2 / span 2}
-  .sc .ah.cs{background:var(--cs);grid-column:4 / span 3}
-  .sc .pl{border-radius:8px;color:#fff;font-weight:800;font-size:9.5px;letter-spacing:.6px;writing-mode:vertical-rl;transform:rotate(180deg);display:flex;align-items:center;justify-content:center;padding:8px 0}
-  .sc .pl.adopt{background:var(--adopt)}
-  .sc .pl.engage{background:var(--engage)}
-  .sc .pl.reli{background:var(--reli)}
-  .mc{border:1px solid var(--line);border-radius:10px;padding:12px 14px;background:#fff}
-  .mc .v{font-size:23px;font-weight:800;line-height:1.05;color:#20304a}
-  .mc .l{font-size:11px;color:var(--muted);margin:4px 0 6px}
-  .mc .w{font-size:11px;font-weight:700}
-
-  /* donut grid */
-  .dg{display:grid;grid-template-columns:46px repeat(4,1fr);gap:10px}
-  .pv{border-radius:8px;color:#fff;font-weight:800;font-size:10px;letter-spacing:.3px;text-transform:uppercase;writing-mode:vertical-rl;transform:rotate(180deg);display:flex;align-items:center;justify-content:center;white-space:nowrap}
-  .pv.adopt{background:var(--adopt)} .pv.engage{background:var(--engage)} .pv.reli{background:var(--reli)}
-  .ahd{border-radius:8px;color:#fff;font-weight:700;font-size:13.5px;padding:9px 14px;display:flex;align-items:center;justify-content:center;text-align:center}
-  .ahd.cw{background:var(--cw)} .ahd.cs{background:var(--cs)}
-  .agenthd{display:flex;align-items:flex-end;justify-content:center;font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--muted);padding-bottom:6px}
-  .agent{display:flex;flex-direction:column;justify-content:center;gap:3px;border:1px solid var(--line);border-radius:10px;padding:12px 14px}
-  .agent .bar{width:26px;height:4px;border-radius:2px}
-  .agent .an{font-size:14px;font-weight:700;color:#20304a}
-  .agent .wk{font-size:10px;color:var(--muted)}
-  .dc{border:1px solid var(--line);border-radius:10px;padding:10px 6px 12px;text-align:center;background:#fff;display:flex;flex-direction:column;align-items:center;gap:2px}
-  .dc.reli{border:1.5px solid var(--reli)}
-  .dc .dt{font-size:11px;font-weight:600;color:#3a4252;min-height:26px;display:flex;align-items:center;text-align:center}
-  .donut .pct{font-size:19px;font-weight:800;fill:var(--ink)}
-  .dc .cap{font-size:8.5px;font-weight:700;letter-spacing:.4px;color:var(--muted);text-transform:uppercase;margin-top:2px}
-  .dc .dw{font-size:11px;font-weight:700;margin-top:4px}
-  .dc2{padding:8px 6px 10px}
-  .dc2 .mini{display:flex;gap:6px;justify-content:center;align-items:flex-start;width:100%}
-  .dc2 .mn{display:flex;flex-direction:column;align-items:center;gap:2px;flex:1 1 0;min-width:0}
-  .dc2 .dt2{font-size:10px;font-weight:600;color:#3a4252;min-height:24px;display:flex;align-items:center;text-align:center}
-  .donut2 .pct2{font-size:15px;font-weight:800;fill:var(--ink)}
-  .dc .na{font-size:20px;font-weight:800;color:#9aa2ad}
-
-  /* story */
-  .story h2{margin:0 0 10px}
-  .story .intro{font-size:13px;line-height:1.6;color:#39414f;margin:0 0 12px}
-  .sec{margin:14px 0}
-  .sec .kick{font-size:10px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--cw)}
-  .sec h3{margin:2px 0 6px;font-size:16px;color:#20304a}
-  .sec p{margin:4px 0;font-size:12.5px;line-height:1.6;color:#39414f}
-  .sec .wm{font-weight:700;color:#20304a}
-  .story .up,.story .down,.story .flat{font-weight:700}
-  .hr{border:none;border-top:1px solid var(--line);margin:12px 0}
-  .overall{font-size:12.5px;line-height:1.6;color:#39414f;margin-top:8px;border-top:2px solid #20304a;padding-top:12px}
-  .overall b{color:#20304a}
-
-  /* methodology */
-  .meth h2{margin:0 0 14px}
-  .mgroup{background:#f7f9fb;border-left:4px solid var(--muted);border-radius:8px;padding:12px 16px;margin:10px 0}
-  .mgroup.adopt{border-left-color:var(--adopt)} .mgroup.engage{border-left-color:var(--engage)} .mgroup.reli{border-left-color:var(--reli)}
-  .mgroup .gh{font-size:13.5px;font-weight:700;color:#20304a;margin:0 0 8px}
-  .mgroup .mrow{font-size:12px;line-height:1.55;color:#4a5262;margin:3px 0}
-  .mgroup .mrow b{color:#20304a}
-  .mono{font-family:'Cascadia Code','Consolas',monospace;font-size:11.5px;color:#2a3550}
-  .metricadd{border:1px solid var(--line);border-radius:8px;margin:14px 0 0;overflow:hidden}
-  .metricadd .mh{display:grid;grid-template-columns:190px 1fr;background:#eef2f7;font-size:11px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;color:#5a6472}
-  .metricadd .mh div{padding:8px 14px}
-  .metricadd .mb{display:grid;grid-template-columns:190px 1fr;border-top:1px solid var(--line)}
-  .metricadd .mb .k{padding:12px 14px;font-weight:700;color:#20304a;font-size:12.5px}
-  .metricadd .mb .d{padding:12px 14px;font-size:12px;line-height:1.55;color:#4a5262}
-
-  /* Fixed-width viewport (width=1180) makes phones render an exact scaled
-     replica of the desktop Pulse — no reflow, identical to the email PNG. */
-</style></head>
-<body><div class="page">
-
-  <!-- HEADER -->
-  <div class="hdr">
-    <div class="date">AUG 21, 2026</div>
-    <h1>2P Integration — Weekly Pulse</h1>
-    <p class="sub">Week of <b>Aug 9–15, 2026</b> compared with Aug 2–8, 2026. Pre ODSP MCP / WorkIQ integration benchmark.</p>
-  </div>
-
-  <!-- NEW! CALLOUT -->
-  <div class="card callout">
-    <h3>New! Copilot Studio / Dracarys now includes Knowledge Search</h3>
-    <p>Knowledge Search is now a first-class Copilot Studio / Dracarys engagement measure, reported separately from tool calls. In Aug 9–15, ODSP powered 549.7K knowledge searches, +47.1% week over week.</p>
-  </div>
-
-  <!-- WHAT IS INCLUDED -->
-  <div class="card inc">
-    <h2>What is included in this week's 2P Integration Pulse?</h2>
-    <ul>
-      <li>2P Integration: Scorecard</li>
-      <li>M365 Agentic Work: ODSP share</li>
-      <li><span class="nw">New!</span> Copilot Studio / Dracarys now includes <span class="kw">Knowledge Search</span></li>
-      <li>This week's 2P Story</li>
-    </ul>
-  </div>
-
-  <!-- SCORECARD -->
-  <div class="card">
-    <h2>2P Integration: Scorecard</h2>
-    <div class="sc">
-      <div style="grid-column:1"></div>
-      <div class="ah cw">Copilot Cowork — ODSP footprint</div>
-      <div class="ah cs">Copilot Studio / Dracarys — ODSP footprint</div>
-
-      <!-- ADOPTION -->
-      <div class="pl adopt">ADOPTION</div>
-      <div class="mc"><div class="v">107.2K</div><div class="l">ODSP-active users</div><div class="w flat">flat</div></div>
-      <div class="mc"><div class="v">11.0K</div><div class="l">ODSP-active tenants</div><div class="w up">+1% WoW</div></div>
-      <div class="mc"><div class="v">25.0K</div><div class="l">ODSP-active users</div><div class="w up">+18% WoW</div></div>
-      <div class="mc"><div class="v">7.07K</div><div class="l">ODSP-active tenants</div><div class="w up">+18% WoW</div></div>
-      <div class="mc"><div class="v">20.1K</div><div class="l">ODSP-active agents</div><div class="w up">+17% WoW</div></div>
-
-      <!-- ENGAGEMENT -->
-      <div class="pl engage">ENGAGEMENT</div>
-      <div class="mc"><div class="v">285.9K</div><div class="l">ODSP-backed tasks</div><div class="w up">+8% WoW</div></div>
-      <div class="mc"><div class="v">3.09M</div><div class="l">ODSP tool calls</div><div class="w up">+6% WoW</div></div>
-      <div class="mc"><div class="v">203.3K</div><div class="l">ODSP-backed tasks</div><div class="w up">+30% WoW</div></div>
-      <div class="mc"><div class="v">209.7K</div><div class="l">ODSP tool calls</div><div class="w up">+14% WoW</div></div>
-      <div class="mc"><div class="v">549.7K</div><div class="l">ODSP knowledge searches</div><div class="w up">+47% WoW</div></div>
-
-      <!-- RELIABILITY -->
-      <div class="pl reli">RELIABILITY</div>
-      <div class="mc" style="grid-column:2 / span 2"><div class="v">96%</div><div class="l">ODSP tool success</div><div class="w down">-1 pp WoW</div></div>
-      <div class="mc" style="grid-column:4 / span 3"><div class="v">92%</div><div class="l">ODSP service success</div><div class="w up">+&lt;1 pp WoW</div></div>
+  <section class="section included">
+    <h2>What is included</h2>
+    <div class="included-grid">
+      <div class="included-item new">New! Copilot Studio / Dracarys Knowledge Search</div>
+      <div class="included-item">2P ODSP Integration: Scorecard</div>
+      <div class="included-item">M365 Agentic Work: ODSP share</div>
+      <div class="included-item">This week's 2P ODSP Integration story</div>
     </div>
-  </div>
+  </section>
 
-  <!-- ODSP SHARE DONUT GRID -->
-  <div class="card">
-    <h2>M365 Agentic Work: ODSP share</h2>
-    <p class="vsub">Week of <span class="accent">Aug 9–15, 2026</span> compared with Aug 2–8, 2026. Pre ODSP MCP / WorkIQ integration benchmark.</p>
-    <div class="dg">
-      <div style="grid-column:1;grid-row:1"></div>
-      <div class="ahd cw" style="grid-column:2 / span 2;grid-row:1">Copilot Cowork — ODSP footprint</div>
-      <div class="ahd cs" style="grid-column:4 / span 2;grid-row:1">Copilot Studio / Dracarys — ODSP footprint</div>
+  <section class="section">
+    <h2>2P ODSP Integration: Scorecard</h2>
+    <p class="period">Week of <strong>Aug 9-15, 2026</strong> compared with Aug 2-8, 2026. Pre ODSP MCP / WorkIQ integration benchmark.</p>
+    <div class="matrix-scroll">
+      <div class="matrix">
+        <div class="matrix-corner">2P agent</div>
+        <div class="matrix-head adoption"><strong>Adoption</strong><span>Who is using ODSP?</span></div>
+        <div class="matrix-head engagement"><strong>Engagement</strong><span>How much ODSP-backed work is happening?</span></div>
+        <div class="matrix-head reliability"><strong>Reliability</strong><span>Can agents depend on ODSP?</span></div>
 
-      <!-- ADOPTION -->
-      <div class="pv adopt" style="grid-column:1;grid-row:2">Adoption</div>
-      <div class="dc" style="grid-column:2;grid-row:2"><div class="dt">Active Users</div><svg class="donut" width="88" height="88" viewBox="0 0 84 84"><circle cx="42" cy="42" r="34" fill="none" stroke="#e9edf2" stroke-width="10"/><circle cx="42" cy="42" r="34" fill="none" stroke="var(--cw)" stroke-width="10" stroke-dasharray="102.54 111.09" stroke-dashoffset="53.41" stroke-linecap="round"/><text x="42" y="48" text-anchor="middle" class="pct">48%</text></svg><div class="cap">ODSP share</div><div class="dw down">-0.4 pp WoW</div></div>
-      <div class="dc" style="grid-column:3;grid-row:2"><div class="dt">Active Tenants</div><svg class="donut" width="88" height="88" viewBox="0 0 84 84"><circle cx="42" cy="42" r="34" fill="none" stroke="#e9edf2" stroke-width="10"/><circle cx="42" cy="42" r="34" fill="none" stroke="var(--cw)" stroke-width="10" stroke-dasharray="134.59 79.04" stroke-dashoffset="53.41" stroke-linecap="round"/><text x="42" y="48" text-anchor="middle" class="pct">63%</text></svg><div class="cap">ODSP share</div><div class="dw down">-0.6 pp WoW</div></div>
-      <div class="dc" style="grid-column:4;grid-row:2"><div class="dt">Active Users</div><svg class="donut" width="88" height="88" viewBox="0 0 84 84"><circle cx="42" cy="42" r="34" fill="none" stroke="#e9edf2" stroke-width="10"/><circle cx="42" cy="42" r="34" fill="none" stroke="var(--cs)" stroke-width="10" stroke-dasharray="66.22 147.41" stroke-dashoffset="53.41" stroke-linecap="round"/><text x="42" y="48" text-anchor="middle" class="pct">31%</text></svg><div class="cap">ODSP share</div><div class="dw down">-9 pp WoW</div></div>
-      <div class="dc" style="grid-column:5;grid-row:2"><div class="dt">Active Tenants</div><svg class="donut" width="88" height="88" viewBox="0 0 84 84"><circle cx="42" cy="42" r="34" fill="none" stroke="#e9edf2" stroke-width="10"/><circle cx="42" cy="42" r="34" fill="none" stroke="var(--cs)" stroke-width="10" stroke-dasharray="89.72 123.91" stroke-dashoffset="53.41" stroke-linecap="round"/><text x="42" y="48" text-anchor="middle" class="pct">42%</text></svg><div class="cap">ODSP share</div><div class="dw down">-5 pp WoW</div></div>
+        <div class="surface cowork"><strong>Copilot Cowork</strong><span>ODSP footprint</span></div>
+        <div class="pillar-cell">
+          <div class="metrics">
+            <div class="metric"><strong>107.2K</strong><span>ODSP-active users</span><b class="movement flat">flat</b></div>
+            <div class="metric"><strong>11.0K</strong><span>ODSP-active tenants</span><b class="movement up">+1% WoW</b></div>
+          </div>
+        </div>
+        <div class="pillar-cell">
+          <div class="metrics">
+            <div class="metric"><strong>285.9K</strong><span>ODSP-backed tasks</span><b class="movement up">+8% WoW</b></div>
+            <div class="metric"><strong>3.09M</strong><span>ODSP tool calls</span><b class="movement up">+6% WoW</b></div>
+          </div>
+        </div>
+        <div class="pillar-cell">
+          <div class="metrics">
+            <div class="metric"><strong>96%</strong><span>ODSP tool success rate</span><b class="movement down">-1 pp WoW</b></div>
+          </div>
+        </div>
 
-      <!-- ENGAGEMENT -->
-      <div class="pv engage" style="grid-column:1;grid-row:3">Engagement</div>
-      <div class="dc" style="grid-column:2;grid-row:3"><div class="dt">Tasks</div><svg class="donut" width="88" height="88" viewBox="0 0 84 84"><circle cx="42" cy="42" r="34" fill="none" stroke="#e9edf2" stroke-width="10"/><circle cx="42" cy="42" r="34" fill="none" stroke="var(--cw)" stroke-width="10" stroke-dasharray="51.27 162.36" stroke-dashoffset="53.41" stroke-linecap="round"/><text x="42" y="48" text-anchor="middle" class="pct">24%</text></svg><div class="cap">ODSP share</div><div class="dw up">+0.5 pp WoW</div></div>
-      <div class="dc" style="grid-column:3;grid-row:3"><div class="dt">Tool Calls</div><svg class="donut" width="88" height="88" viewBox="0 0 84 84"><circle cx="42" cy="42" r="34" fill="none" stroke="#e9edf2" stroke-width="10"/><circle cx="42" cy="42" r="34" fill="none" stroke="var(--cw)" stroke-width="10" stroke-dasharray="29.91 183.72" stroke-dashoffset="53.41" stroke-linecap="round"/><text x="42" y="48" text-anchor="middle" class="pct">14%</text></svg><div class="cap">ODSP share</div><div class="dw up">+0.6 pp WoW</div></div>
-      <div class="dc" style="grid-column:4;grid-row:3"><div class="dt">Tasks</div><svg class="donut" width="88" height="88" viewBox="0 0 84 84"><circle cx="42" cy="42" r="34" fill="none" stroke="#e9edf2" stroke-width="10"/><circle cx="42" cy="42" r="34" fill="none" stroke="var(--cs)" stroke-width="10" stroke-dasharray="19.23 194.40" stroke-dashoffset="53.41" stroke-linecap="round"/><text x="42" y="48" text-anchor="middle" class="pct">9%</text></svg><div class="cap">ODSP share</div><div class="dw down">-1 pp WoW</div></div>
-      <div class="dc dc2" style="grid-column:5;grid-row:3">
-        <div class="mini">
-          <div class="mn"><div class="dt2">Tool Calls</div><svg class="donut2" width="60" height="60" viewBox="0 0 84 84"><circle cx="42" cy="42" r="34" fill="none" stroke="#e9edf2" stroke-width="10"/><circle cx="42" cy="42" r="34" fill="none" stroke="var(--cs)" stroke-width="10" stroke-dasharray="6.41 207.22" stroke-dashoffset="53.41" stroke-linecap="round"/><text x="42" y="49" text-anchor="middle" class="pct2">3%</text></svg><div class="cap">ODSP share</div><div class="dw up">+1 pp WoW</div></div>
-          <div class="mn"><div class="dt2">Knowledge Searches</div><svg class="donut2" width="60" height="60" viewBox="0 0 84 84"><circle cx="42" cy="42" r="34" fill="none" stroke="#e9edf2" stroke-width="10"/><circle cx="42" cy="42" r="34" fill="none" stroke="var(--know)" stroke-width="10" stroke-dasharray="76.91 136.72" stroke-dashoffset="53.41" stroke-linecap="round"/><text x="42" y="49" text-anchor="middle" class="pct2">36%</text></svg><div class="cap">ODSP share</div><div class="dw up">+14 pp WoW</div></div>
+        <div class="surface studio"><strong>Copilot Studio / Dracarys</strong><span>ODSP footprint</span></div>
+        <div class="pillar-cell">
+          <div class="metrics">
+            <div class="metric"><strong>25.0K</strong><span>ODSP-active users</span><b class="movement up">+18% WoW</b></div>
+            <div class="metric"><strong>7.07K</strong><span>ODSP-active tenants</span><b class="movement up">+18% WoW</b></div>
+            <div class="metric"><strong>20.1K</strong><span>ODSP-active agents</span><b class="movement up">+17% WoW</b></div>
+          </div>
+        </div>
+        <div class="pillar-cell">
+          <div class="metrics">
+            <div class="metric"><strong>203.3K</strong><span>ODSP-backed tasks</span><b class="movement up">+30% WoW</b></div>
+            <div class="metric"><strong>209.7K</strong><span>ODSP tool calls</span><b class="movement up">+14% WoW</b></div>
+            <div class="metric"><strong>549.7K</strong><span>ODSP knowledge searches</span><b class="movement up">+47% WoW</b></div>
+          </div>
+        </div>
+        <div class="pillar-cell">
+          <div class="metrics">
+            <div class="metric"><strong>92%</strong><span>ODSP tool success rate</span><b class="movement up">+&lt;1 pp WoW</b></div>
+          </div>
         </div>
       </div>
+    </div>
+  </section>
 
-      <!-- RELIABILITY -->
-      <div class="pv reli" style="grid-column:1;grid-row:4">Reliability</div>
-      <div class="dc reli" style="grid-column:2 / span 2;grid-row:4"><div class="dt">Tool Success Rate</div><svg class="donut" width="88" height="88" viewBox="0 0 84 84"><circle cx="42" cy="42" r="34" fill="none" stroke="#e9edf2" stroke-width="10"/><circle cx="42" cy="42" r="34" fill="none" stroke="var(--cw)" stroke-width="10" stroke-dasharray="205.08 8.55" stroke-dashoffset="53.41" stroke-linecap="round"/><text x="42" y="48" text-anchor="middle" class="pct">96%</text></svg><div class="cap">ODSP share</div><div class="dw down">-0.7 pp WoW</div></div>
-      <div class="dc reli" style="grid-column:4 / span 2;grid-row:4"><div class="dt">Service Success Rate</div><svg class="donut" width="88" height="88" viewBox="0 0 84 84"><circle cx="42" cy="42" r="34" fill="none" stroke="#e9edf2" stroke-width="10"/><circle cx="42" cy="42" r="34" fill="none" stroke="var(--cs)" stroke-width="10" stroke-dasharray="196.54 17.09" stroke-dashoffset="53.41" stroke-linecap="round"/><text x="42" y="48" text-anchor="middle" class="pct">92%</text></svg><div class="cap">ODSP share</div><div class="dw up">+0.4 pp WoW</div></div>
-    </div>
-  </div>
+  <section class="section">
+    <h2>M365 Agentic Work: ODSP share</h2>
+    <p class="period">Week of <strong>Aug 9-15, 2026</strong> compared with Aug 2-8, 2026. Pre ODSP MCP / WorkIQ integration benchmark.</p>
+    <div class="matrix-scroll">
+      <div class="matrix">
+        <div class="matrix-corner">2P agent</div>
+        <div class="matrix-head adoption"><strong>Adoption</strong><span>Who is using ODSP?</span></div>
+        <div class="matrix-head engagement"><strong>Engagement</strong><span>How much ODSP-backed work is happening?</span></div>
+        <div class="matrix-head reliability"><strong>Reliability</strong><span>Can agents depend on ODSP?</span></div>
 
-  <!-- STORY -->
-  <div class="card story">
-    <h2>This week's 2P story</h2>
-    <p class="intro">ODSP is already a meaningful substrate for M365 agents calling OneDrive and SharePoint, before the architecture converges on direct MCP and Work IQ-routed MCP. The latest complete week shows broad Cowork reach, growing Cowork execution volume, and a Copilot Studio / Dracarys mix shift toward more ODSP tool calls and substantially more knowledge grounding.</p>
+        <div class="surface cowork"><strong>Copilot Cowork</strong><span>ODSP footprint</span></div>
+        <div class="pillar-cell cowork">
+          <div class="metrics">
+            <div class="share-metric"><div class="donut" style="--share:48" data-value="48%"></div><div class="share-copy"><strong>ODSP-active users</strong><span class="movement down">-0.5 pp WoW</span></div></div>
+            <div class="share-metric"><div class="donut" style="--share:63" data-value="63%"></div><div class="share-copy"><strong>ODSP-active tenants</strong><span class="movement down">-0.5 pp WoW</span></div></div>
+          </div>
+        </div>
+        <div class="pillar-cell cowork">
+          <div class="metrics">
+            <div class="share-metric"><div class="donut" style="--share:24" data-value="24%"></div><div class="share-copy"><strong>ODSP-backed tasks</strong><span class="movement up">+0.9 pp WoW</span></div></div>
+            <div class="share-metric"><div class="donut" style="--share:14" data-value="14%"></div><div class="share-copy"><strong>ODSP tool calls - daily penetration</strong><span class="movement up">+0.6 pp WoW</span></div></div>
+          </div>
+        </div>
+        <div class="pillar-cell cowork">
+          <div class="metrics">
+            <div class="share-metric"><div class="donut" style="--share:96" data-value="96%"></div><div class="share-copy"><strong>ODSP tool success rate</strong><span class="movement down">-0.7 pp WoW</span></div></div>
+          </div>
+        </div>
 
-    <div class="sec">
-      <div class="kick">Growth × engagement</div>
-      <h3>Execution grew across both workloads, with different reach patterns</h3>
-      <p>Cowork users were <span class="flat">flat</span>, while ODSP-backed tasks increased <span class="up">+8%</span> and tool calls increased <span class="up">+6%</span>. Copilot Studio / Dracarys matched users increased <span class="up">+18%</span>, tasks <span class="up">+30%</span>, tool calls <span class="up">+14%</span> and ODSP knowledge searches <span class="up">+47%</span>.</p>
-      <p><span class="wm">Why it matters:</span> growth was broad but uneven across metrics. Scenario mix, repeat use and completed outcomes should be measured alongside active identities so higher volume can be connected to customer value.</p>
+        <div class="surface studio"><strong>Copilot Studio / Dracarys</strong><span>ODSP footprint</span></div>
+        <div class="pillar-cell studio">
+          <div class="metrics">
+            <div class="share-metric"><div class="donut" style="--share:31" data-value="31%"></div><div class="share-copy"><strong>ODSP-active users</strong><span class="movement flat">+0 pp WoW</span></div></div>
+            <div class="share-metric"><div class="donut" style="--share:42" data-value="42%"></div><div class="share-copy"><strong>ODSP-active tenants</strong><span class="movement down">-0.3 pp WoW</span></div></div>
+          </div>
+        </div>
+        <div class="pillar-cell studio">
+          <div class="metrics">
+            <div class="share-metric"><div class="donut" style="--share:9" data-value="9%"></div><div class="share-copy"><strong>ODSP-backed tasks</strong><span class="movement up">+1.5 pp WoW</span></div></div>
+            <div class="share-metric"><div class="donut" style="--share:3" data-value="3%"></div><div class="share-copy"><strong>ODSP tool calls</strong><span class="movement up">+0.3 pp WoW</span></div></div>
+            <div class="share-metric"><div class="donut" style="--share:36" data-value="36%"></div><div class="share-copy"><strong>ODSP knowledge searches</strong><span class="movement flat">-</span></div></div>
+          </div>
+        </div>
+        <div class="pillar-cell studio">
+          <div class="metrics">
+            <div class="share-metric"><div class="donut" style="--share:92" data-value="92%"></div><div class="share-copy"><strong>ODSP tool success rate</strong><span class="movement up">+0.4 pp WoW</span></div></div>
+          </div>
+        </div>
+      </div>
     </div>
-    <hr class="hr">
-    <div class="sec">
-      <div class="kick">Breadth × depth</div>
-      <h3>Cowork has broad reach; Copilot Studio / Dracarys knowledge is the deepest contribution</h3>
-      <p>ODSP reached <span class="down">48%</span> of Cowork users and <span class="down">63%</span> of Cowork tenants. It contributed <span class="up">24%</span> of Cowork tasks. In Copilot Studio / Dracarys, ODSP reached <span class="down">31%</span> of users and powered <span class="flat">36%</span> of knowledge searches.</p>
-      <p><span class="wm">Why it matters:</span> reach is already material, but contribution depth varies by workload. The next goal is to turn broad access into repeatable customer outcomes rather than optimize a single volume metric.</p>
-    </div>
-    <hr class="hr">
-    <div class="sec">
-      <div class="kick">Reliability</div>
-      <h3>ODSP tool reliability remained high across both 2P workloads</h3>
-      <p>Cowork ODSP tool success was <span class="down">96%</span>, a movement of <span class="down">-0.7 pp</span> week over week. Copilot Studio / Dracarys ODSP service success was <span class="up">92%</span>, a movement of <span class="up">+0.4 pp</span>.</p>
-      <p><span class="wm">Why it matters:</span> the reliability baseline is high enough to shift focus toward outcome depth, while continuing to segment failures by service-owned versus caller-owned causes.</p>
-    </div>
-    <hr class="hr">
-    <div class="sec">
-      <div class="kick">Architecture runway</div>
-      <h3>Today's bespoke integrations establish the pre-MCP baseline</h3>
-      <p>The current Cowork and Copilot Studio / Dracarys measurements describe bespoke Graph API and connector paths. Direct SharePoint MCP and Work IQ-routed SharePoint/OneDrive MCP require explicit route attribution before their adoption, engagement and reliability can be compared.</p>
-      <p><span class="wm">Why it matters:</span> this baseline makes the upcoming transition measurable. Route-level telemetry must distinguish Graph API, direct MCP and Work IQ-routed MCP without inferring architecture from tool names.</p>
-    </div>
-    <hr class="hr">
-    <div class="sec">
-      <div class="kick">Leadership watch</div>
-      <h3>Copilot Studio / Dracarys growth was broad; Knowledge Search led</h3>
-      <p>Matched Copilot Studio / Dracarys users moved <span class="up">+18%</span> and tasks moved <span class="up">+30%</span>, while tool calls moved <span class="up">+14%</span> and knowledge searches moved <span class="up">+47%</span>. The Aug 9–15 Cowork fixed-week owner tool-call denominator is unavailable; the separate 14% daily penetration estimator and broader server aggregate are different lenses and are not substituted.</p>
-      <p><span class="wm">Why it matters:</span> the pace of growth differs across reach, execution and grounding. The actionable question is which scenarios and agents produced the higher event intensity and whether they completed valuable outcomes.</p>
-    </div>
+  </section>
 
-    <p class="overall"><b>Overall:</b> ODSP's 2P footprint combines broad Cowork reach, increasing Cowork execution, growing Copilot Studio / Dracarys knowledge grounding and high tool reliability. Focus is converting this footprint into repeatable high-value scenarios while instrumenting the migration from bespoke Graph paths to direct MCP and Work IQ-routed MCP.</p>
-  </div>
+  <section class="section story">
+    <h2>This week's 2P ODSP Integration story</h2>
+    <p class="story-intro">ODSP is already a meaningful substrate for M365 agents calling OneDrive and SharePoint before the architecture converges on direct MCP and WorkIQ-routed MCP.</p>
+    <div class="story-grid">
+      <article class="story-card adoption">
+        <p class="label">Adoption</p>
+        <h3>Reach held broad in Cowork while Copilot Studio / Dracarys expanded</h3>
+        <p>Cowork users were flat and tenants moved <strong class="up">+1.2%</strong>. Copilot Studio / Dracarys matched users increased <strong class="up">+17.6%</strong>, while tenants and active agents also expanded.</p>
+        <p class="why"><strong>Why it matters:</strong> ODSP already reaches meaningful populations across both workloads, creating a base for repeat use and customer outcomes.</p>
+      </article>
+      <article class="story-card engagement">
+        <p class="label">Engagement</p>
+        <h3>Execution increased across both workloads, with Knowledge Search leading</h3>
+        <p>Cowork ODSP-backed tasks increased <strong class="up">+8.3%</strong> and tool calls <strong class="up">+5.6%</strong>. Copilot Studio / Dracarys tasks increased <strong class="up">+30.5%</strong>, tool calls <strong class="up">+13.9%</strong> and knowledge searches <strong class="up">+47.1%</strong>.</p>
+        <p class="why"><strong>Why it matters:</strong> activity is growing across execution and grounding; scenario mix and completed outcomes now need to show which growth creates customer value.</p>
+      </article>
+      <article class="story-card reliability">
+        <p class="label">Reliability</p>
+        <h3>ODSP tool success remained high across both 2P workloads</h3>
+        <p>Cowork ODSP tool success was 95.8%, moving <strong class="down">-0.7 pp</strong> week over week. Copilot Studio / Dracarys ODSP tool success was 92.2%, moving <strong class="up">+0.4 pp</strong>.</p>
+        <p class="why"><strong>Why it matters:</strong> the baseline is strong enough to focus on outcome depth while continuing to segment service-owned and caller-owned failures.</p>
+      </article>
+      <article class="story-card architecture">
+        <p class="label">Architecture runway</p>
+        <h3>Today's bespoke integrations establish the pre-MCP baseline</h3>
+        <p>Current Cowork and Copilot Studio / Dracarys measurements describe bespoke Graph API and connector paths. Direct SharePoint MCP and WorkIQ-routed SharePoint/OneDrive MCP require explicit route attribution.</p>
+        <p class="why"><strong>Why it matters:</strong> route-level telemetry must distinguish Graph API, direct MCP and WorkIQ-routed MCP so adoption, engagement and reliability remain comparable through the transition.</p>
+      </article>
+      <article class="story-card leadership">
+        <p class="label">Leadership watch</p>
+        <h3>Growth was broad, but Knowledge Search set the pace</h3>
+        <p>Copilot Studio / Dracarys knowledge searches increased <strong class="up">+47.1%</strong>, ahead of tasks and tool calls. Cowork's 14% tool-call figure is the governed mean-daily penetration lens, not a fixed-week broad-share substitute.</p>
+        <p class="why"><strong>Why it matters:</strong> leadership should watch which scenarios generate the higher event intensity and whether those scenarios complete valuable customer work.</p>
+      </article>
+      <article class="story-card overall">
+        <p class="label">Overall</p>
+        <h3>ODSP combines broad reach, growing execution and strong reliability</h3>
+        <p>The 2P footprint spans Cowork reach, Copilot Studio / Dracarys expansion, increasing ODSP-backed work and a measurable pre-MCP reliability baseline.</p>
+        <p class="why"><strong>Why it matters:</strong> the next step is converting this footprint into repeatable high-value scenarios while instrumenting the move from bespoke Graph paths to direct MCP and WorkIQ-routed MCP.</p>
+      </article>
+    </div>
+  </section>
 
-  <!-- METHODOLOGY -->
-  <div class="card meth">
+  <section class="section methodology">
     <h2>Methodology</h2>
-
-    <div class="mgroup adopt">
-      <div class="gh">Adoption</div>
-      <div class="mrow"><b>Active Users:</b> Count of unique 2P agent users who used at least one ODSP tool.</div>
-      <div class="mrow"><b>Active Tenants:</b> Count of unique 2P agent tenants where at least one ODSP tool was used.</div>
-      <div class="mrow"><b>Active Agents:</b> Count of unique 2P agents that used at least one ODSP tool.</div>
+    <div class="methodology-grid">
+      <article class="method adoption">
+        <h3>Adoption</h3>
+        <p><strong>Active Users:</strong> Count of 2P agent users who used at least one ODSP tool.</p>
+        <p><strong>Active Tenants:</strong> Count of 2P agent tenants where at least one ODSP tool was used.</p>
+        <p><strong>Active Agents:</strong> Count of 2P agents that used at least one ODSP tool.</p>
+      </article>
+      <article class="method engagement">
+        <h3>Engagement</h3>
+        <p><strong>Tasks:</strong> Count of 2P agent tasks in which at least one ODSP tool contributed to task execution.</p>
+        <p><strong>Tool Calls:</strong> Count of 2P agent tool calls that leveraged an ODSP tool.</p>
+        <p><strong>Knowledge Searches:</strong> Count of 2P agent knowledge searches that leveraged an ODSP knowledge source.</p>
+      </article>
+      <article class="method reliability">
+        <h3>Reliability</h3>
+        <p><strong>Tool Success Rate:</strong> Percentage of eligible ODSP tool calls that completed successfully under the surface-native reliability definition.</p>
+      </article>
     </div>
+  </section>
 
-    <div class="mgroup engage">
-      <div class="gh">Engagement</div>
-      <div class="mrow"><b>Tasks:</b> Count of 2P agent tasks in which at least one ODSP tool contributed to task execution.</div>
-      <div class="mrow"><b>Tool Calls:</b> Count of 2P agent tool calls that leveraged an ODSP tool.</div>
-      <div class="mrow"><b>Knowledge Searches:</b> Count of 2P agent knowledge searches that leveraged an ODSP knowledge source.</div>
-    </div>
-
-    <div class="mgroup reli">
-      <div class="gh">Reliability</div>
-      <div class="mrow"><b>Tool Success Rate:</b> Percentage of ODSP tool calls that completed successfully.</div>
-      <div class="mrow"><b>Service Success Rate:</b> Percentage of ODSP service calls that completed successfully.</div>
-    </div>
-  </div>
-
-</div></body></html>
+  <footer class="footer">
+    <p>Thanks,<br>Ambal Balakrishnan</p>
+  </footer>
+</main>
+</body>
+</html>
