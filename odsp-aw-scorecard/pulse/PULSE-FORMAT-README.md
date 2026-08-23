@@ -71,7 +71,10 @@ The dashboard is a tabbed view. A `.tabs` bar sits under the hero with two `.tab
     value pair with the change below (`N/A` where not publishable, `+NN% pace` for run-rate compares),
     and an **ODSP share** matrix whose `.donut`s show the **Aug MTD** share with a `July NN%` baseline
     (`.share-ref`) and a `+NN pp` movement below, matching Ambal's mockup (both agents cover all six
-    metrics; gaps shown as `N/A`).
+    metrics; gaps shown as `N/A`). MTD-specific styling: white metric cards, each pillar's metrics kept
+  on a single row, and pillar columns sized proportional to metric count (Adoption/Engagement wider,
+  Reliability narrower). The `.pulse` container is widened to 1520px so all three pillars fit in one
+  row; the mobile media query still stacks everything on small screens.
 
 ## Matrix grid spec (shared by Scorecard + Share)
 
