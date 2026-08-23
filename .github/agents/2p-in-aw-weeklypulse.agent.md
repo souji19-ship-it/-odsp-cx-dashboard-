@@ -15,6 +15,12 @@ verified numbers — never redesigning the layout and never inventing data.
 - Format spec / rules: `odsp-aw-scorecard/pulse/PULSE-FORMAT-README.md`
 - Program ground rules: `odsp-aw-scorecard/README.md`
 
+## Tabs
+The template is tabbed: **Weekly** (default) and **Month-to-Date**. Update the Weekly tab each week.
+The MTD tab uses July-vs-Aug-MTD (pillars as rows, agents as columns) and stays a placeholder
+template — only populate MTD once the month's data settles. Keep pillar/agent colors identical
+across both tabs. See `PULSE-FORMAT-README.md` (Tabs section) for the full spec.
+
 ## Hard rules (non-negotiable)
 1. **Never fabricate a number.** Every value must be source-derived and reconciled. If a source is
    unreachable, keep the prior value and flag it — do not invent or interpolate.

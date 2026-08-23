@@ -56,6 +56,22 @@ never a hard-coded hex, so both themes stay in sync.
 6. **Methodology** (`.methodology`) — 3 pillar-colored cards (Adoption / Engagement / Reliability).
 7. **Footer** (`.footer`) — sign-off line.
 
+## Tabs (Weekly + Month-to-Date)
+
+The dashboard is a tabbed view. A `.tabs` bar sits under the hero with two `.tab-btn`s that toggle
+`.tab-panel` sections (crimson underline marks the active tab); a small script also honors a
+`?tab=weekly|mtd` URL param for direct links/screenshots.
+
+- **Weekly** (`#tab-weekly`, default) — sections 2–6 above.
+- **Month-to-Date** (`#tab-mtd`) — Ambal's MTD format: a `.mtd-banner` template notice, then a
+  **Scorecard with pillars as ROWS and agents as COLUMNS** (`.mtd-scorecard`: `.mtd-pillar` bands
+  Adoption/Engagement/Reliability × `.mtd-agenthead` Cowork/Studio, each `.mtd-metric` showing
+  **July vs Aug MTD** side-by-side + change, `n/a` where a delta is not publishable, `+NN% pace`
+  for run-rate compares), then an **MTD share** grid reusing `.matrix`/`.donut` (Aug MTD share with
+  a `July —` reference line pending baselines). MTD numbers are placeholders until August settles.
+  Note the MTD scorecard orientation is the transpose of the weekly scorecard; pillar/agent color
+  tokens stay identical across both tabs.
+
 ## Matrix grid spec (shared by Scorecard + Share)
 
 - `grid-template-columns: 190px repeat(3, minmax(0,1fr))`, wrapped in `.matrix-scroll`

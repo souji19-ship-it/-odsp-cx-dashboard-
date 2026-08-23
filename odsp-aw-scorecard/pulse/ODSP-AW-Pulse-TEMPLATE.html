@@ -344,6 +344,59 @@ h1 { margin-bottom: 8px; font-size: clamp(26px, 4vw, 38px); line-height: 1.15; }
   .pillar-cell.reliability::before { content: "Reliability"; }
   .metrics { grid-template-columns: 1fr; }
 }
+
+/* --- Tabs --- */
+.tabs { display: flex; gap: 6px; margin: 2px 0 20px; border-bottom: 1px solid var(--cp-border); flex-wrap: wrap; }
+.tab-btn {
+  appearance: none; border: none; background: none;
+  padding: 11px 16px; font-family: inherit; font-size: 14px; font-weight: 750;
+  color: var(--cp-text-muted); cursor: pointer;
+  border-bottom: 3px solid transparent; margin-bottom: -1px; border-radius: 8px 8px 0 0;
+}
+.tab-btn:hover { color: var(--cp-text); background: var(--cp-surface-soft); }
+.tab-btn.active { color: var(--cp-text); border-bottom-color: var(--cp-accent); }
+.tab-panel[hidden] { display: none; }
+
+/* --- MTD template banner --- */
+.mtd-banner {
+  margin: 0 0 18px; padding: 12px 14px;
+  border: 1px solid var(--cp-warning); border-left: 5px solid var(--cp-warning);
+  border-radius: .625rem; background: var(--cp-accent-soft);
+  color: var(--cp-text); font-size: 13px; line-height: 1.5;
+}
+
+/* --- MTD scorecard: pillars = rows, agents = columns --- */
+.mtd-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 3px; }
+.mtd-scorecard { min-width: 960px; display: grid; grid-template-columns: 120px 1fr 1fr; gap: 8px; }
+.mtd-corner {
+  display: flex; align-items: end; padding: 14px 4px;
+  color: var(--cp-text-muted); font-size: 12px; font-weight: 750;
+  letter-spacing: .05em; text-transform: uppercase;
+}
+.mtd-agenthead {
+  padding: 12px 14px; border-radius: .625rem; color: #fff;
+  font-weight: 750; font-size: 14px; display: flex; align-items: center;
+}
+.mtd-agenthead.cowork { background: var(--cp-link); }
+.mtd-agenthead.studio { background: var(--cp-text-soft); }
+.mtd-pillar {
+  display: flex; align-items: center; justify-content: center; text-align: center;
+  border-radius: .625rem; color: #fff; font-weight: 800; font-size: 12px;
+  letter-spacing: .05em; text-transform: uppercase; padding: 14px 6px;
+}
+.mtd-pillar.adoption { background: var(--cp-border-strong); }
+.mtd-pillar.engagement { background: var(--cp-warning); }
+.mtd-pillar.reliability { background: var(--cp-text); }
+.mtd-agentcells { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px; }
+.mtd-metric { border: 1px solid var(--cp-border); border-radius: .625rem; background: var(--cp-surface); padding: 11px 12px; }
+.mtd-mlabel { color: var(--cp-text-muted); font-size: 11px; margin-bottom: 8px; }
+.mtd-vals { display: flex; gap: 16px; }
+.mtd-vals > div { display: flex; flex-direction: column; }
+.mtd-vals span { color: var(--cp-text-muted); font-size: 10px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
+.mtd-vals strong { font-size: 19px; line-height: 1.15; }
+.mtd-metric .movement { display: block; margin-top: 8px; font-size: 12px; font-weight: 800; }
+.movement.na { color: var(--cp-text-muted); }
+.share-ref { display: block; margin-top: 6px; color: var(--cp-text-muted); font-size: 11px; }
 </style>
 </head>
 <body>
@@ -354,6 +407,12 @@ h1 { margin-bottom: 8px; font-size: clamp(26px, 4vw, 38px); line-height: 1.15; }
     <p>Week of <strong>Aug 9-15, 2026</strong> compared with Aug 2-8, 2026. Pre ODSP MCP / WorkIQ integration benchmark.</p>
   </header>
 
+  <nav class="tabs" role="tablist">
+    <button class="tab-btn active" data-target="tab-weekly">Weekly &middot; Aug 9-15</button>
+    <button class="tab-btn" data-target="tab-mtd">Month-to-Date &middot; August</button>
+  </nav>
+
+  <div class="tab-panel" id="tab-weekly">
   <section class="section included">
     <h2>What is included</h2>
     <div class="included-grid">
@@ -533,10 +592,122 @@ h1 { margin-bottom: 8px; font-size: clamp(26px, 4vw, 38px); line-height: 1.15; }
       </article>
     </div>
   </section>
+  </div><!-- /tab-weekly -->
+
+  <div class="tab-panel" id="tab-mtd" hidden>
+    <div class="mtd-banner">
+      <strong>Template preview.</strong> August month-to-date figures below are illustrative placeholders
+      from Ambal's Aug 21 mockup so the format can be finalized. Final numbers will be pulled once August
+      data settles; July &rarr; Aug MTD share deltas are still pending (shown as &ldquo;July &mdash;&rdquo;).
+    </div>
+
+    <section class="section">
+      <h2>2P Integration: Scorecard</h2>
+      <p class="period"><strong>July 2026</strong> compared with <strong>August month-to-date</strong>.
+        Values are additive month totals except reliability, which is a weighted rate.</p>
+      <div class="mtd-scroll">
+        <div class="mtd-scorecard">
+          <div class="mtd-corner">Pillar</div>
+          <div class="mtd-agenthead cowork">Copilot Cowork &mdash; ODSP footprint</div>
+          <div class="mtd-agenthead studio">Copilot Studio &mdash; ODSP footprint</div>
+
+          <div class="mtd-pillar adoption">Adoption</div>
+          <div class="mtd-agentcells">
+            <div class="mtd-metric"><p class="mtd-mlabel">ODSP active users</p><div class="mtd-vals"><div><span>July</span><strong>92.4K</strong></div><div><span>Aug MTD</span><strong>107.2K</strong></div></div><b class="movement up">+16%</b></div>
+            <div class="mtd-metric"><p class="mtd-mlabel">ODSP active tenants</p><div class="mtd-vals"><div><span>July</span><strong>9.35K</strong></div><div><span>Aug MTD</span><strong>11.0K</strong></div></div><b class="movement up">+18%</b></div>
+          </div>
+          <div class="mtd-agentcells">
+            <div class="mtd-metric"><p class="mtd-mlabel">ODSP active users</p><div class="mtd-vals"><div><span>July</span><strong>16.9K</strong></div><div><span>Aug MTD</span><strong>25.0K</strong></div></div><b class="movement na">n/a</b></div>
+            <div class="mtd-metric"><p class="mtd-mlabel">ODSP active tenants</p><div class="mtd-vals"><div><span>July</span><strong>4.89K</strong></div><div><span>Aug MTD</span><strong>7.07K</strong></div></div><b class="movement na">n/a</b></div>
+            <div class="mtd-metric"><p class="mtd-mlabel">ODSP active agents</p><div class="mtd-vals"><div><span>July</span><strong>15.4K</strong></div><div><span>Aug MTD</span><strong>20.1K</strong></div></div><b class="movement na">n/a</b></div>
+          </div>
+
+          <div class="mtd-pillar engagement">Engagement</div>
+          <div class="mtd-agentcells">
+            <div class="mtd-metric"><p class="mtd-mlabel">ODSP-backed tasks</p><div class="mtd-vals"><div><span>July</span><strong>227.6K</strong></div><div><span>Aug MTD</span><strong>285.9K</strong></div></div><b class="movement up">+26%</b></div>
+            <div class="mtd-metric"><p class="mtd-mlabel">ODSP tool calls</p><div class="mtd-vals"><div><span>July</span><strong>9.98M</strong></div><div><span>Aug MTD</span><strong>8.15M</strong></div></div><b class="movement up">+13% pace</b></div>
+          </div>
+          <div class="mtd-agentcells">
+            <div class="mtd-metric"><p class="mtd-mlabel">ODSP-backed tasks</p><div class="mtd-vals"><div><span>July</span><strong>217.9K</strong></div><div><span>Aug MTD</span><strong>203.3K</strong></div></div><b class="movement na">n/a</b></div>
+            <div class="mtd-metric"><p class="mtd-mlabel">ODSP tool calls</p><div class="mtd-vals"><div><span>July</span><strong>486.5K</strong></div><div><span>Aug MTD</span><strong>393.7K</strong></div></div><b class="movement up">+27% pace</b></div>
+            <div class="mtd-metric"><p class="mtd-mlabel">ODSP knowledge searches</p><div class="mtd-vals"><div><span>July</span><strong>916.3K</strong></div><div><span>Aug MTD</span><strong>953.5K</strong></div></div><b class="movement na">n/a</b></div>
+          </div>
+
+          <div class="mtd-pillar reliability">Reliability</div>
+          <div class="mtd-agentcells">
+            <div class="mtd-metric"><p class="mtd-mlabel">Eligible-call success</p><div class="mtd-vals"><div><span>July</span><strong>96%</strong></div><div><span>Aug MTD</span><strong>96%</strong></div></div><b class="movement flat">+0 pp</b></div>
+          </div>
+          <div class="mtd-agentcells">
+            <div class="mtd-metric"><p class="mtd-mlabel">Service success</p><div class="mtd-vals"><div><span>July</span><strong>91%</strong></div><div><span>Aug MTD</span><strong>92%</strong></div></div><b class="movement up">+1 pp</b></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>M365 Agentic Work: ODSP share</h2>
+      <p class="period">July close (Jul 28-Aug 3) compared with the latest settled <strong>August MTD</strong>
+        snapshot (Aug 9-15). &ldquo;n/a&rdquo; means the denominator or comparison basis is not yet publishable.</p>
+      <div class="matrix-scroll">
+        <div class="matrix">
+          <div class="matrix-corner">2P agent</div>
+          <div class="matrix-head adoption"><strong>Adoption</strong><span>Who is using ODSP?</span></div>
+          <div class="matrix-head engagement"><strong>Engagement</strong><span>How much ODSP-backed work is happening?</span></div>
+          <div class="matrix-head reliability"><strong>Reliability</strong><span>Can agents depend on ODSP?</span></div>
+
+          <div class="surface cowork"><strong>Copilot Cowork</strong><span>ODSP footprint</span></div>
+          <div class="pillar-cell cowork adoption"><div class="metrics">
+            <div class="share-metric"><div class="donut" style="--share:48" data-value="48%"></div><div class="share-copy"><strong>Active users</strong><span class="share-ref">July &mdash;</span></div></div>
+            <div class="share-metric"><div class="donut" style="--share:63" data-value="63%"></div><div class="share-copy"><strong>Active tenants</strong><span class="share-ref">July &mdash;</span></div></div>
+          </div></div>
+          <div class="pillar-cell cowork engagement"><div class="metrics">
+            <div class="share-metric"><div class="donut" style="--share:24" data-value="24%"></div><div class="share-copy"><strong>Tasks</strong><span class="share-ref">July &mdash;</span></div></div>
+            <div class="share-metric"><div class="donut" style="--share:0" data-value="n/a"></div><div class="share-copy"><strong>Tool calls</strong><span class="share-ref">July &mdash;</span></div></div>
+            <div class="share-metric"><div class="donut" style="--share:0" data-value="n/a"></div><div class="share-copy"><strong>Knowledge searches</strong><span class="share-ref">July &mdash;</span></div></div>
+          </div></div>
+          <div class="pillar-cell cowork reliability"><div class="metrics">
+            <div class="share-metric"><div class="donut" style="--share:96" data-value="96%"></div><div class="share-copy"><strong>Surface-specific success rate</strong><span class="share-ref">July &mdash;</span></div></div>
+          </div></div>
+
+          <div class="surface studio"><strong>Copilot Studio / Dracarys</strong><span>ODSP footprint</span></div>
+          <div class="pillar-cell studio adoption"><div class="metrics">
+            <div class="share-metric"><div class="donut" style="--share:31" data-value="31%"></div><div class="share-copy"><strong>Active users</strong><span class="share-ref">July &mdash;</span></div></div>
+            <div class="share-metric"><div class="donut" style="--share:42" data-value="42%"></div><div class="share-copy"><strong>Active tenants</strong><span class="share-ref">July &mdash;</span></div></div>
+          </div></div>
+          <div class="pillar-cell studio engagement"><div class="metrics">
+            <div class="share-metric"><div class="donut" style="--share:9" data-value="9%"></div><div class="share-copy"><strong>Tasks</strong><span class="share-ref">July &mdash;</span></div></div>
+            <div class="share-metric"><div class="donut" style="--share:3" data-value="3%"></div><div class="share-copy"><strong>Tool calls</strong><span class="share-ref">July &mdash;</span></div></div>
+            <div class="share-metric"><div class="donut" style="--share:36" data-value="36%"></div><div class="share-copy"><strong>Knowledge searches</strong><span class="share-ref">July &mdash;</span></div></div>
+          </div></div>
+          <div class="pillar-cell studio reliability"><div class="metrics">
+            <div class="share-metric"><div class="donut" style="--share:92" data-value="92%"></div><div class="share-copy"><strong>Surface-specific success rate</strong><span class="share-ref">July &mdash;</span></div></div>
+          </div></div>
+        </div>
+      </div>
+    </section>
+  </div><!-- /tab-mtd -->
 
   <footer class="footer">
     <p>Thanks,<br>Ambal Balakrishnan</p>
   </footer>
 </main>
+<script>
+  document.querySelectorAll('.tab-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      document.querySelectorAll('.tab-btn').forEach(function (b) { b.classList.remove('active'); });
+      document.querySelectorAll('.tab-panel').forEach(function (p) { p.hidden = true; });
+      btn.classList.add('active');
+      document.getElementById(btn.dataset.target).hidden = false;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  });
+  (function () {
+    var want = new URLSearchParams(window.location.search).get('tab');
+    if (want) {
+      var b = document.querySelector('.tab-btn[data-target="tab-' + want + '"]');
+      if (b) b.click();
+    }
+  })();
+</script>
 </body>
 </html>
