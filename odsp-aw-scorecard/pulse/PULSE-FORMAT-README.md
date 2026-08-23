@@ -69,9 +69,9 @@ The dashboard is a tabbed view. A `.tabs` bar sits under the hero with two `.tab
     Adoption grey, Engagement amber, Reliability near-black pillar heads). Two sections mirror the
     weekly ones: a **Scorecard** whose `.metric.mtd` cards show the metric name then a **July | Aug MTD**
     value pair with the change below (`N/A` where not publishable, `+NN% pace` for run-rate compares),
-    and an **ODSP share** matrix whose `.donut`s show the **Aug MTD** share with a `+NN pp vs Jul`
-    movement. MTD numbers are transcribed from Ambal's mockup until August settles. Only the period copy
-    and the July/Aug framing differ from Weekly; the layout and color tokens are shared.
+    and an **ODSP share** matrix whose `.donut`s show the **Aug MTD** share with a `July NN%` baseline
+    (`.share-ref`) and a `+NN pp` movement below, matching Ambal's mockup (both agents cover all six
+    metrics; gaps shown as `N/A`).
 
 ## Matrix grid spec (shared by Scorecard + Share)
 
