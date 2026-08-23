@@ -59,7 +59,9 @@ never a hard-coded hex, so both themes stay in sync.
 ## Matrix grid spec (shared by Scorecard + Share)
 
 - `grid-template-columns: 190px repeat(3, minmax(0,1fr))`, wrapped in `.matrix-scroll`
-  (`min-width:1040px`, horizontal scroll on small screens).
+  (`min-width:1040px` on desktop).
+- **Each `.pillar-cell` carries its pillar class** (`adoption` / `engagement` / `reliability`) in
+  addition to any agent class. This is required so the mobile layout can label and color-code cells.
 - **Row 1** = `.matrix-corner` ("2P agent") + 3 `.matrix-head` pillar headers, each with a
   plain-language question and a pillar-colored 5px top border:
   - Adoption — "Who is using ODSP?"
@@ -88,5 +90,8 @@ Edge headless to verify (light theme is default; append `?scoutTheme=dark` to pr
 ```
 msedge --headless --disable-gpu --force-device-scale-factor=1.25 --window-size=1300,4200 --screenshot=out.png "<file-uri>"
 ```
-The template is **responsive** (single-column below 760px) — do not re-introduce a fixed-width
-viewport; keep the `width=device-width` meta.
+The template is **responsive / mobile-friendly**. Below 760px the matrix stops being a wide
+scrolling grid: the pillar-header row is hidden and each agent stacks as a card with its three
+pillar cells one under the other, each labeled (Adoption / Engagement / Reliability) with a
+pillar-colored top border and single-column metrics. Do **not** re-introduce a fixed-width
+viewport; keep the `width=device-width` meta and the per-cell pillar classes.

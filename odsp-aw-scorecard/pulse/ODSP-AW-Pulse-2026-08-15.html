@@ -312,6 +312,37 @@ h1 { margin-bottom: 8px; font-size: clamp(26px, 4vw, 38px); line-height: 1.15; }
   body { padding: 10px; }
   .hero, .section { padding: 17px; }
   .included-grid, .methodology-grid { grid-template-columns: 1fr; }
+  .matrix-scroll { overflow-x: visible; padding-bottom: 0; }
+  .matrix { min-width: 0; display: block; }
+  .matrix-corner, .matrix-head { display: none; }
+  .matrix .surface {
+    min-height: 0;
+    margin: 18px 0 8px;
+    padding: 12px 14px;
+    border-left-width: 6px;
+  }
+  .matrix .surface:first-of-type { margin-top: 0; }
+  .matrix .pillar-cell {
+    min-height: 0;
+    margin-bottom: 8px;
+    border-top-width: 4px;
+  }
+  .pillar-cell.adoption { border-top-color: var(--cp-border-strong); }
+  .pillar-cell.engagement { border-top-color: var(--cp-warning); }
+  .pillar-cell.reliability { border-top-color: var(--cp-text); }
+  .matrix .pillar-cell::before {
+    display: block;
+    margin-bottom: 9px;
+    font-size: 11px;
+    font-weight: 750;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+    color: var(--cp-text-muted);
+  }
+  .pillar-cell.adoption::before { content: "Adoption"; }
+  .pillar-cell.engagement::before { content: "Engagement"; }
+  .pillar-cell.reliability::before { content: "Reliability"; }
+  .metrics { grid-template-columns: 1fr; }
 }
 </style>
 </head>
@@ -344,40 +375,40 @@ h1 { margin-bottom: 8px; font-size: clamp(26px, 4vw, 38px); line-height: 1.15; }
         <div class="matrix-head reliability"><strong>Reliability</strong><span>Can agents depend on ODSP?</span></div>
 
         <div class="surface cowork"><strong>Copilot Cowork</strong><span>ODSP footprint</span></div>
-        <div class="pillar-cell">
+        <div class="pillar-cell adoption">
           <div class="metrics">
             <div class="metric"><strong>107.2K</strong><span>ODSP-active users</span><b class="movement flat">flat</b></div>
             <div class="metric"><strong>11.0K</strong><span>ODSP-active tenants</span><b class="movement up">+1% WoW</b></div>
           </div>
         </div>
-        <div class="pillar-cell">
+        <div class="pillar-cell engagement">
           <div class="metrics">
             <div class="metric"><strong>285.9K</strong><span>ODSP-backed tasks</span><b class="movement up">+8% WoW</b></div>
             <div class="metric"><strong>3.09M</strong><span>ODSP tool calls</span><b class="movement up">+6% WoW</b></div>
           </div>
         </div>
-        <div class="pillar-cell">
+        <div class="pillar-cell reliability">
           <div class="metrics">
             <div class="metric"><strong>96%</strong><span>ODSP tool success rate</span><b class="movement down">-1 pp WoW</b></div>
           </div>
         </div>
 
         <div class="surface studio"><strong>Copilot Studio / Dracarys</strong><span>ODSP footprint</span></div>
-        <div class="pillar-cell">
+        <div class="pillar-cell adoption">
           <div class="metrics">
             <div class="metric"><strong>25.0K</strong><span>ODSP-active users</span><b class="movement up">+18% WoW</b></div>
             <div class="metric"><strong>7.07K</strong><span>ODSP-active tenants</span><b class="movement up">+18% WoW</b></div>
             <div class="metric"><strong>20.1K</strong><span>ODSP-active agents</span><b class="movement up">+17% WoW</b></div>
           </div>
         </div>
-        <div class="pillar-cell">
+        <div class="pillar-cell engagement">
           <div class="metrics">
             <div class="metric"><strong>203.3K</strong><span>ODSP-backed tasks</span><b class="movement up">+30% WoW</b></div>
             <div class="metric"><strong>209.7K</strong><span>ODSP tool calls</span><b class="movement up">+14% WoW</b></div>
             <div class="metric"><strong>549.7K</strong><span>ODSP knowledge searches</span><b class="movement up">+47% WoW</b></div>
           </div>
         </div>
-        <div class="pillar-cell">
+        <div class="pillar-cell reliability">
           <div class="metrics">
             <div class="metric"><strong>92%</strong><span>ODSP tool success rate</span><b class="movement up">+&lt;1 pp WoW</b></div>
           </div>
@@ -397,39 +428,39 @@ h1 { margin-bottom: 8px; font-size: clamp(26px, 4vw, 38px); line-height: 1.15; }
         <div class="matrix-head reliability"><strong>Reliability</strong><span>Can agents depend on ODSP?</span></div>
 
         <div class="surface cowork"><strong>Copilot Cowork</strong><span>ODSP footprint</span></div>
-        <div class="pillar-cell cowork">
+        <div class="pillar-cell cowork adoption">
           <div class="metrics">
             <div class="share-metric"><div class="donut" style="--share:48" data-value="48%"></div><div class="share-copy"><strong>ODSP-active users</strong><span class="movement down">-0.5 pp WoW</span></div></div>
             <div class="share-metric"><div class="donut" style="--share:63" data-value="63%"></div><div class="share-copy"><strong>ODSP-active tenants</strong><span class="movement down">-0.5 pp WoW</span></div></div>
           </div>
         </div>
-        <div class="pillar-cell cowork">
+        <div class="pillar-cell cowork engagement">
           <div class="metrics">
             <div class="share-metric"><div class="donut" style="--share:24" data-value="24%"></div><div class="share-copy"><strong>ODSP-backed tasks</strong><span class="movement up">+0.9 pp WoW</span></div></div>
             <div class="share-metric"><div class="donut" style="--share:14" data-value="14%"></div><div class="share-copy"><strong>ODSP tool calls - daily penetration</strong><span class="movement up">+0.6 pp WoW</span></div></div>
           </div>
         </div>
-        <div class="pillar-cell cowork">
+        <div class="pillar-cell cowork reliability">
           <div class="metrics">
             <div class="share-metric"><div class="donut" style="--share:96" data-value="96%"></div><div class="share-copy"><strong>ODSP tool success rate</strong><span class="movement down">-0.7 pp WoW</span></div></div>
           </div>
         </div>
 
         <div class="surface studio"><strong>Copilot Studio / Dracarys</strong><span>ODSP footprint</span></div>
-        <div class="pillar-cell studio">
+        <div class="pillar-cell studio adoption">
           <div class="metrics">
             <div class="share-metric"><div class="donut" style="--share:31" data-value="31%"></div><div class="share-copy"><strong>ODSP-active users</strong><span class="movement flat">+0 pp WoW</span></div></div>
             <div class="share-metric"><div class="donut" style="--share:42" data-value="42%"></div><div class="share-copy"><strong>ODSP-active tenants</strong><span class="movement down">-0.3 pp WoW</span></div></div>
           </div>
         </div>
-        <div class="pillar-cell studio">
+        <div class="pillar-cell studio engagement">
           <div class="metrics">
             <div class="share-metric"><div class="donut" style="--share:9" data-value="9%"></div><div class="share-copy"><strong>ODSP-backed tasks</strong><span class="movement up">+1.5 pp WoW</span></div></div>
             <div class="share-metric"><div class="donut" style="--share:3" data-value="3%"></div><div class="share-copy"><strong>ODSP tool calls</strong><span class="movement up">+0.3 pp WoW</span></div></div>
             <div class="share-metric"><div class="donut" style="--share:36" data-value="36%"></div><div class="share-copy"><strong>ODSP knowledge searches</strong><span class="movement flat">-</span></div></div>
           </div>
         </div>
-        <div class="pillar-cell studio">
+        <div class="pillar-cell studio reliability">
           <div class="metrics">
             <div class="share-metric"><div class="donut" style="--share:92" data-value="92%"></div><div class="share-copy"><strong>ODSP tool success rate</strong><span class="movement up">+0.4 pp WoW</span></div></div>
           </div>
