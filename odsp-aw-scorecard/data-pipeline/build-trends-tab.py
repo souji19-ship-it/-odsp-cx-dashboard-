@@ -5,8 +5,8 @@
 # SPARK / Scout excluded (no per-week feed).
 import os, math
 
-# week-ending labels (consistent with rest of dashboard)
-WEEKLAB = ["Jul 11", "Jul 18", "Jul 25", "Aug 1", "Aug 8", "Aug 15"]
+# week-range labels (Ambal's format)
+WEEKLAB = ["Jul 5-11", "Jul 12-18", "Jul 19-25", "Jul 26-Aug 1", "Aug 2-8", "Aug 9-15"]
 
 COWORK = {
     "Active Users":  {"odsp":[88488,84368,86811,92373,107182,107159], "allup":[218493,199330,201005,204013,220132,221960]},
@@ -139,11 +139,11 @@ STYLE = '''/* Trends tab */
 #tab-trends .tc-title{font-size:15px;font-weight:700;color:var(--cp-text)}
 #tab-trends .tc-sub{font-size:12px;color:var(--cp-text-muted);margin:2px 0 8px}
 #tab-trends .tc-chart{overflow-x:auto}
-#tab-trends .tc-chart svg{width:100%;min-width:520px;height:auto;display:block}
+#tab-trends .tc-chart svg{width:100%;min-width:560px;height:auto;display:block}
 #tab-trends .g{stroke:var(--cp-border);stroke-width:1;opacity:.7}
 #tab-trends .ax{stroke:var(--cp-border);stroke-width:1.2}
 #tab-trends .gt{fill:var(--cp-text-muted);font-size:11px}
-#tab-trends .xl{fill:var(--cp-text-muted);font-size:11.5px}
+#tab-trends .xl{fill:var(--cp-text-muted);font-size:10px}
 #tab-trends .xl.latest{fill:var(--cp-text);font-weight:700}
 #tab-trends .ln{fill:none;stroke-width:2.4}
 #tab-trends .ln.cw{stroke:#2f5bd0} #tab-trends .ln.cs{stroke:#7c3aed}

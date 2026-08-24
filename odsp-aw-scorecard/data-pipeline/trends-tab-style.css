@@ -12,11 +12,11 @@
 #tab-trends .tc-title{font-size:15px;font-weight:700;color:var(--cp-text)}
 #tab-trends .tc-sub{font-size:12px;color:var(--cp-text-muted);margin:2px 0 8px}
 #tab-trends .tc-chart{overflow-x:auto}
-#tab-trends .tc-chart svg{width:100%;min-width:520px;height:auto;display:block}
+#tab-trends .tc-chart svg{width:100%;min-width:560px;height:auto;display:block}
 #tab-trends .g{stroke:var(--cp-border);stroke-width:1;opacity:.7}
 #tab-trends .ax{stroke:var(--cp-border);stroke-width:1.2}
 #tab-trends .gt{fill:var(--cp-text-muted);font-size:11px}
-#tab-trends .xl{fill:var(--cp-text-muted);font-size:11.5px}
+#tab-trends .xl{fill:var(--cp-text-muted);font-size:10px}
 #tab-trends .xl.latest{fill:var(--cp-text);font-weight:700}
 #tab-trends .ln{fill:none;stroke-width:2.4}
 #tab-trends .ln.cw{stroke:#2f5bd0} #tab-trends .ln.cs{stroke:#7c3aed}
