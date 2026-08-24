@@ -6,19 +6,19 @@
 import os, math
 
 # week-range labels (Ambal's format)
-WEEKLAB = ["Jul 5-11", "Jul 12-18", "Jul 19-25", "Jul 26-Aug 1", "Aug 2-8", "Aug 9-15"]
+WEEKLAB = ["Jul 5-11", "Jul 12-18", "Jul 19-25", "Jul 26-Aug 1", "Aug 2-8", "Aug 9-15", "Aug 16-22"]
 
 COWORK = {
-    "Active Users":  {"odsp":[88488,84368,86811,92373,107182,107159], "allup":[218493,199330,201005,204013,220132,221960]},
-    "Active Tenants":{"odsp":[11171,8382,8579,9346,10867,10997],       "allup":[20557,14714,15040,15507,16980,17356]},
-    "Tasks":         {"odsp":[216402,207406,239748,227624,263945,285878], "allup":[1044106,985180,1069876,1064187,1150058,1217699]},
-    "Tool Calls":    {"odsp":[2124966,1876324,2113159,2332460,2927589,3090304], "allup":[12970200,12751501,15768371,17077483,22210522,22404416]},
+    "Active Users":  {"odsp":[88488,84368,86811,92373,107182,107159,113926], "allup":[218493,199330,201005,204013,220132,221960,234500]},
+    "Active Tenants":{"odsp":[11171,8382,8579,9346,10867,10997,11602],       "allup":[20557,14714,15040,15507,16980,17356,18500]},
+    "Tasks":         {"odsp":[216402,207406,239748,227624,263945,285878,336936], "allup":[1044106,985180,1069876,1064187,1150058,1217699,1300000]},
+    "Tool Calls":    {"odsp":[2124966,1876324,2113159,2332460,2927589,3090304,3426491], "allup":[12970200,12751501,15768371,17077483,22210522,22404416,23700000]},
 }
 STUDIO = {
-    "Active Users":  {"odsp":[12227,13115,15585,16927,30257,24997], "allup":[40090,49392,56257,56681,76185,80378]},
-    "Active Tenants":{"odsp":[3977,4282,4632,4888,7124,7068],       "allup":[9894,11371,10452,11351,15142,16939]},
-    "Tasks":         {"odsp":[99795,135821,145148,217917,225802,203294], "allup":[713468,832592,1085293,2114293,2329336,2162976]},
-    "Tool Calls":    {"odsp":[166895,202634,116929,145954,184031,209659], "allup":[3629388,3525222,5315625,7997052,7857160,7959753]},
+    "Active Users":  {"odsp":[12227,13115,15585,16927,30257,24997,32524], "allup":[40090,49392,56257,56681,76185,80378,99045]},
+    "Active Tenants":{"odsp":[3977,4282,4632,4888,7124,7068,8204],       "allup":[9894,11371,10452,11351,15142,16939,18239]},
+    "Tasks":         {"odsp":[99795,135821,145148,217917,225802,203294,293137], "allup":[713468,832592,1085293,2114293,2329336,2162976,2877938]},
+    "Tool Calls":    {"odsp":[166895,202634,116929,145954,184031,209659,916708], "allup":[3629388,3525222,5315625,7997052,7857160,7959753,10172093]},
 }
 
 METRICS = ["Active Users", "Active Tenants", "Tasks", "Tool Calls"]
@@ -105,7 +105,7 @@ def chips(metric):
 cards = ""
 for m in METRICS:
     cards += (f'<div class="trend-card"><div class="tc-title">{m}</div>'
-              f'<div class="tc-sub">Agent all-up &middot; ODSP footprint within &middot; weekly Jul 5 &ndash; Aug 15</div>'
+              f'<div class="tc-sub">Agent all-up &middot; ODSP footprint within &middot; weekly Jul 5 &ndash; Aug 22</div>'
               f'<div class="tc-chart">{chart(m)}</div>{chips(m)}</div>')
 
 LEGEND = ('<div class="trends-legend">'
@@ -117,7 +117,7 @@ LEGEND = ('<div class="trends-legend">'
 PANEL = f'''  <div class="tab-panel" id="tab-trends" hidden>
     <section class="section">
       <h2>Retained weekly trends</h2>
-      <p class="period">6 weeks &middot; Jul 5 &ndash; Aug 15, 2026. Solid lines = agent all-up (101 level); dashed = ODSP (OneDrive/SharePoint) footprint within each agent. Scout &amp; Spark excluded (no per-week feed &mdash; no estimated points).</p>
+      <p class="period">7 weeks &middot; Jul 5 &ndash; Aug 22, 2026. Solid lines = agent all-up (101 level); dashed = ODSP (OneDrive/SharePoint) footprint within each agent. Scout &amp; Spark excluded (no per-week feed &mdash; no estimated points).</p>
       {LEGEND}
       <div class="trends-grid">
         {cards}

@@ -1,8 +1,15 @@
-Add ODSP-active agents donut to Studio M365 share section
+Update Weekly story to Aug 16-22 and extend Trends tab to 7 weeks
 
-Studio agents share (Aug 16-22): ODSP 23,704 / all-up 83,117 = 28%,
-+2.5 pp WoW vs Aug 9-15 (26.0%). Aligns the M365 share matrix with the
-scorecard, which already reports Studio active agents.
+Story cards (Weekly tab) rewritten for Aug 16-22 WoW, same format:
+adoption, engagement (led by Studio tool calls), reliability
+(Cowork 95.6% -0.2pp, Studio 92.7% +0.5pp), and leadership watch
+now flags the Studio tool-calls +337% surge for driver check.
+Architecture-runway and overall cards unchanged (evergreen).
+
+Trends tab: added the Aug 16-22 week as a 7th point for all four
+metrics x both agents (all-up + ODSP footprint), from the Cowork
+dashboard all-up and the CAP weekly pull. Period + subtitles now
+read Jul 5 - Aug 22 (7 weeks).
 
 Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>
 Copilot-Session: ff701f87-c726-4fdd-83be-28100f46d505
