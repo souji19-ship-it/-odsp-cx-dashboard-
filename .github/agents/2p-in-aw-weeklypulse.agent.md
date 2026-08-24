@@ -32,6 +32,13 @@ across both tabs. See `PULSE-FORMAT-README.md` (Tabs section) for the full spec.
    is the only place a name appears — it is the sender's name.
 5. Preserve the layout, section order, wording scaffold, and colors from the template.
    Only the numbers, dates, and WoW deltas change week to week.
+6. **Report title convention.** The dashboard title (the H1, the `<title>`, and every tab's JS
+   `title.textContent`) is always `ODSP-AW - 2P Integration Weekly Pulse (<week range>, <year>)` —
+   update the date range each week. MTD tab: `ODSP-AW - 2P Integration Month-to-Date (<Month Year>)`;
+   Trends tab: `ODSP-AW - 2P Integration Trends`.
+7. **No dash separators in prose.** Never use an em-dash (—) or " - " as a sentence connector in the
+   report body. Use commas, colons, or periods instead. Hyphens are allowed only in compound
+   modifiers (e.g. ODSP-active, pre-MCP), the title separator, and date ranges (e.g. Aug 16-22).
 
 ## Ambal's feedback — locked design principles (preserve every week)
 1. **Pillars are COLUMNS, 2P agents are ROWS — in BOTH the Scorecard and the ODSP-share grid.**

@@ -10,6 +10,11 @@ section order, colors, or wording scaffold.**
 >    prior value and flag it — do not invent.
 > 2. Transcribe exactly from the source the owner points to; don't silently "correct" to finer values.
 > 3. Never use the words **"strong" / "weak"** to characterize a metric (owner's standing rule).
+> 4. **Report title** is always `ODSP-AW - 2P Integration Weekly Pulse (<week range>, <year>)` — the
+>    H1, the `<title>`, and each tab's JS title; change the date every week. MTD →
+>    `... Month-to-Date (<Month Year>)`, Trends → `... Trends`.
+> 5. **No dash separators in prose.** No em-dash (—) or " - " as a sentence connector; use commas,
+>    colons, or periods. Keep hyphens only in compound modifiers, the title separator, and date ranges.
 
 ## Ambal's feedback — locked design principles
 
