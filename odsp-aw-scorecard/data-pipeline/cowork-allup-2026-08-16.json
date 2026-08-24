@@ -1,0 +1,30 @@
+{
+  "week": "Aug 16-22",
+  "source": "Microsoft Copilot Cowork dashboard (DATE 2026-08-22, VIEW Weekly, REGION All Regions) - Summary + Tools tabs.",
+  "allUp": {
+    "Active Users": 234500,
+    "Active Tenants": 18500,
+    "Tasks": 1300000,
+    "Tool Calls": 23700000,
+    "Tool Success Rate": 95.9
+  },
+  "odsp": {
+    "Active Users": 113926,
+    "Active Tenants": 11602,
+    "Tasks": 336936,
+    "Tool Calls": 3426491,
+    "Tool Success Rate": 95.59
+  },
+  "odspShare": {
+    "Active Users": 48.6,
+    "Active Tenants": 62.7,
+    "Tasks": 25.9,
+    "Tool Calls": 14.5
+  },
+  "priorWeekShare_Aug9_15": {
+    "Active Users": 48.3,
+    "Active Tenants": 63.4,
+    "Tasks": 23.5,
+    "Tool Calls": 13.8
+  }
+}

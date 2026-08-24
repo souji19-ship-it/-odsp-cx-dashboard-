@@ -1,0 +1,37 @@
+{
+  "window": {
+    "W0": "2026-08-16",
+    "W1": "2026-08-23"
+  },
+  "note": "Weekly (Aug 16-22) CAP pull via sandeep_refresh_mtd.py. Copilot Studio / M365 only (Cowork all-up not covered by this script). Knowledge uses strict kc=='SharePoint' definition.",
+  "ODSP": {
+    "Users": 32524,
+    "Tenants": 8204,
+    "Agents": 23704,
+    "Tasks": 293137,
+    "ToolCalls": 916708,
+    "KnowledgeSources": 423009,
+    "SuccessPct": 92.7
+  },
+  "Allup": {
+    "Users": 99045,
+    "Tenants": 18239,
+    "Agents": 83117,
+    "Tasks": 2877938,
+    "ToolCalls": 10172093,
+    "KnowledgeSources": 1242550
+  },
+  "Shares": {
+    "Users": 32.8,
+    "Tenants": 45.0,
+    "Agents": 28.5,
+    "Tasks": 10.2,
+    "ToolCalls": 9.0,
+    "Knowledge": 34.0
+  },
+  "Combined": {
+    "ODSP_TK": 1339717,
+    "Allup_TK": 11414643,
+    "WeightedComposition": 11.7
+  }
+}

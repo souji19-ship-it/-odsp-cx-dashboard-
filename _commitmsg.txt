@@ -1,17 +1,23 @@
-Roll Weekly tab to Aug 16-22 (2P Scorecard: Cowork + CS)
+Roll M365 ODSP-share section to Aug 16-22 (Cowork + Studio donuts)
 
-Update tab label, hero sub, scorecard period and the tab-switch JS
-weekly branch to "Week of Aug 16-22, 2026 compared with Aug 9-15, 2026".
+Cowork all-up denominators from the Copilot Cowork dashboard
+(2026-08-22, Weekly, All Regions): users 234.5K, tenants 18.5K,
+tasks 1.3M, tool calls 23.7M, all-up success 95.9%.
+Studio/M365 all-up denominators from the CAP weekly pull
+(sandeep_refresh_mtd.py, W0=2026-08-16 W1=2026-08-23).
 
-2P ODSP Integration Scorecard (Aug 16-22 vs Aug 9-15):
-- Cowork: users 113.9K (+6%), tenants 11.6K (+6%), tasks 336.9K (+18%),
-  tool calls 3.43M (+11%), tool success 96% (flat).
-- Copilot Studio/Dracarys: users 32.5K (+30%), tenants 8.20K (+16%),
-  agents 23.7K (+18%), tasks 293.1K (+44%), tool calls 916.7K (+337%),
-  knowledge searches 692.2K (+26%), tool success 93% (+1 pp).
+Recomputed weekly ODSP shares (vs Aug 9-15):
+- Cowork: users 49% (+0.3pp), tenants 63% (-0.7pp), tasks 26% (+2.4pp),
+  tool calls 14% (+0.7pp), tool success 96% (-0.2pp).
+- Studio: users 33% (+1.7pp), tenants 45% (+3.3pp), tasks 10% (+0.8pp),
+  tool calls 9% (+6.4pp), knowledge 34% (-4.3pp), tool success 93% (+0.5pp).
 
-M365 ODSP-share donuts and the weekly story left unchanged pending
-all-up denominators for Aug 16-22.
+Cache the pulled denominators (sandeep-mtd-result-2026-08-16.json,
+cowork-allup-2026-08-16.json). Weekly story section left unchanged.
+
+Note: Studio knowledge donut uses the strict CAP SharePoint definition
+(423K/1.24M = 34%); the scorecard shows 692K (broader source). Pending
+alignment on the canonical knowledge definition.
 
 Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>
 Copilot-Session: ff701f87-c726-4fdd-83be-28100f46d505
