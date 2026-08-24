@@ -21,6 +21,7 @@
     ],
     "start": "2026-08-09",
     "endExclusive": "2026-08-16",
+    "grain": "week",
     "distinctMethod": "regional HLL sketches merged across the fixed 17-region population",
     "odspKnowledge": "KnowledgeSource in ('SharePoint','SharePointList')"
   },

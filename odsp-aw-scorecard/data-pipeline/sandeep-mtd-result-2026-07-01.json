@@ -1,0 +1,38 @@
+{
+  "window": {
+    "W0": "2026-07-01",
+    "W1": "2026-08-01"
+  },
+  "ODSP": {
+    "Users": 17012,
+    "Tenants": 4888,
+    "Agents": 15434,
+    "Tasks": 218638,
+    "ToolCalls": 142818,
+    "KnowledgeSources": 639267,
+    "KnowledgeSources_SrcDef": 501479,
+    "ServiceFailures": 14336,
+    "SuccessPct": 90.0
+  },
+  "Allup": {
+    "Users": 56949,
+    "Tenants": 11383,
+    "Agents": 67813,
+    "Tasks": 2069610,
+    "ToolCalls": 7875186,
+    "KnowledgeSources": 2132485
+  },
+  "Shares": {
+    "Users": 29.9,
+    "Tenants": 42.9,
+    "Agents": 22.8,
+    "Tasks": 10.6,
+    "ToolCalls": 1.8,
+    "Knowledge": 30.0
+  },
+  "Combined": {
+    "ODSP_TK": 782085,
+    "Allup_TK": 10007671,
+    "WeightedComposition": 7.8
+  }
+}

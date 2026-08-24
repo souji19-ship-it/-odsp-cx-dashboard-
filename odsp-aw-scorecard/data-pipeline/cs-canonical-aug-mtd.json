@@ -1,0 +1,43 @@
+{
+  "2026-08-01": {
+    "Allup": {
+      "Scope": "Allup",
+      "Users": 193498,
+      "Tenants": 28998,
+      "Agents": 187037,
+      "Tasks": 7292107,
+      "ToolCalls": 26908209,
+      "KnowledgeSources": 6821613,
+      "EligibleToolCalls": 0,
+      "ServiceFailures": 0,
+      "PublishedServiceSuccess": 100,
+      "ConsentExcludedServiceSuccess": null
+    },
+    "ODSP": {
+      "Scope": "ODSP",
+      "Users": 61452,
+      "Tenants": 12665,
+      "Agents": 48032,
+      "Tasks": 659630,
+      "ToolCalls": 1318003,
+      "KnowledgeSources": 1632851,
+      "EligibleToolCalls": 1278138,
+      "ServiceFailures": 99136,
+      "PublishedServiceSuccess": 92.5,
+      "ConsentExcludedServiceSuccess": 92.2
+    },
+    "Combined": {
+      "ODSPToolCallsAndKnowledge": 2950854,
+      "AllupToolCallsAndKnowledge": 33729822,
+      "WeightedComposition": 8.7
+    },
+    "Shares": {
+      "Users": 31.8,
+      "Tenants": 43.7,
+      "Agents": 25.7,
+      "Tasks": 9,
+      "ToolCalls": 4.9,
+      "Knowledge": 23.9
+    }
+  }
+}
