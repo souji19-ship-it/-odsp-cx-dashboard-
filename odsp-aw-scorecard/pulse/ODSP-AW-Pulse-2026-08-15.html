@@ -469,6 +469,38 @@ h1 { margin-bottom: 8px; font-size: clamp(26px, 4vw, 38px); line-height: 1.15; }
 #tab-trends .tc-chip b{font-weight:700;color:var(--cp-text)}
 #tab-trends .tc-chip.up{background:#e7f6ee;color:#1a7f4b} #tab-trends .tc-chip.up b{color:#1a7f4b}
 #tab-trends .tc-chip.down{background:#fdeceb;color:#c0322b} #tab-trends .tc-chip.down b{color:#c0322b}
+
+/* Top Tenants tab */
+#tab-tenants .tt-controls{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:2px 0 14px}
+#tab-tenants .tt-controls-lbl{font-size:12.5px;font-weight:700;color:var(--cp-text-muted);margin-right:2px}
+#tab-tenants .tt-sort{appearance:none;border:1px solid var(--cp-border);background:var(--cp-surface);color:var(--cp-text-muted);font-family:inherit;font-size:12.5px;font-weight:700;padding:6px 13px;border-radius:20px;cursor:pointer}
+#tab-tenants .tt-sort:hover{color:var(--cp-text);border-color:var(--cp-border-strong)}
+#tab-tenants .tt-sort.active{background:var(--cp-text);color:var(--cp-bg-elevated);border-color:var(--cp-text)}
+#tab-tenants .tt-scroll{overflow-x:auto}
+#tab-tenants .tt-table{width:100%;border-collapse:collapse;min-width:860px;font-size:13px}
+#tab-tenants .tt-table th{text-align:left;font-size:11px;font-weight:750;text-transform:uppercase;letter-spacing:.04em;color:var(--cp-text-muted);padding:8px 10px;border-bottom:2px solid var(--cp-border)}
+#tab-tenants .tt-table th.num{text-align:right}
+#tab-tenants .tt-table td{padding:9px 10px;border-bottom:1px solid var(--cp-border);color:var(--cp-text);vertical-align:middle}
+#tab-tenants .tt-table td.num{text-align:right;font-variant-numeric:tabular-nums;font-weight:700}
+#tab-tenants .tt-table tr:hover td{background:var(--cp-surface-soft)}
+#tab-tenants .tt-rank{color:var(--cp-text-muted);font-weight:800;font-variant-numeric:tabular-nums}
+#tab-tenants .tt-id{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;font-weight:700}
+#tab-tenants .tt-hotdot{color:var(--cp-accent);margin-left:6px;font-size:11px}
+#tab-tenants .tt-mix{display:flex;height:9px;width:130px;border-radius:5px;overflow:hidden;background:var(--cp-surface-soft)}
+#tab-tenants .tt-mix i{display:block;height:100%}
+#tab-tenants .tt-sw{width:11px;height:11px;border-radius:3px;display:inline-block;vertical-align:-1px;margin-right:5px}
+#tab-tenants .tt-sw.od{background:#0078d4}
+#tab-tenants .tt-mix i.od{background:#0078d4}
+#tab-tenants .tt-sw.sp{background:#0d9488}
+#tab-tenants .tt-mix i.sp{background:#0d9488}
+#tab-tenants .tt-sw.sh{background:#b0b0b0}
+#tab-tenants .tt-mix i.sh{background:#b0b0b0}
+#tab-tenants .tt-tools{color:var(--cp-text-muted);font-size:11.5px}
+#tab-tenants .tt-seg{display:inline-block;font-size:11px;font-weight:700;padding:2px 9px;border-radius:20px;background:var(--cp-surface-soft);color:var(--cp-text-muted);white-space:nowrap}
+#tab-tenants .tt-legend{display:flex;flex-wrap:wrap;gap:16px;margin-top:12px}
+#tab-tenants .tt-k{display:inline-flex;align-items:center;font-size:12px;color:var(--cp-text-muted)}
+#tab-tenants .tt-hot{color:var(--cp-accent);margin-right:5px}
+#tab-tenants .tt-note{margin-top:12px;font-size:11.5px;color:var(--cp-text-muted);line-height:1.45}
 </style>
 </head>
 <body>
@@ -482,6 +514,7 @@ h1 { margin-bottom: 8px; font-size: clamp(26px, 4vw, 38px); line-height: 1.15; }
     <button class="tab-btn active" data-target="tab-weekly">Weekly &middot; Aug 16-22</button>
     <button class="tab-btn" data-target="tab-mtd">Month-to-Date &middot; August</button>
     <button class="tab-btn" data-target="tab-trends">Trends</button>
+    <button class="tab-btn" data-target="tab-tenants">Top Tenants</button>
   </nav>
 
   <div class="tab-panel" id="tab-weekly">
@@ -732,6 +765,34 @@ h1 { margin-bottom: 8px; font-size: clamp(26px, 4vw, 38px); line-height: 1.15; }
     </section>
   </div><!-- /tab-trends -->
 
+  <div class="tab-panel" id="tab-tenants" hidden>
+    <section class="section">
+      <h2>Top Tenants &middot; Copilot Cowork (ODSP footprint)</h2>
+      <p class="period">Week of <strong>Aug 16-22, 2026</strong>. Top 25 ODSP-active Copilot Cowork tenants. Rank by tasks, users, or tool calls.</p>
+      <div class="tt-controls">
+        <span class="tt-controls-lbl">Rank by</span>
+        <button class="tt-sort active" data-key="tasks">ODSP tasks</button>
+        <button class="tt-sort" data-key="users">ODSP users</button>
+        <button class="tt-sort" data-key="tc">ODSP tool calls</button>
+      </div>
+      <div class="tt-scroll">
+        <table class="tt-table">
+          <thead>
+            <tr><th>#</th><th>Tenant</th><th class="num">ODSP tasks</th><th class="num">ODSP users</th><th class="num">ODSP tool calls</th><th class="num">Success</th><th>ODSP surface mix</th><th>Top tools</th><th>Segment</th></tr>
+          </thead>
+          <tbody id="tt-body"></tbody>
+        </table>
+      </div>
+      <div class="tt-legend">
+        <span class="tt-k"><i class="tt-sw od"></i>OneDrive</span>
+        <span class="tt-k"><i class="tt-sw sp"></i>SharePoint</span>
+        <span class="tt-k"><i class="tt-sw sh"></i>Shared and other</span>
+        <span class="tt-k"><i class="tt-hot">&#9679;</i>Hot lead (high engagement)</span>
+      </div>
+      <p class="tt-note">Copilot Cowork ODSP footprint, current week. Tenant names are not available (tenant IDs only, shown truncated); name enrichment pending. Copilot Studio / Dracarys tenant ranking is pending source access.</p>
+    </section>
+  </div><!-- /tab-tenants -->
+
   <footer class="footer">
     <p>Thanks,<br>Ambal Balakrishnan</p>
   </footer>
@@ -751,6 +812,9 @@ h1 { margin-bottom: 8px; font-size: clamp(26px, 4vw, 38px); line-height: 1.15; }
       } else if (btn.dataset.target === 'tab-trends') {
         title.textContent = '2P ODSP Integration Trends - August 24, 2026';
         sub.innerHTML = 'Retained weekly trends &middot; <strong>Jul 5 &ndash; Aug 15, 2026</strong> &middot; agent all-up vs ODSP footprint.';
+      } else if (btn.dataset.target === 'tab-tenants') {
+        title.textContent = '2P ODSP Integration Top Tenants - August 24, 2026';
+        sub.innerHTML = 'Top ODSP-active tenants &middot; <strong>Aug 16-22, 2026</strong> &middot; Copilot Cowork footprint.';
       } else {
         title.textContent = '2P ODSP Integration Weekly Pulse - August 24, 2026';
         sub.innerHTML = 'Week of <strong>Aug 16-22, 2026</strong> compared with Aug 9-15, 2026. Pre ODSP MCP / WorkIQ integration benchmark.';
@@ -764,6 +828,37 @@ h1 { margin-bottom: 8px; font-size: clamp(26px, 4vw, 38px); line-height: 1.15; }
       var b = document.querySelector('.tab-btn[data-target="tab-' + want + '"]');
       if (b) b.click();
     }
+  })();
+  (function () {
+    var TENANTS = [{"id":"258e9af2","tasks":11873,"users":38,"tc":50709,"succ":99.8,"od":52.1,"sp":3.3,"sh":44.6,"tools":["ReadFileContent","GetDriveItem","SearchDrive"],"seg":"Automation-led","hot":false},{"id":"74892fe7","tasks":7882,"users":1834,"tc":124571,"succ":99.5,"od":49.9,"sp":5.5,"sh":44.6,"tools":["ReadFileContent","GetDriveChildren","SearchDrive"],"seg":"Broad + deep","hot":true},{"id":"0eb48825","tasks":3336,"users":747,"tc":29336,"succ":99.6,"od":49.6,"sp":5.3,"sh":45.1,"tools":["ReadFileContent","GetDriveChildren","SearchDrive"],"seg":"Broad adoption","hot":false},{"id":"7fe14ab6","tasks":3326,"users":816,"tc":28606,"succ":99.5,"od":43.9,"sp":8.6,"sh":47.5,"tools":["ReadFileContent","GetDriveChildren","SearchDrive"],"seg":"Broad adoption","hot":false},{"id":"de9231de","tasks":2686,"users":988,"tc":35352,"succ":99.6,"od":47.7,"sp":6.0,"sh":46.3,"tools":["ReadFileContent","GetDriveChildren","SearchDrive"],"seg":"Broad + deep","hot":true},{"id":"101ce67d","tasks":2359,"users":1027,"tc":24452,"succ":99.7,"od":35.7,"sp":4.9,"sh":59.4,"tools":["ReadFileContent","GetDriveChildren","SearchDrive"],"seg":"Broad + deep","hot":true},{"id":"22d635a3","tasks":2263,"users":848,"tc":35300,"succ":99.8,"od":39.2,"sp":4.5,"sh":56.3,"tools":["ReadFileContent","GetDriveChildren","SearchDrive"],"seg":"Broad + deep","hot":true},{"id":"57fdf63b","tasks":1745,"users":762,"tc":16443,"succ":99.8,"od":45.4,"sp":5.0,"sh":49.6,"tools":["ReadFileContent","GetDriveChildren","SearchDrive"],"seg":"Broad adoption","hot":false},{"id":"18a59a81","tasks":1531,"users":567,"tc":22885,"succ":99.3,"od":39.1,"sp":8.4,"sh":52.5,"tools":["ReadFileContent","GetDriveChildren","SearchDrive"],"seg":"Broad adoption","hot":false},{"id":"535b2d87","tasks":1527,"users":491,"tc":14851,"succ":99.0,"od":43.5,"sp":11.1,"sh":45.4,"tools":["ReadFileContent","GetDriveChildren","SearchDrive"],"seg":"SharePoint-forward","hot":true},{"id":"b3f4f7c2","tasks":1362,"users":829,"tc":12280,"succ":99.9,"od":46.1,"sp":6.2,"sh":47.7,"tools":["ReadFileContent","GetDriveChildren","SearchDrive"],"seg":"Broad adoption","hot":false},{"id":"5dee5cac","tasks":1297,"users":389,"tc":14243,"succ":99.8,"od":53.0,"sp":2.8,"sh":44.2,"tools":["ReadFileContent","GetDriveChildren","SearchDrive"],"seg":"Emerging","hot":false},{"id":"72b17115","tasks":1216,"users":536,"tc":10561,"succ":99.7,"od":42.0,"sp":4.0,"sh":54.0,"tools":["ReadFileContent","GetDriveChildren","SearchDrive"],"seg":"Broad adoption","hot":false},{"id":"6cacd170","tasks":1058,"users":243,"tc":10764,"succ":99.3,"od":36.6,"sp":23.3,"sh":40.1,"tools":["ReadFileContent","GetDriveChildren","SearchDrive"],"seg":"SharePoint-forward","hot":false},{"id":"5b973f99","tasks":1014,"users":278,"tc":10319,"succ":100.0,"od":43.4,"sp":10.8,"sh":45.7,"tools":["ReadFileContent","GetDriveChildren","SearchDrive"],"seg":"SharePoint-forward","hot":true},{"id":"706e11b3","tasks":1009,"users":297,"tc":23391,"succ":99.1,"od":38.0,"sp":1.6,"sh":60.4,"tools":["ReadFileContent","GetDriveChildren","UploadFileContent"],"seg":"Emerging","hot":false},{"id":"dddffba0","tasks":998,"users":221,"tc":11405,"succ":99.8,"od":49.1,"sp":3.2,"sh":47.7,"tools":["ReadFileContent","GetDriveChildren","SearchDrive"],"seg":"Emerging","hot":false},{"id":"07420c3d","tasks":950,"users":143,"tc":10467,"succ":99.7,"od":59.7,"sp":4.2,"sh":36.1,"tools":["GetDriveChildren","ReadFileContent","SearchDrive"],"seg":"Emerging","hot":false},{"id":"0679140e","tasks":921,"users":231,"tc":15357,"succ":99.6,"od":48.6,"sp":4.9,"sh":46.5,"tools":["ReadFileContent","GetDriveChildren","SearchDrive"],"seg":"Emerging","hot":false},{"id":"591669a0","tasks":907,"users":749,"tc":6083,"succ":99.6,"od":31.1,"sp":5.9,"sh":62.9,"tools":["ReadFileContent","GetDriveChildren","SearchDrive"],"seg":"Broad adoption","hot":false},{"id":"7461bc40","tasks":868,"users":265,"tc":8486,"succ":100.0,"od":31.8,"sp":17.9,"sh":50.3,"tools":["ReadFileContent","GetDriveChildren","SearchDrive"],"seg":"SharePoint-forward","hot":true},{"id":"74352aa5","tasks":863,"users":255,"tc":9583,"succ":99.2,"od":45.7,"sp":4.1,"sh":50.3,"tools":["ReadFileContent","GetDriveChildren","SearchDrive"],"seg":"Emerging","hot":false},{"id":"3dd8961f","tasks":813,"users":281,"tc":8331,"succ":99.9,"od":46.3,"sp":5.8,"sh":47.9,"tools":["ReadFileContent","GetDriveChildren","SearchDrive"],"seg":"Emerging","hot":false},{"id":"855b093e","tasks":806,"users":364,"tc":11112,"succ":99.9,"od":38.6,"sp":7.7,"sh":53.7,"tools":["ReadFileContent","GetDriveChildren","UploadFileContent"],"seg":"Emerging","hot":false},{"id":"b6078821","tasks":778,"users":158,"tc":13818,"succ":99.2,"od":42.6,"sp":4.8,"sh":52.6,"tools":["ReadFileContent","GetDriveChildren","SearchDrive"],"seg":"Emerging","hot":false}];
+    var body = document.getElementById('tt-body');
+    if (!body) return;
+    function render(key) {
+      var rows = TENANTS.slice().sort(function (a, b) { return b[key] - a[key]; });
+      body.innerHTML = rows.map(function (t, i) {
+        var mix = '<div class="tt-mix"><i class="od" style="width:' + t.od + '%"></i><i class="sp" style="width:' + t.sp + '%"></i><i class="sh" style="width:' + t.sh + '%"></i></div>';
+        var hot = t.hot ? '<span class="tt-hotdot" title="Hot lead">\u25CF</span>' : '';
+        return '<tr>' +
+          '<td class="tt-rank">' + (i + 1) + '</td>' +
+          '<td><span class="tt-id">' + t.id + '</span>' + hot + '</td>' +
+          '<td class="num">' + t.tasks.toLocaleString() + '</td>' +
+          '<td class="num">' + t.users.toLocaleString() + '</td>' +
+          '<td class="num">' + t.tc.toLocaleString() + '</td>' +
+          '<td class="num">' + t.succ.toFixed(1) + '%</td>' +
+          '<td>' + mix + '</td>' +
+          '<td class="tt-tools">' + t.tools.join(', ') + '</td>' +
+          '<td><span class="tt-seg">' + t.seg + '</span></td>' +
+        '</tr>';
+      }).join('');
+    }
+    document.querySelectorAll('#tab-tenants .tt-sort').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        document.querySelectorAll('#tab-tenants .tt-sort').forEach(function (b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+        render(btn.dataset.key);
+      });
+    });
+    render('tasks');
   })();
 </script>
 </body>
