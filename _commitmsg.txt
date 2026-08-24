@@ -1,23 +1,8 @@
-Roll M365 ODSP-share section to Aug 16-22 (Cowork + Studio donuts)
+Add ODSP-active agents donut to Studio M365 share section
 
-Cowork all-up denominators from the Copilot Cowork dashboard
-(2026-08-22, Weekly, All Regions): users 234.5K, tenants 18.5K,
-tasks 1.3M, tool calls 23.7M, all-up success 95.9%.
-Studio/M365 all-up denominators from the CAP weekly pull
-(sandeep_refresh_mtd.py, W0=2026-08-16 W1=2026-08-23).
-
-Recomputed weekly ODSP shares (vs Aug 9-15):
-- Cowork: users 49% (+0.3pp), tenants 63% (-0.7pp), tasks 26% (+2.4pp),
-  tool calls 14% (+0.7pp), tool success 96% (-0.2pp).
-- Studio: users 33% (+1.7pp), tenants 45% (+3.3pp), tasks 10% (+0.8pp),
-  tool calls 9% (+6.4pp), knowledge 34% (-4.3pp), tool success 93% (+0.5pp).
-
-Cache the pulled denominators (sandeep-mtd-result-2026-08-16.json,
-cowork-allup-2026-08-16.json). Weekly story section left unchanged.
-
-Note: Studio knowledge donut uses the strict CAP SharePoint definition
-(423K/1.24M = 34%); the scorecard shows 692K (broader source). Pending
-alignment on the canonical knowledge definition.
+Studio agents share (Aug 16-22): ODSP 23,704 / all-up 83,117 = 28%,
++2.5 pp WoW vs Aug 9-15 (26.0%). Aligns the M365 share matrix with the
+scorecard, which already reports Studio active agents.
 
 Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>
 Copilot-Session: ff701f87-c726-4fdd-83be-28100f46d505
