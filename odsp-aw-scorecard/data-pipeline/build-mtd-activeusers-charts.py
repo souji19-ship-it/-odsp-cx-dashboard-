@@ -7,7 +7,7 @@
 import math, os
 
 WEEKS   = ["Jul 5-11","Jul 12-18","Jul 19-25","Jul 26-Aug 1","Aug 2-8","Aug 9-15"]
-WEEKLAB = ["Jul 5","Jul 12","Jul 19","Jul 26","Aug 2","Aug 9"]
+WEEKLAB = ["Jul 11","Jul 18","Jul 25","Aug 1","Aug 8","Aug 15"]
 
 COWORK_ODSP  = [88488,84368,86811,92373,107182,107159]
 STUDIO_ODSP  = [12227,13115,15585,16927,30257,24997]
