@@ -77,7 +77,7 @@ body {
   line-height: 1.5;
 }
 .pulse {
-  width: min(1520px, 100%);
+  width: min(1900px, 100%);
   margin: 0 auto;
 }
 .hero,
@@ -382,6 +382,41 @@ h1 { margin-bottom: 8px; font-size: clamp(26px, 4vw, 38px); line-height: 1.15; }
 #tab-mtd .share-metric .donut { width: 58px; height: 58px; }
 #tab-mtd .share-metric .donut::after { width: 42px; height: 42px; font-size: 13px; }
 #tab-mtd .share-metric > .movement { display: block; margin-top: 9px; }
+/* MTD tab: weekly active-users trend panel to the right of each section. */
+#tab-mtd .section-body { display: flex; gap: 20px; align-items: stretch; flex-wrap: wrap; }
+#tab-mtd .section-body .matrix-scroll { flex: 1 1 640px; min-width: 0; }
+#tab-mtd .trend-panel { flex: 0 0 372px; display: flex; flex-direction: column; background: var(--cp-surface); border: 1px solid var(--cp-border); border-radius: 12px; padding: 14px 16px 12px; box-shadow: 0 1px 3px rgba(0, 0, 0, .08); }
+#tab-mtd .trend-panel .tp-title { font-size: 14px; font-weight: 800; color: var(--cp-text); }
+#tab-mtd .trend-panel .tp-sub { font-size: 11px; color: var(--cp-text-muted); margin-top: 2px; }
+#tab-mtd .trend-panel .tp-legend { display: flex; gap: 14px; margin: 10px 0 2px; }
+#tab-mtd .trend-panel .tp-legend .k { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; color: var(--cp-text-muted); }
+#tab-mtd .trend-panel .tp-legend .sw { width: 14px; height: 3px; border-radius: 2px; display: inline-block; }
+#tab-mtd .trend-panel .sw.cw { background: #2f5bd0; }
+#tab-mtd .trend-panel .sw.cs { background: #7c3aed; }
+#tab-mtd .trend-panel .tp-chart { margin-top: 2px; }
+#tab-mtd .trend-panel svg { width: 100%; height: auto; display: block; }
+#tab-mtd .trend-panel .g { stroke: var(--cp-border); stroke-width: 1; opacity: .5; }
+#tab-mtd .trend-panel .ax { stroke: var(--cp-border); stroke-width: 1; }
+#tab-mtd .trend-panel .gt { fill: var(--cp-text-muted); font-size: 9px; }
+#tab-mtd .trend-panel .xl { fill: var(--cp-text-muted); font-size: 9px; }
+#tab-mtd .trend-panel .xl.latest { fill: var(--cp-text); font-weight: 700; }
+#tab-mtd .trend-panel .hb { fill: #7c3aed; opacity: .07; }
+#tab-mtd .trend-panel .ln { fill: none; stroke-width: 2.4; }
+#tab-mtd .trend-panel .ln.cw { stroke: #2f5bd0; }
+#tab-mtd .trend-panel .ln.cs { stroke: #7c3aed; }
+#tab-mtd .trend-panel .ar { stroke: none; opacity: .12; }
+#tab-mtd .trend-panel .ar.cw { fill: #2f5bd0; }
+#tab-mtd .trend-panel .ar.cs { fill: #7c3aed; }
+#tab-mtd .trend-panel .d { stroke: var(--cp-surface); stroke-width: 1; }
+#tab-mtd .trend-panel .d.cw { fill: #2f5bd0; }
+#tab-mtd .trend-panel .d.cs { fill: #7c3aed; }
+#tab-mtd .trend-panel .el { font-size: 10px; font-weight: 800; }
+#tab-mtd .trend-panel .el.cw { fill: #2f5bd0; }
+#tab-mtd .trend-panel .el.cs { fill: #7c3aed; }
+#tab-mtd .trend-panel .tp-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+#tab-mtd .trend-panel .tp-chip { font-size: 10px; padding: 3px 8px; border-radius: 20px; background: var(--cp-bg, #f0f1f3); color: var(--cp-text-muted); }
+#tab-mtd .trend-panel .tp-chip.up { background: #e7f6ee; color: #1a7f4b; }
+#tab-mtd .trend-panel .tp-chip.down { background: #fdeceb; color: #c0322b; }
 </style>
 </head>
 <body>
@@ -583,6 +618,7 @@ h1 { margin-bottom: 8px; font-size: clamp(26px, 4vw, 38px); line-height: 1.15; }
     <section class="section">
       <h2>2P ODSP Integration: Scorecard</h2>
       <p class="period">July 2026 compared with August MTD. Card tooltips disclose whether each value is a snapshot, an exact additive total or a weighted rate.</p>
+      <div class="section-body">
       <div class="matrix-scroll">
         <div class="matrix">
           <div class="matrix-corner">2P agent</div>
@@ -601,11 +637,14 @@ h1 { margin-bottom: 8px; font-size: clamp(26px, 4vw, 38px); line-height: 1.15; }
           <div class="pillar-cell reliability"><div class="metrics"><div class="metric mtd"><span class="m-title">ODSP tool success rate</span><div class="m-pair"><div><span>July</span><strong>90.0%</strong></div><div><span>Aug MTD</span><strong>92.5%</strong></div></div><b class="movement up">+2.5 pp</b></div></div></div>
         </div>
       </div>
+      <aside class="trend-panel"><div class="tp-title">ODSP-active users</div><div class="tp-sub">2P footprint &middot; retained weekly &middot; Jul 5 &ndash; Aug 15</div><div class="tp-legend"><span class="k"><i class="sw cw"></i>Cowork</span><span class="k"><i class="sw cs"></i>Copilot Studio</span></div><div class="tp-chart"><svg viewBox="0 0 400 262" role="img" aria-label="Active users weekly trend"><rect class="hb" x="344.0" y="20" width="32" height="176"/><line class="g" x1="48" y1="196.0" x2="360" y2="196.0"/><text class="gt" x="42" y="199.0" text-anchor="end">0</text><line class="g" x1="48" y1="152.0" x2="360" y2="152.0"/><text class="gt" x="42" y="155.0" text-anchor="end">31K</text><line class="g" x1="48" y1="108.0" x2="360" y2="108.0"/><text class="gt" x="42" y="111.0" text-anchor="end">62K</text><line class="g" x1="48" y1="64.0" x2="360" y2="64.0"/><text class="gt" x="42" y="67.0" text-anchor="end">94K</text><line class="g" x1="48" y1="20.0" x2="360" y2="20.0"/><text class="gt" x="42" y="23.0" text-anchor="end">125K</text><line class="ax" x1="48" y1="20" x2="48" y2="196"/><line class="ax" x1="48" y1="196" x2="360" y2="196"/><text class="xl" x="48.0" y="212" text-anchor="middle">Jul 5</text><text class="xl" x="110.4" y="212" text-anchor="middle">Jul 12</text><text class="xl" x="172.8" y="212" text-anchor="middle">Jul 19</text><text class="xl" x="235.2" y="212" text-anchor="middle">Jul 26</text><text class="xl" x="297.6" y="212" text-anchor="middle">Aug 2</text><text class="xl latest" x="360.0" y="212" text-anchor="middle">Aug 9</text><polygon class="ar cw" points="48.0,196.0 48.0,71.4 110.4,77.2 172.8,73.8 235.2,65.9 297.6,45.1 360.0,45.1 360.0,196.0"/><polyline class="ln cw" points="48.0,71.4 110.4,77.2 172.8,73.8 235.2,65.9 297.6,45.1 360.0,45.1"/><circle cx="48.0" cy="71.4" r="3" class="d cw"/><circle cx="110.4" cy="77.2" r="3" class="d cw"/><circle cx="172.8" cy="73.8" r="3" class="d cw"/><circle cx="235.2" cy="65.9" r="3" class="d cw"/><circle cx="297.6" cy="45.1" r="3" class="d cw"/><circle cx="360.0" cy="45.1" r="3" class="d cw"/><polygon class="ar cs" points="48.0,196.0 48.0,178.8 110.4,177.5 172.8,174.1 235.2,172.2 297.6,153.4 360.0,160.8 360.0,196.0"/><polyline class="ln cs" points="48.0,178.8 110.4,177.5 172.8,174.1 235.2,172.2 297.6,153.4 360.0,160.8"/><circle cx="48.0" cy="178.8" r="3" class="d cs"/><circle cx="110.4" cy="177.5" r="3" class="d cs"/><circle cx="172.8" cy="174.1" r="3" class="d cs"/><circle cx="235.2" cy="172.2" r="3" class="d cs"/><circle cx="297.6" cy="153.4" r="3" class="d cs"/><circle cx="360.0" cy="160.8" r="3" class="d cs"/><text class="el cw" x="366" y="48.1">107K</text><text class="el cs" x="366" y="163.8">25K</text></svg></div><div class="tp-chips"><span class="tp-chip up"><b>Cowork</b> +21% Jul&rarr;Aug</span><span class="tp-chip up"><b>Copilot Studio</b> +104% Jul&rarr;Aug</span></div></aside>
+      </div><!-- /section-body -->
     </section>
 
     <section class="section">
       <h2>M365 Agentic Work: ODSP share</h2>
       <p class="period">July 2026 compared with August MTD. N/A means the denominator or comparison basis is not publishable.</p>
+      <div class="section-body">
       <div class="matrix-scroll">
         <div class="matrix">
           <div class="matrix-corner">2P agent</div>
@@ -624,6 +663,8 @@ h1 { margin-bottom: 8px; font-size: clamp(26px, 4vw, 38px); line-height: 1.15; }
           <div class="pillar-cell studio reliability"><div class="metrics"><div class="share-metric"><strong class="sm-title">ODSP tool success rate</strong><div class="sm-pair"><div class="sm-col"><span>July</span><div class="donut" style="--share:90" data-value="90.0%"></div></div><div class="sm-col"><span>Aug MTD</span><div class="donut" style="--share:92" data-value="92.5%"></div></div></div><span class="movement up">+2.5 pp</span></div></div></div>
         </div>
       </div>
+      <aside class="trend-panel"><div class="tp-title">M365 all-up active users</div><div class="tp-sub">Agent all-up &middot; retained weekly &middot; Jul 5 &ndash; Aug 15</div><div class="tp-legend"><span class="k"><i class="sw cw"></i>Cowork</span><span class="k"><i class="sw cs"></i>Copilot Studio</span></div><div class="tp-chart"><svg viewBox="0 0 400 262" role="img" aria-label="Active users weekly trend"><rect class="hb" x="344.0" y="20" width="32" height="176"/><line class="g" x1="48" y1="196.0" x2="360" y2="196.0"/><text class="gt" x="42" y="199.0" text-anchor="end">0</text><line class="g" x1="48" y1="152.0" x2="360" y2="152.0"/><text class="gt" x="42" y="155.0" text-anchor="end">62K</text><line class="g" x1="48" y1="108.0" x2="360" y2="108.0"/><text class="gt" x="42" y="111.0" text-anchor="end">125K</text><line class="g" x1="48" y1="64.0" x2="360" y2="64.0"/><text class="gt" x="42" y="67.0" text-anchor="end">188K</text><line class="g" x1="48" y1="20.0" x2="360" y2="20.0"/><text class="gt" x="42" y="23.0" text-anchor="end">250K</text><line class="ax" x1="48" y1="20" x2="48" y2="196"/><line class="ax" x1="48" y1="196" x2="360" y2="196"/><text class="xl" x="48.0" y="212" text-anchor="middle">Jul 5</text><text class="xl" x="110.4" y="212" text-anchor="middle">Jul 12</text><text class="xl" x="172.8" y="212" text-anchor="middle">Jul 19</text><text class="xl" x="235.2" y="212" text-anchor="middle">Jul 26</text><text class="xl" x="297.6" y="212" text-anchor="middle">Aug 2</text><text class="xl latest" x="360.0" y="212" text-anchor="middle">Aug 9</text><polygon class="ar cw" points="48.0,196.0 48.0,42.2 110.4,55.7 172.8,54.5 235.2,52.4 297.6,41.0 360.0,39.7 360.0,196.0"/><polyline class="ln cw" points="48.0,42.2 110.4,55.7 172.8,54.5 235.2,52.4 297.6,41.0 360.0,39.7"/><circle cx="48.0" cy="42.2" r="3" class="d cw"/><circle cx="110.4" cy="55.7" r="3" class="d cw"/><circle cx="172.8" cy="54.5" r="3" class="d cw"/><circle cx="235.2" cy="52.4" r="3" class="d cw"/><circle cx="297.6" cy="41.0" r="3" class="d cw"/><circle cx="360.0" cy="39.7" r="3" class="d cw"/><polygon class="ar cs" points="48.0,196.0 48.0,167.8 110.4,161.2 172.8,156.4 235.2,156.1 297.6,142.4 360.0,139.4 360.0,196.0"/><polyline class="ln cs" points="48.0,167.8 110.4,161.2 172.8,156.4 235.2,156.1 297.6,142.4 360.0,139.4"/><circle cx="48.0" cy="167.8" r="3" class="d cs"/><circle cx="110.4" cy="161.2" r="3" class="d cs"/><circle cx="172.8" cy="156.4" r="3" class="d cs"/><circle cx="235.2" cy="156.1" r="3" class="d cs"/><circle cx="297.6" cy="142.4" r="3" class="d cs"/><circle cx="360.0" cy="139.4" r="3" class="d cs"/><text class="el cw" x="366" y="42.7">222K</text><text class="el cs" x="366" y="142.4">80K</text></svg></div><div class="tp-chips"><span class="tp-chip up"><b>Cowork</b> +2% Jul&rarr;Aug</span><span class="tp-chip up"><b>Copilot Studio</b> +100% Jul&rarr;Aug</span></div></aside>
+      </div><!-- /section-body -->
     </section>
   </div><!-- /tab-mtd -->
 
