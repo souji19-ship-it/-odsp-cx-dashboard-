@@ -1,0 +1,17 @@
+Roll Weekly tab to Aug 16-22 (2P Scorecard: Cowork + CS)
+
+Update tab label, hero sub, scorecard period and the tab-switch JS
+weekly branch to "Week of Aug 16-22, 2026 compared with Aug 9-15, 2026".
+
+2P ODSP Integration Scorecard (Aug 16-22 vs Aug 9-15):
+- Cowork: users 113.9K (+6%), tenants 11.6K (+6%), tasks 336.9K (+18%),
+  tool calls 3.43M (+11%), tool success 96% (flat).
+- Copilot Studio/Dracarys: users 32.5K (+30%), tenants 8.20K (+16%),
+  agents 23.7K (+18%), tasks 293.1K (+44%), tool calls 916.7K (+337%),
+  knowledge searches 692.2K (+26%), tool success 93% (+1 pp).
+
+M365 ODSP-share donuts and the weekly story left unchanged pending
+all-up denominators for Aug 16-22.
+
+Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>
+Copilot-Session: ff701f87-c726-4fdd-83be-28100f46d505
