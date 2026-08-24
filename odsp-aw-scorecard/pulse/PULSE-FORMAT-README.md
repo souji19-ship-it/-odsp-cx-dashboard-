@@ -10,9 +10,10 @@ section order, colors, or wording scaffold.**
 >    prior value and flag it — do not invent.
 > 2. Transcribe exactly from the source the owner points to; don't silently "correct" to finer values.
 > 3. Never use the words **"strong" / "weak"** to characterize a metric (owner's standing rule).
-> 4. **Report title** is always `ODSP-AW - 2P Integration Weekly Pulse (<week range>, <year>)` — the
->    H1, the `<title>`, and each tab's JS title; change the date every week. MTD →
->    `... Month-to-Date (<Month Year>)`, Trends → `... Trends`.
+> 4. **Report title** is always `2P ODSP Integration Weekly Pulse - <send date>` (e.g. `2P ODSP
+>    Integration Weekly Pulse - August 24, 2026`): the H1, the `<title>`, and each tab's JS title;
+>    change the date every week. MTD → `... Month-to-Date - <send date>`, Trends → `... Trends -
+>    <send date>`. No date eyebrow above the H1.
 > 5. **No dash separators in prose.** No em-dash (—) or " - " as a sentence connector; use commas,
 >    colons, or periods. Keep hyphens only in compound modifiers, the title separator, and date ranges.
 
@@ -32,10 +33,10 @@ These are the reasons the layout looks the way it does. **Preserve all four ever
 
 | Role | Token | Light value |
 | --- | --- | --- |
-| Pillar · Adoption | `--cp-border-strong` | `#919191` (grey) |
+| Pillar · Adoption | `--cp-adoption` | `#0d9488` (teal) |
 | Pillar · Engagement | `--cp-warning` | `#f59e0b` (amber) |
 | Pillar · Reliability | `--cp-text` | `#242424` (near-black) |
-| Story · Architecture runway | `--cp-border-strong` | `#919191` (grey) |
+| Story · Architecture runway | `--cp-architecture` | `#6d5bd0` (violet) |
 | Story · Leadership watch | `--cp-accent` | `#b11f4b` (crimson) |
 | Agent · Copilot Cowork | `--cp-link` | `#0078d4` (blue) |
 | Agent · Copilot Studio / Dracarys | `--cp-text-soft` | `#6f6f6f` (grey) |
