@@ -36,9 +36,9 @@ TraceEvents
 | extend odspHint = (eventName=='AgenticLoopToolCallLatency' and (customDimensions has 'shared_sharepointonline' or customDimensions has 'shared_onedriveforbusiness'))
                  or (eventName=='KnowledgeSourceLatency' and customDimensions has 'SharePoint')
 | extend nd = iff(odspHint, parse_json(tostring(meta.CustomDimensions)), dynamic(null))
-| extend Conn = tolower(tostring(nd.ConnectorId)), KCat = tostring(nd.KnowledgeCategory)
+| extend Conn = tolower(tostring(nd.ConnectorId)), KCat = tostring(nd.KnowledgeCategory), KSrc = tostring(nd.KnowledgeSource)
 | extend IsODSPtool = eventName=='AgenticLoopToolCallLatency' and Conn in ('shared_sharepointonline','shared_onedriveforbusiness')
-| extend IsODSPknow = eventName=='KnowledgeSourceLatency' and KCat=='SharePoint'
+| extend IsODSPknow = eventName=='KnowledgeSourceLatency' and KSrc in ('SharePoint','SharePointList')
 | where (IsODSPtool or IsODSPknow) and isnotempty(BotId)
 | summarize agents = make_set(BotId, 1048576) by Tier`;
 }
