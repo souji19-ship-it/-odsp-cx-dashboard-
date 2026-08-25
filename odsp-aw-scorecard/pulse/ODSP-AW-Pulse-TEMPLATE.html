@@ -519,6 +519,17 @@ h1 { margin-bottom: 8px; font-size: clamp(26px, 4vw, 38px); line-height: 1.15; }
 #tab-tenants .tt-stat span{display:block;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.03em;color:var(--cp-text-muted);margin-top:3px}
 #tab-tenants .tt-stat i{font-style:normal;display:block;font-size:11px;font-weight:800;margin-top:3px;color:var(--cp-text-muted)}
 #tab-tenants .tt-stat i.up{color:var(--cp-success)}
+#tab-tenants #tt-spark .tt-badge{display:inline-block;font-size:10.5px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--cp-adoption);border:1px solid var(--cp-adoption);border-radius:20px;padding:2px 10px;margin-bottom:4px}
+#tab-tenants .sp-lead{width:100%;border-collapse:collapse;max-width:660px;font-size:13px}
+#tab-tenants .sp-lead th{text-align:left;font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;color:var(--cp-text-muted);padding:7px 10px;border-bottom:2px solid var(--cp-border)}
+#tab-tenants .sp-lead th.num{text-align:right}
+#tab-tenants .sp-lead td{padding:7px 10px;border-bottom:1px solid var(--cp-border);vertical-align:middle}
+#tab-tenants .sp-lead td.rk{color:var(--cp-text-muted);font-weight:850;width:32px;font-variant-numeric:tabular-nums}
+#tab-tenants .sp-lead td.nm{font-weight:750;color:var(--cp-text)}
+#tab-tenants .sp-lead td.wa{text-align:right;font-variant-numeric:tabular-nums;font-weight:850;width:96px}
+#tab-tenants .sp-lead td.bc{width:34%}
+#tab-tenants .sp-lead .sp-bar{height:7px;border-radius:4px;background:var(--cp-adoption);opacity:.82;min-width:2px}
+#tab-tenants .sp-intb{display:inline-block;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.03em;color:var(--cp-text-muted);border:1px solid var(--cp-border);border-radius:4px;padding:1px 5px;margin-left:7px;vertical-align:1px}
 
 /* ===== Weekly tab: exact layout ported from reviewed email ===== */
 #tab-weekly * { box-sizing: border-box; }
@@ -824,18 +835,24 @@ h1 { margin-bottom: 8px; font-size: clamp(26px, 4vw, 38px); line-height: 1.15; }
       </div>
 
       <div class="tt-subpanel" id="tt-spark" hidden>
-        <div class="tt-empty">
-          <span class="tt-badge ok">Aggregate live &middot; per-tenant export pending</span>
-          <h3>SPARK is live at scale &ndash; per-tenant ranking not yet exported here</h3>
-          <p>Aggregate SPARK adoption is strong and growing. Per-tenant detail exists in the SPARK Launch Dashboard ("Top tenants" tab) but is not yet exported into this Pulse, so a ranked leaderboard here would be fabricated.</p>
-          <div class="tt-stats">
-            <div class="tt-stat"><b>329.7K</b><span>Weekly active users</span><i class="up">+15.3% WoW</i></div>
-            <div class="tt-stat"><b>51,168</b><span>Active tenants</span><i class="up">+6.6% WoW</i></div>
-            <div class="tt-stat"><b>21.23%</b><span>Weekly retention</span><i class="up">+3.2pp WoW</i></div>
-            <div class="tt-stat"><b>75 / 84</b><span>MCP tools enabled</span><i>89.3% of catalog</i></div>
-          </div>
-          <p><b>Next step:</b> land the SPARK per-tenant ODSP export (tasks, users, tool calls, success), resolve tenant names via the directory, then populate this tab with the identical leaderboard layout. <span style="opacity:.85">Data as of Aug 24, 2026 &middot; source spark-kpis.json, spark-chatclienttools.json.</span></p>
+        <span class="tt-badge ok">Per-tenant WAU live &middot; scraped Aug 25</span>
+        <div class="tt-stats">
+          <div class="tt-stat"><b>329.7K</b><span>Weekly active users</span><i class="up">+15.3% WoW</i></div>
+          <div class="tt-stat"><b>51,168</b><span>Active tenants</span><i class="up">+6.6% WoW</i></div>
+          <div class="tt-stat"><b>21.23%</b><span>Weekly retention</span><i class="up">+3.2pp WoW</i></div>
+          <div class="tt-stat"><b>75 / 84</b><span>MCP tools enabled</span><i>89.3% of catalog</i></div>
         </div>
+        <h3 style="font-size:14px;margin:20px 0 2px">Top tenants by weekly active users</h3>
+        <p class="tt-note" style="margin:0 0 10px">Copilot in SharePoint (SPARK), current week. Ranking is by weekly active users &ndash; the only per-tenant field this feed exposes.</p>
+        <div class="tt-scroll">
+          <table class="sp-lead">
+            <thead>
+              <tr><th>#</th><th>Tenant</th><th class="num">Weekly active users</th><th></th></tr>
+            </thead>
+            <tbody id="tt-spark-body"></tbody>
+          </table>
+        </div>
+        <p class="tt-note">Top 20 of 335 ranked tenants. Microsoft is our internal dogfood tenant (flagged). Source: KAv2 top-tenants-wau (Nezha SPARK Launch Dashboard), scraped Aug 25, 2026. Per-tenant ODSP task, tool-call, and success detail is not exposed by this feed.</p>
       </div>
 
       <div class="tt-subpanel" id="tt-cowork">
@@ -1008,7 +1025,22 @@ h1 { margin-bottom: 8px; font-size: clamp(26px, 4vw, 38px); line-height: 1.15; }
     });
   })();
   (function () {
-    var COWORK = [{"t":"ReadFileContent","s":"Shared","jc":8033264,"js":96.7,"ac":10663664,"as":96.7},{"t":"GetDriveChildren","s":"OneDrive","jc":4834776,"js":94.9,"ac":5307464,"as":95.3},{"t":"SearchDrive","s":"OneDrive","jc":1351688,"js":97.2,"ac":2568864,"as":94.4},{"t":"UploadFileContent","s":"Shared","jc":null,"js":null,"ac":1797960,"as":98.0},{"t":"GetDriveItem","s":"OneDrive","jc":900104,"js":91.3,"ac":1451792,"as":86.5},{"t":"GetDefaultDrive","s":"OneDrive","jc":649000,"js":96.9,"ac":742224,"as":99.5},{"t":"SearchSites","s":"SharePoint","jc":219216,"js":98.0,"ac":447456,"as":99.7},{"t":"ListSiteDrives","s":"Shared","jc":null,"js":null,"ac":350496,"as":98.6},{"t":"ListListItems","s":"SharePoint","jc":91112,"js":97.7,"ac":277936,"as":98.4},{"t":"GetSite","s":"SharePoint","jc":252952,"js":91.4,"ac":276136,"as":86.9},{"t":"CreateFolder","s":"Shared","jc":152864,"js":91.4,"ac":216584,"as":99.0},{"t":"GetOrgTemplateLibrary","s":"SharePoint","jc":53384,"js":97.8,"ac":155288,"as":98.3},{"t":"ListLists","s":"SharePoint","jc":79400,"js":99.1,"ac":118624,"as":98.2},{"t":"ListListColumns","s":"SharePoint","jc":50440,"js":99.0,"ac":73200,"as":99.1},{"t":"ListMyDrives","s":"Shared","jc":null,"js":null,"ac":32520,"as":99.8},{"t":"ListSubsites","s":"SharePoint","jc":7208,"js":97.4,"ac":8664,"as":97.3},{"t":"ListDrives","s":"OneDrive","jc":175032,"js":99.0,"ac":null,"as":null}];
+    var el = document.getElementById('tt-spark-body');
+    if (!el) return;
+    var SP = [{"n":"PWC","w":6329,"int":false},{"n":"MICROSOFT","w":4226,"int":true},{"n":"FUJITSU","w":3840,"int":false},{"n":"HITACHI GROUP","w":2490,"int":false},{"n":"VOLKSWAGEN AG","w":2247,"int":false},{"n":"JNJ","w":1956,"int":false},{"n":"THE TORONTO-DOMINION BANK","w":1875,"int":false},{"n":"トヨタ自動車株式会社","w":1821,"int":false},{"n":"FUJIFILM","w":1578,"int":false},{"n":"WELLS FARGO","w":1363,"int":false},{"n":"BMW GROUP","w":1311,"int":false},{"n":"NTT DOCOMO, INC.","w":1300,"int":false},{"n":"SIEMENS ENERGY","w":1199,"int":false},{"n":"SIEMENS AG","w":1133,"int":false},{"n":"SONY","w":1122,"int":false},{"n":"MERCK SHARP & DOHME LLC","w":1088,"int":false},{"n":"SMBC GROUP","w":929,"int":false},{"n":"AT&T SERVICES, INC.","w":926,"int":false},{"n":"UHG","w":911,"int":false},{"n":"BOSCH GROUP","w":888,"int":false}];
+    function esc(s) { return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+    var mx = SP[0].w;
+    el.innerHTML = SP.map(function (t, i) {
+      var bw = Math.max(2, Math.round(t.w / mx * 100));
+      var badge = t.int ? '<span class="sp-intb">internal</span>' : '';
+      return '<tr><td class="rk">' + (i + 1) + '</td>' +
+        '<td class="nm">' + esc(t.n) + badge + '</td>' +
+        '<td class="wa">' + t.w.toLocaleString() + '</td>' +
+        '<td class="bc"><div class="sp-bar" style="width:' + bw + '%"></div></td></tr>';
+    }).join('');
+  })();
+  (function () {
+    var COWORK =  [{"t":"ReadFileContent","s":"Shared","jc":8033264,"js":96.7,"ac":10663664,"as":96.7},{"t":"GetDriveChildren","s":"OneDrive","jc":4834776,"js":94.9,"ac":5307464,"as":95.3},{"t":"SearchDrive","s":"OneDrive","jc":1351688,"js":97.2,"ac":2568864,"as":94.4},{"t":"UploadFileContent","s":"Shared","jc":null,"js":null,"ac":1797960,"as":98.0},{"t":"GetDriveItem","s":"OneDrive","jc":900104,"js":91.3,"ac":1451792,"as":86.5},{"t":"GetDefaultDrive","s":"OneDrive","jc":649000,"js":96.9,"ac":742224,"as":99.5},{"t":"SearchSites","s":"SharePoint","jc":219216,"js":98.0,"ac":447456,"as":99.7},{"t":"ListSiteDrives","s":"Shared","jc":null,"js":null,"ac":350496,"as":98.6},{"t":"ListListItems","s":"SharePoint","jc":91112,"js":97.7,"ac":277936,"as":98.4},{"t":"GetSite","s":"SharePoint","jc":252952,"js":91.4,"ac":276136,"as":86.9},{"t":"CreateFolder","s":"Shared","jc":152864,"js":91.4,"ac":216584,"as":99.0},{"t":"GetOrgTemplateLibrary","s":"SharePoint","jc":53384,"js":97.8,"ac":155288,"as":98.3},{"t":"ListLists","s":"SharePoint","jc":79400,"js":99.1,"ac":118624,"as":98.2},{"t":"ListListColumns","s":"SharePoint","jc":50440,"js":99.0,"ac":73200,"as":99.1},{"t":"ListMyDrives","s":"Shared","jc":null,"js":null,"ac":32520,"as":99.8},{"t":"ListSubsites","s":"SharePoint","jc":7208,"js":97.4,"ac":8664,"as":97.3},{"t":"ListDrives","s":"OneDrive","jc":175032,"js":99.0,"ac":null,"as":null}];
     var STUDIO = [{"t":"ListFolder","s":"SharePoint","jc":6579,"js":92.9,"ac":22872,"as":94.7},{"t":"GetItems","s":"SharePoint","jc":9200,"js":81.9,"ac":21864,"as":83.9},{"t":"PostItem","s":"SharePoint","jc":5479,"js":64.2,"ac":16203,"as":92.4},{"t":"GetFileContent","s":"SharePoint","jc":2190,"js":84.9,"ac":14219,"as":87.6},{"t":"PatchItem","s":"SharePoint","jc":64907,"js":39.2,"ac":14135,"as":96.9},{"t":"GetFileItems","s":"SharePoint","jc":1015,"js":68.6,"ac":11252,"as":87.7},{"t":"GetFileContentByPath","s":"OneDrive","jc":1038,"js":90.2,"ac":8818,"as":96.4},{"t":"GetTables","s":"SharePoint","jc":17528,"js":55.9,"ac":7132,"as":97.7},{"t":"GetFileContentByPath","s":"SharePoint","jc":3080,"js":90.2,"ac":6334,"as":87.5},{"t":"GetTable","s":"SharePoint","jc":9860,"js":97.7,"ac":6262,"as":87.3},{"t":"GetFileContent","s":"OneDrive","jc":1384,"js":96.1,"ac":6215,"as":96.2},{"t":"ListFolder","s":"OneDrive","jc":2038,"js":94.7,"ac":5618,"as":94.4},{"t":"GetDataSets","s":"SharePoint","jc":7795,"js":99.6,"ac":5568,"as":97.2},{"t":"GetItem","s":"SharePoint","jc":1146,"js":85.0,"ac":4616,"as":85.5},{"t":"FindFilesByPath","s":"OneDrive","jc":567,"js":90.5,"ac":4229,"as":93.6}];
     function fmt(v) { if (v == null) return '&mdash;'; if (v >= 1e6) return (v / 1e6).toFixed(1) + 'M'; if (v >= 1e3) return Math.round(v / 1e3) + 'K'; return v.toLocaleString(); }
     function succBg(v) {
