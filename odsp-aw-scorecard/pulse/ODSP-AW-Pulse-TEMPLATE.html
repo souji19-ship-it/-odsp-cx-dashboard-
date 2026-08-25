@@ -828,11 +828,11 @@ h1 { margin-bottom: 8px; font-size: clamp(26px, 4vw, 38px); line-height: 1.15; }
   <div class="tab-panel" id="tab-tenants" hidden>
     <section class="section">
       <h2>Top Tenants &middot; ODSP footprint</h2>
-      <p class="period">Week of <strong>Aug 16-22, 2026</strong>. Top ODSP-active tenants by 2P agent.</p>
+      <p class="period">Week of <strong>Aug 16-22, 2026</strong>. Top ODSP-active tenants by <span id="tt-agent-kind">2P agent</span>.</p>
       <div class="tt-tabs" role="tablist">
-        <button class="tt-tab" data-sub="tt-spark">SPARK</button>
-        <button class="tt-tab active" data-sub="tt-cowork">Copilot Cowork</button>
-        <button class="tt-tab" data-sub="tt-studio">Copilot Studio</button>
+        <button class="tt-tab" data-sub="tt-spark" data-agent="1P agent">SPARK</button>
+        <button class="tt-tab active" data-sub="tt-cowork" data-agent="2P agent">Copilot Cowork</button>
+        <button class="tt-tab" data-sub="tt-studio" data-agent="2P agent">Copilot Studio</button>
       </div>
 
       <div class="tt-subpanel" id="tt-spark" hidden>
@@ -1022,6 +1022,8 @@ h1 { margin-bottom: 8px; font-size: clamp(26px, 4vw, 38px); line-height: 1.15; }
         document.querySelectorAll('#tab-tenants .tt-subpanel').forEach(function (p) { p.hidden = true; });
         t.classList.add('active');
         document.getElementById(t.dataset.sub).hidden = false;
+        var kind = document.getElementById('tt-agent-kind');
+        if (kind && t.dataset.agent) kind.textContent = t.dataset.agent;
       });
     });
   })();
