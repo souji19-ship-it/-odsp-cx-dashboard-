@@ -642,6 +642,13 @@ h1 { margin-bottom: 8px; font-size: clamp(26px, 4vw, 38px); line-height: 1.15; }
 #tab-heatmap .hm-new,#tab-heatmap .hm-gone{color:var(--cp-text-muted);font-weight:700}
 #tab-heatmap .hm-newb{display:inline-block;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;color:var(--cp-accent-fg);background:var(--cp-accent);border-radius:4px;padding:1px 5px;margin-left:6px;vertical-align:1px}
 #tab-heatmap .hm-legend .hm-newb{margin-left:0;margin-right:6px}
+#tab-heatmap .hm-cols{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-top:8px}
+#tab-heatmap .hm-col{min-width:0}
+#tab-heatmap .hm-coltitle{font-size:13.5px;font-weight:850;color:var(--cp-text);margin:0 0 2px;display:flex;align-items:baseline;flex-wrap:wrap;gap:8px;padding-bottom:6px;border-bottom:2px solid var(--cp-border-strong)}
+#tab-heatmap .hm-coltag{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--cp-text-muted)}
+#tab-heatmap .hm-h4{font-size:12px;font-weight:800;margin:14px 0 5px;color:var(--cp-text)}
+#tab-heatmap .hm-tool{min-width:480px}
+@media(max-width:980px){#tab-heatmap .hm-cols{grid-template-columns:1fr;gap:22px}}
 </style>
 </head>
 <body>
@@ -855,7 +862,7 @@ h1 { margin-bottom: 8px; font-size: clamp(26px, 4vw, 38px); line-height: 1.15; }
   <div class="tab-panel" id="tab-heatmap" hidden>
     <section class="section">
       <h2>Heat Map &middot; ODSP tool usage &amp; reliability</h2>
-      <p class="period">Copilot Cowork ODSP tools &middot; <strong>July (wk Jul 5-12)</strong> vs <strong>August (wk Aug 9-16)</strong>. Pre ODSP MCP / WorkIQ integration baseline. Colour intensity = higher value.</p>
+      <p class="period">ODSP tools in <strong>Copilot Cowork</strong> and <strong>Copilot Studio</strong> &middot; <strong>July (wk Jul 5-12)</strong> vs <strong>August (wk Aug 9-16)</strong>. Pre ODSP MCP / WorkIQ integration baseline. Colour intensity = higher value.</p>
 
       <div class="hm-wedge-wrap">
         <h3 class="hm-h3">Surface &times; tool path</h3>
@@ -864,19 +871,29 @@ h1 { margin-bottom: 8px; font-size: clamp(26px, 4vw, 38px); line-height: 1.15; }
           <tbody>
             <tr><td class="lbl">SPARK</td><td class="on">Live<span class="hm-sub">Graph / native</span></td><td class="zero">0%<span class="hm-sub">not shipped</span></td><td class="pend">&mdash;<span class="hm-sub">source pending</span></td></tr>
             <tr><td class="lbl">Copilot Cowork</td><td class="on">Live<span class="hm-sub">Graph connector</span></td><td class="zero">0%<span class="hm-sub">not shipped</span></td><td class="good">99.5%<span class="hm-sub">25-tenant mean</span></td></tr>
-            <tr><td class="lbl">Copilot Studio</td><td class="on">Live<span class="hm-sub">Graph connector</span></td><td class="zero">0%<span class="hm-sub">not shipped</span></td><td class="pend">&mdash;<span class="hm-sub">source pending</span></td></tr>
+            <tr><td class="lbl">Copilot Studio</td><td class="on">Live<span class="hm-sub">Graph connector</span></td><td class="zero">0%<span class="hm-sub">not shipped</span></td><td class="good">90.5%<span class="hm-sub">Aug all-up</span></td></tr>
           </tbody>
         </table>
         <p class="hm-wnote">Every surface reaches ODSP through Graph connector / surface calls today. <b>ODSP MCP tool calls are 0% across all three</b> &ndash; the headroom the SPARK / WorkIQ rollout is meant to fill. This is the benchmark to beat.</p>
       </div>
 
-      <h3 class="hm-h3">Engagement &middot; ODSP tool calls</h3>
-      <p class="hm-intro">Total Copilot Cowork ODSP tool calls per tool. Darker teal = higher volume. MoM = August vs July.</p>
-      <div class="hm-scroll"><table class="hm-grid" id="hm-calls"></table></div>
-
-      <h3 class="hm-h3">Reliability &middot; ODSP tool success rate</h3>
-      <p class="hm-intro">Success rate per tool (100% &minus; failure rate). Green = healthy, amber / red = watch. &Delta; = August minus July, in percentage points; a red &Delta; flags a reliability regression to chase.</p>
-      <div class="hm-scroll"><table class="hm-grid hm-rel" id="hm-succ"></table></div>
+      <div class="hm-intro" style="max-width:none">Rows = individual ODSP tools. <b>Engagement</b> = tool call volume (darker teal = higher). <b>Reliability</b> = success rate (green healthy, amber / red watch). MoM = Aug vs Jul; &Delta; = Aug minus Jul in percentage points &ndash; a red &Delta; flags a regression to chase. Each surface is scaled to its own volume.</div>
+      <div class="hm-cols">
+        <div class="hm-col">
+          <div class="hm-coltitle">Copilot Cowork <span class="hm-coltag">Graph plugin mcp__sharepoint_onedrive__ &middot; 17 geos</span></div>
+          <h4 class="hm-h4">Engagement &middot; ODSP tool calls</h4>
+          <div class="hm-scroll"><table class="hm-grid hm-tool" id="hm-cw-calls"></table></div>
+          <h4 class="hm-h4">Reliability &middot; tool success rate</h4>
+          <div class="hm-scroll"><table class="hm-grid hm-tool hm-rel" id="hm-cw-succ"></table></div>
+        </div>
+        <div class="hm-col">
+          <div class="hm-coltitle">Copilot Studio <span class="hm-coltag">SharePoint / OneDrive connectors &middot; FDA islands</span></div>
+          <h4 class="hm-h4">Engagement &middot; ODSP tool calls</h4>
+          <div class="hm-scroll"><table class="hm-grid hm-tool" id="hm-cs-calls"></table></div>
+          <h4 class="hm-h4">Reliability &middot; tool success rate</h4>
+          <div class="hm-scroll"><table class="hm-grid hm-tool hm-rel" id="hm-cs-succ"></table></div>
+        </div>
+      </div>
 
       <div class="hm-legend">
         <span class="hm-k"><i style="background:rgba(13,148,136,.6)"></i>Call volume</span>
@@ -885,7 +902,7 @@ h1 { margin-bottom: 8px; font-size: clamp(26px, 4vw, 38px); line-height: 1.15; }
         <span class="hm-k"><i style="background:rgba(220,38,38,.85)"></i>Low success</span>
         <span class="hm-k"><span class="hm-newb">new</span>tool new this period</span>
       </div>
-      <p class="hm-note">Windows are representative full weeks (Jul 5-12 vs Aug 9-16); the mid-July to early-August Cowork weekly exports are a known gap in the September-close data plan, so this is a week-level baseline, not a full-month rollup. Source: Cowork weekly telemetry, plugin family mcp__sharepoint_onedrive__, 17 geos; tools under 300 calls in both months omitted. ODSP MCP first-party tool calls remain 0% this period &ndash; the baseline to beat once SPARK / WorkIQ tools ship.</p>
+      <p class="hm-note">Windows are representative full weeks (Jul 5-12 vs Aug 9-16); the mid-July to early-August Cowork weekly exports are a known gap in the September-close data plan, so this is a week-level baseline, not a full-month rollup. Sources: Cowork weekly telemetry (plugin family mcp__sharepoint_onedrive__, 17 geos; tools under 300 calls in both months omitted); Copilot Studio Agentic Runtime per-connector operations (SharePoint / OneDrive connectors across FDA islands; top 15 tools by August volume). ODSP MCP first-party tool calls remain 0% this period &ndash; the baseline to beat once SPARK / WorkIQ tools ship.</p>
     </section>
   </div><!-- /tab-heatmap -->
 
@@ -971,15 +988,9 @@ h1 { margin-bottom: 8px; font-size: clamp(26px, 4vw, 38px); line-height: 1.15; }
     });
   })();
   (function () {
-    var callsEl = document.getElementById('hm-calls');
-    var succEl = document.getElementById('hm-succ');
-    if (!callsEl || !succEl) return;
-    var TOOLS = [{"t":"ReadFileContent","s":"Shared","jc":8033264,"js":96.7,"ac":10663664,"as":96.7},{"t":"GetDriveChildren","s":"OneDrive","jc":4834776,"js":94.9,"ac":5307464,"as":95.3},{"t":"SearchDrive","s":"OneDrive","jc":1351688,"js":97.2,"ac":2568864,"as":94.4},{"t":"UploadFileContent","s":"Shared","jc":null,"js":null,"ac":1797960,"as":98.0},{"t":"GetDriveItem","s":"OneDrive","jc":900104,"js":91.3,"ac":1451792,"as":86.5},{"t":"GetDefaultDrive","s":"OneDrive","jc":649000,"js":96.9,"ac":742224,"as":99.5},{"t":"SearchSites","s":"SharePoint","jc":219216,"js":98.0,"ac":447456,"as":99.7},{"t":"ListSiteDrives","s":"Shared","jc":null,"js":null,"ac":350496,"as":98.6},{"t":"ListListItems","s":"SharePoint","jc":91112,"js":97.7,"ac":277936,"as":98.4},{"t":"GetSite","s":"SharePoint","jc":252952,"js":91.4,"ac":276136,"as":86.9},{"t":"CreateFolder","s":"Shared","jc":152864,"js":91.4,"ac":216584,"as":99.0},{"t":"GetOrgTemplateLibrary","s":"SharePoint","jc":53384,"js":97.8,"ac":155288,"as":98.3},{"t":"ListLists","s":"SharePoint","jc":79400,"js":99.1,"ac":118624,"as":98.2},{"t":"ListListColumns","s":"SharePoint","jc":50440,"js":99.0,"ac":73200,"as":99.1},{"t":"ListMyDrives","s":"Shared","jc":null,"js":null,"ac":32520,"as":99.8},{"t":"ListSubsites","s":"SharePoint","jc":7208,"js":97.4,"ac":8664,"as":97.3},{"t":"ListDrives","s":"OneDrive","jc":175032,"js":99.0,"ac":null,"as":null}];
+    var COWORK = [{"t":"ReadFileContent","s":"Shared","jc":8033264,"js":96.7,"ac":10663664,"as":96.7},{"t":"GetDriveChildren","s":"OneDrive","jc":4834776,"js":94.9,"ac":5307464,"as":95.3},{"t":"SearchDrive","s":"OneDrive","jc":1351688,"js":97.2,"ac":2568864,"as":94.4},{"t":"UploadFileContent","s":"Shared","jc":null,"js":null,"ac":1797960,"as":98.0},{"t":"GetDriveItem","s":"OneDrive","jc":900104,"js":91.3,"ac":1451792,"as":86.5},{"t":"GetDefaultDrive","s":"OneDrive","jc":649000,"js":96.9,"ac":742224,"as":99.5},{"t":"SearchSites","s":"SharePoint","jc":219216,"js":98.0,"ac":447456,"as":99.7},{"t":"ListSiteDrives","s":"Shared","jc":null,"js":null,"ac":350496,"as":98.6},{"t":"ListListItems","s":"SharePoint","jc":91112,"js":97.7,"ac":277936,"as":98.4},{"t":"GetSite","s":"SharePoint","jc":252952,"js":91.4,"ac":276136,"as":86.9},{"t":"CreateFolder","s":"Shared","jc":152864,"js":91.4,"ac":216584,"as":99.0},{"t":"GetOrgTemplateLibrary","s":"SharePoint","jc":53384,"js":97.8,"ac":155288,"as":98.3},{"t":"ListLists","s":"SharePoint","jc":79400,"js":99.1,"ac":118624,"as":98.2},{"t":"ListListColumns","s":"SharePoint","jc":50440,"js":99.0,"ac":73200,"as":99.1},{"t":"ListMyDrives","s":"Shared","jc":null,"js":null,"ac":32520,"as":99.8},{"t":"ListSubsites","s":"SharePoint","jc":7208,"js":97.4,"ac":8664,"as":97.3},{"t":"ListDrives","s":"OneDrive","jc":175032,"js":99.0,"ac":null,"as":null}];
+    var STUDIO = [{"t":"ListFolder","s":"SharePoint","jc":6579,"js":92.9,"ac":22872,"as":94.7},{"t":"GetItems","s":"SharePoint","jc":9200,"js":81.9,"ac":21864,"as":83.9},{"t":"PostItem","s":"SharePoint","jc":5479,"js":64.2,"ac":16203,"as":92.4},{"t":"GetFileContent","s":"SharePoint","jc":2190,"js":84.9,"ac":14219,"as":87.6},{"t":"PatchItem","s":"SharePoint","jc":64907,"js":39.2,"ac":14135,"as":96.9},{"t":"GetFileItems","s":"SharePoint","jc":1015,"js":68.6,"ac":11252,"as":87.7},{"t":"GetFileContentByPath","s":"OneDrive","jc":1038,"js":90.2,"ac":8818,"as":96.4},{"t":"GetTables","s":"SharePoint","jc":17528,"js":55.9,"ac":7132,"as":97.7},{"t":"GetFileContentByPath","s":"SharePoint","jc":3080,"js":90.2,"ac":6334,"as":87.5},{"t":"GetTable","s":"SharePoint","jc":9860,"js":97.7,"ac":6262,"as":87.3},{"t":"GetFileContent","s":"OneDrive","jc":1384,"js":96.1,"ac":6215,"as":96.2},{"t":"ListFolder","s":"OneDrive","jc":2038,"js":94.7,"ac":5618,"as":94.4},{"t":"GetDataSets","s":"SharePoint","jc":7795,"js":99.6,"ac":5568,"as":97.2},{"t":"GetItem","s":"SharePoint","jc":1146,"js":85.0,"ac":4616,"as":85.5},{"t":"FindFilesByPath","s":"OneDrive","jc":567,"js":90.5,"ac":4229,"as":93.6}];
     function fmt(v) { if (v == null) return '&mdash;'; if (v >= 1e6) return (v / 1e6).toFixed(1) + 'M'; if (v >= 1e3) return Math.round(v / 1e3) + 'K'; return v.toLocaleString(); }
-    var vals = [];
-    TOOLS.forEach(function (t) { if (t.jc) vals.push(Math.log10(t.jc)); if (t.ac) vals.push(Math.log10(t.ac)); });
-    var vmin = Math.min.apply(null, vals), vmax = Math.max.apply(null, vals);
-    function volBg(v) { if (v == null) return 'var(--cp-surface-soft)'; var n = (Math.log10(v) - vmin) / ((vmax - vmin) || 1); return 'rgba(13,148,136,' + (0.07 + 0.62 * n).toFixed(3) + ')'; }
     function succBg(v) {
       if (v == null) return 'var(--cp-surface-soft)';
       var n = Math.max(0, Math.min(1, (v - 85) / 15)), r, g, b, k;
@@ -999,20 +1010,29 @@ h1 { margin-bottom: 8px; font-size: clamp(26px, 4vw, 38px); line-height: 1.15; }
       return '<td class="hm-d ' + cls + '">' + (d >= 0 ? '+' : '') + d.toFixed(1) + 'pp</td>';
     }
     function nameCell(t) { return '<td class="hm-tname">' + t.t + (t.jc == null ? '<span class="hm-newb">new</span>' : '') + '</td>'; }
-    var ch = '<thead><tr><th class="hm-rank">#</th><th class="hm-tname">Tool</th><th class="hm-surf">Surface</th><th>Jul calls</th><th>Aug calls</th><th>MoM</th></tr></thead>';
-    var cb = TOOLS.map(function (t, i) {
-      return '<tr><td class="hm-rank">' + (i + 1) + '</td>' + nameCell(t) + '<td class="hm-surf">' + t.s + '</td>' +
-        '<td style="background:' + volBg(t.jc) + '">' + fmt(t.jc) + '</td><td style="background:' + volBg(t.ac) + '">' + fmt(t.ac) + '</td>' + momCell(t) + '</tr>';
-    }).join('');
-    callsEl.innerHTML = ch + '<tbody>' + cb + '</tbody>';
-    var sh = '<thead><tr><th class="hm-rank">#</th><th class="hm-tname">Tool</th><th class="hm-surf">Surface</th><th>Jul succ</th><th>Aug succ</th><th>&Delta;</th></tr></thead>';
-    var sb = TOOLS.map(function (t, i) {
-      var jfg = t.js == null ? 'var(--cp-text-muted)' : '#fff', afg = t.as == null ? 'var(--cp-text-muted)' : '#fff';
-      return '<tr><td class="hm-rank">' + (i + 1) + '</td>' + nameCell(t) + '<td class="hm-surf">' + t.s + '</td>' +
-        '<td style="background:' + succBg(t.js) + ';color:' + jfg + '">' + (t.js == null ? '&mdash;' : t.js.toFixed(1) + '%') + '</td>' +
-        '<td style="background:' + succBg(t.as) + ';color:' + afg + '">' + (t.as == null ? '&mdash;' : t.as.toFixed(1) + '%') + '</td>' + dppCell(t) + '</tr>';
-    }).join('');
-    succEl.innerHTML = sh + '<tbody>' + sb + '</tbody>';
+    function render(TOOLS, callsEl, succEl) {
+      if (!callsEl || !succEl) return;
+      var vals = [];
+      TOOLS.forEach(function (t) { if (t.jc) vals.push(Math.log10(t.jc)); if (t.ac) vals.push(Math.log10(t.ac)); });
+      var vmin = Math.min.apply(null, vals), vmax = Math.max.apply(null, vals);
+      function volBg(v) { if (v == null) return 'var(--cp-surface-soft)'; var n = (Math.log10(v) - vmin) / ((vmax - vmin) || 1); return 'rgba(13,148,136,' + (0.07 + 0.62 * n).toFixed(3) + ')'; }
+      var ch = '<thead><tr><th class="hm-rank">#</th><th class="hm-tname">Tool</th><th class="hm-surf">Surface</th><th>Jul calls</th><th>Aug calls</th><th>MoM</th></tr></thead>';
+      var cb = TOOLS.map(function (t, i) {
+        return '<tr><td class="hm-rank">' + (i + 1) + '</td>' + nameCell(t) + '<td class="hm-surf">' + t.s + '</td>' +
+          '<td style="background:' + volBg(t.jc) + '">' + fmt(t.jc) + '</td><td style="background:' + volBg(t.ac) + '">' + fmt(t.ac) + '</td>' + momCell(t) + '</tr>';
+      }).join('');
+      callsEl.innerHTML = ch + '<tbody>' + cb + '</tbody>';
+      var sh = '<thead><tr><th class="hm-rank">#</th><th class="hm-tname">Tool</th><th class="hm-surf">Surface</th><th>Jul succ</th><th>Aug succ</th><th>&Delta;</th></tr></thead>';
+      var sb = TOOLS.map(function (t, i) {
+        var jfg = t.js == null ? 'var(--cp-text-muted)' : '#fff', afg = t.as == null ? 'var(--cp-text-muted)' : '#fff';
+        return '<tr><td class="hm-rank">' + (i + 1) + '</td>' + nameCell(t) + '<td class="hm-surf">' + t.s + '</td>' +
+          '<td style="background:' + succBg(t.js) + ';color:' + jfg + '">' + (t.js == null ? '&mdash;' : t.js.toFixed(1) + '%') + '</td>' +
+          '<td style="background:' + succBg(t.as) + ';color:' + afg + '">' + (t.as == null ? '&mdash;' : t.as.toFixed(1) + '%') + '</td>' + dppCell(t) + '</tr>';
+      }).join('');
+      succEl.innerHTML = sh + '<tbody>' + sb + '</tbody>';
+    }
+    render(COWORK, document.getElementById('hm-cw-calls'), document.getElementById('hm-cw-succ'));
+    render(STUDIO, document.getElementById('hm-cs-calls'), document.getElementById('hm-cs-succ'));
   })();
 </script>
 </body>
