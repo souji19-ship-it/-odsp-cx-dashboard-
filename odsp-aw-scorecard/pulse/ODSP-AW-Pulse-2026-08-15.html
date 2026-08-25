@@ -512,6 +512,13 @@ h1 { margin-bottom: 8px; font-size: clamp(26px, 4vw, 38px); line-height: 1.15; }
 #tab-tenants .tt-empty p{margin:0 0 8px;font-size:12.5px;color:var(--cp-text-muted);line-height:1.5;max-width:780px}
 #tab-tenants .tt-empty p:last-child{margin-bottom:0}
 #tab-tenants .tt-empty .tt-badge{display:inline-block;font-size:10.5px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--cp-warning);border:1px solid var(--cp-warning);border-radius:20px;padding:2px 10px;margin-bottom:12px}
+#tab-tenants .tt-empty .tt-badge.ok{color:var(--cp-adoption);border-color:var(--cp-adoption)}
+#tab-tenants .tt-stats{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0 6px}
+#tab-tenants .tt-stat{background:var(--cp-surface);border:1px solid var(--cp-border);border-radius:10px;padding:9px 14px;min-width:100px}
+#tab-tenants .tt-stat b{display:block;font-size:16px;font-weight:850;color:var(--cp-text);font-variant-numeric:tabular-nums;line-height:1.2}
+#tab-tenants .tt-stat span{display:block;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.03em;color:var(--cp-text-muted);margin-top:3px}
+#tab-tenants .tt-stat i{font-style:normal;display:block;font-size:11px;font-weight:800;margin-top:3px;color:var(--cp-text-muted)}
+#tab-tenants .tt-stat i.up{color:var(--cp-success)}
 
 /* ===== Weekly tab: exact layout ported from reviewed email ===== */
 #tab-weekly * { box-sizing: border-box; }
@@ -818,10 +825,16 @@ h1 { margin-bottom: 8px; font-size: clamp(26px, 4vw, 38px); line-height: 1.15; }
 
       <div class="tt-subpanel" id="tt-spark" hidden>
         <div class="tt-empty">
-          <span class="tt-badge">Source pending</span>
-          <h3>SPARK tenant ranking is not wired in yet</h3>
-          <p>Spark (OneDrive &amp; SharePoint agents) tenant data is not yet connected to this dashboard. Spark exports return tenant IDs by default, so they need tenant-name resolution before ranking, the same step we applied to Cowork.</p>
-          <p><b>Next step:</b> land the Spark ODSP tenant export (tasks, users, tool calls, success), resolve tenant names via the tenant directory, then populate this tab with the identical leaderboard layout.</p>
+          <span class="tt-badge ok">Aggregate live &middot; per-tenant export pending</span>
+          <h3>SPARK is live at scale &ndash; per-tenant ranking not yet exported here</h3>
+          <p>Aggregate SPARK adoption is strong and growing. Per-tenant detail exists in the SPARK Launch Dashboard ("Top tenants" tab) but is not yet exported into this Pulse, so a ranked leaderboard here would be fabricated.</p>
+          <div class="tt-stats">
+            <div class="tt-stat"><b>329.7K</b><span>Weekly active users</span><i class="up">+15.3% WoW</i></div>
+            <div class="tt-stat"><b>51,168</b><span>Active tenants</span><i class="up">+6.6% WoW</i></div>
+            <div class="tt-stat"><b>21.23%</b><span>Weekly retention</span><i class="up">+3.2pp WoW</i></div>
+            <div class="tt-stat"><b>75 / 84</b><span>MCP tools enabled</span><i>89.3% of catalog</i></div>
+          </div>
+          <p><b>Next step:</b> land the SPARK per-tenant ODSP export (tasks, users, tool calls, success), resolve tenant names via the directory, then populate this tab with the identical leaderboard layout. <span style="opacity:.85">Data as of Aug 24, 2026 &middot; source spark-kpis.json, spark-chatclienttools.json.</span></p>
         </div>
       </div>
 
@@ -851,10 +864,16 @@ h1 { margin-bottom: 8px; font-size: clamp(26px, 4vw, 38px); line-height: 1.15; }
 
       <div class="tt-subpanel" id="tt-studio" hidden>
         <div class="tt-empty">
-          <span class="tt-badge">Source pending</span>
-          <h3>Copilot Studio / Dracarys tenant ranking needs source access</h3>
-          <p>Studio telemetry is currently available only as workload-level weekly aggregates, not per-tenant, so a tenant leaderboard cannot be built without fabricating rows.</p>
-          <p><b>Next step:</b> obtain per-tenant Studio ODSP metrics (tasks, users, tool calls, success), resolve names, then rank identically to Cowork.</p>
+          <span class="tt-badge">Distinct counts only &middot; no per-tenant rows</span>
+          <h3>Copilot Studio reports tenant counts, not a per-tenant ranking</h3>
+          <p>Studio ODSP telemetry is aggregated across the 17 FDA regions using HyperLogLog distinct-count sketches. That yields accurate totals but cannot enumerate individual tenants, so a leaderboard here would require fabricating rows.</p>
+          <div class="tt-stats">
+            <div class="tt-stat"><b>8,204</b><span>ODSP-active tenants</span></div>
+            <div class="tt-stat"><b>32,524</b><span>ODSP users</span></div>
+            <div class="tt-stat"><b>293,137</b><span>ODSP tasks</span></div>
+            <div class="tt-stat"><b>916,708</b><span>ODSP tool calls</span></div>
+          </div>
+          <p><b>Next step:</b> run a tenant-grain Kusto pull (tasks, users, tool calls, success by tenant), resolve names, then rank identically to Cowork. <span style="opacity:.85">Week of Aug 16-22, 2026 &middot; source: CS canonical 17-region rollup (HyperLogLog distinct counts), ODSP-attributed scope.</span></p>
         </div>
       </div>
     </section>
