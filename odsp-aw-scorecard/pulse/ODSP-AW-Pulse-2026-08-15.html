@@ -3,7 +3,7 @@
 <head>
 <script>
   (() => {
-    const param = new URLSearchParams(window.location.search).get("scoutTheme");
+    const param = new URLSearchParams(window.location.search).get("pulseTheme");
     const theme =
       param || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
     document.documentElement.setAttribute("data-theme", theme);
@@ -118,7 +118,7 @@ h1 { margin-bottom: 8px; font-size: clamp(26px, 4vw, 38px); line-height: 1.15; }
   font-size: 14px;
 }
 .period strong { color: var(--cp-text); }
-.included { border-top: 5px solid var(--cp-link); }
+.included { border-top: 4px solid var(--cp-accent); }
 .included-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -564,7 +564,7 @@ h1 { margin-bottom: 8px; font-size: clamp(26px, 4vw, 38px); line-height: 1.15; }
         </div>
         <div class="pillar-cell reliability">
           <div class="metrics">
-            <div class="metric"><strong>96%</strong><span>ODSP tool success rate</span><b class="movement flat">flat</b></div>
+            <div class="metric"><strong>96%</strong><span>ODSP tool success rate</span><b class="movement down">-0.2 pp WoW</b></div>
           </div>
         </div>
 
@@ -585,7 +585,7 @@ h1 { margin-bottom: 8px; font-size: clamp(26px, 4vw, 38px); line-height: 1.15; }
         </div>
         <div class="pillar-cell reliability">
           <div class="metrics">
-            <div class="metric"><strong>93%</strong><span>ODSP tool success rate</span><b class="movement up">+1 pp WoW</b></div>
+            <div class="metric"><strong>93%</strong><span>ODSP tool success rate</span><b class="movement up">+0.5 pp WoW</b></div>
           </div>
         </div>
       </div>
