@@ -613,6 +613,7 @@ h1 { margin-bottom: 8px; font-size: clamp(26px, 4vw, 38px); line-height: 1.15; }
 #tab-heatmap .hm-wedge td.good{background:#16a34a}
 #tab-heatmap .hm-wedge td.zero{background:#b11f4b}
 #tab-heatmap .hm-wedge td.pend{background:var(--cp-surface-soft);color:var(--cp-text-muted);border:1px dashed var(--cp-border-strong);font-weight:700}
+#tab-heatmap .hm-wedge td.part{background:var(--cp-warning);color:#3d2b00}
 #tab-heatmap .hm-sub{display:block;font-size:9.5px;font-weight:600;opacity:.9;margin-top:3px;text-transform:none;letter-spacing:0}
 #tab-heatmap .hm-wnote{font-size:12px;color:var(--cp-text-muted);line-height:1.5;max-width:760px;margin:10px 0 0}
 #tab-heatmap .hm-intro{font-size:12.5px;color:var(--cp-text-muted);line-height:1.5;max-width:860px;margin:0 0 14px}
@@ -869,12 +870,12 @@ h1 { margin-bottom: 8px; font-size: clamp(26px, 4vw, 38px); line-height: 1.15; }
         <table class="hm-wedge">
           <thead><tr><th class="row">Surface</th><th>ODSP surface calls (Graph)</th><th>ODSP MCP tool calls</th><th>Tool success</th></tr></thead>
           <tbody>
-            <tr><td class="lbl">SPARK</td><td class="on">Live<span class="hm-sub">Graph / native</span></td><td class="zero">0%<span class="hm-sub">not shipped</span></td><td class="pend">&mdash;<span class="hm-sub">source pending</span></td></tr>
+            <tr><td class="lbl">SPARK</td><td class="on">Live<span class="hm-sub">Graph / native</span></td><td class="part">75 / 84<span class="hm-sub">MCP tools enabled &middot; 89.3%</span></td><td class="pend">&mdash;<span class="hm-sub">tool-health 403 &middot; Aug 25</span></td></tr>
             <tr><td class="lbl">Copilot Cowork</td><td class="on">Live<span class="hm-sub">Graph connector</span></td><td class="zero">0%<span class="hm-sub">not shipped</span></td><td class="good">99.5%<span class="hm-sub">25-tenant mean</span></td></tr>
             <tr><td class="lbl">Copilot Studio</td><td class="on">Live<span class="hm-sub">Graph connector</span></td><td class="zero">0%<span class="hm-sub">not shipped</span></td><td class="good">90.5%<span class="hm-sub">Aug all-up</span></td></tr>
           </tbody>
         </table>
-        <p class="hm-wnote">Every surface reaches ODSP through Graph connector / surface calls today. <b>ODSP MCP tool calls are 0% across all three</b> &ndash; the headroom the SPARK / WorkIQ rollout is meant to fill. This is the benchmark to beat.</p>
+        <p class="hm-wnote">Every surface reaches ODSP through Graph connector / surface calls today. <b>SPARK is the first surface to ship our tools</b> &ndash; 75 of 84 catalogued MCP client tools are now enabled (89.3%), the first movement on the integration headroom, though per-tool call &amp; success telemetry is 403-blocked this pull (Aug 25). <b>ODSP MCP tool calls remain 0% on Cowork and Studio.</b> This is the benchmark to beat.</p>
       </div>
 
       <div class="hm-intro" style="max-width:none">Rows = individual ODSP tools. <b>Engagement</b> = tool call volume (darker teal = higher). <b>Reliability</b> = success rate (green healthy, amber / red watch). MoM = Aug vs Jul; &Delta; = Aug minus Jul in percentage points &ndash; a red &Delta; flags a regression to chase. Each surface is scaled to its own volume.</div>
