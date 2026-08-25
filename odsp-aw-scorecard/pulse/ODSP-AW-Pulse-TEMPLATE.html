@@ -602,6 +602,38 @@ h1 { margin-bottom: 8px; font-size: clamp(26px, 4vw, 38px); line-height: 1.15; }
 #tab-weekly main { width: 100%; margin: 0; }
 #tab-weekly .epx-panel { box-shadow: none; break-inside: avoid; }
 }
+#tab-heatmap .hm-h3{font-size:14px;font-weight:800;margin:22px 0 8px;color:var(--cp-text)}
+#tab-heatmap .hm-wedge-wrap{margin:6px 0 10px}
+#tab-heatmap .hm-wedge{border-collapse:separate;border-spacing:5px;width:100%;max-width:760px}
+#tab-heatmap .hm-wedge th{font-size:10.5px;font-weight:750;text-transform:uppercase;letter-spacing:.03em;color:var(--cp-text-muted);padding:4px 8px;text-align:center}
+#tab-heatmap .hm-wedge th.row{text-align:left}
+#tab-heatmap .hm-wedge td{padding:10px 10px;text-align:center;border-radius:9px;font-weight:800;font-size:15px;color:#fff;line-height:1.15}
+#tab-heatmap .hm-wedge td.lbl{background:var(--cp-surface-soft);color:var(--cp-text);text-align:left;font-size:13px}
+#tab-heatmap .hm-wedge td.on{background:#0d9488}
+#tab-heatmap .hm-wedge td.good{background:#16a34a}
+#tab-heatmap .hm-wedge td.zero{background:#b11f4b}
+#tab-heatmap .hm-wedge td.pend{background:var(--cp-surface-soft);color:var(--cp-text-muted);border:1px dashed var(--cp-border-strong);font-weight:700}
+#tab-heatmap .hm-sub{display:block;font-size:9.5px;font-weight:600;opacity:.9;margin-top:3px;text-transform:none;letter-spacing:0}
+#tab-heatmap .hm-wnote{font-size:12px;color:var(--cp-text-muted);line-height:1.5;max-width:760px;margin:10px 0 0}
+#tab-heatmap .hm-intro{font-size:12.5px;color:var(--cp-text-muted);line-height:1.5;max-width:860px;margin:0 0 14px}
+#tab-heatmap .hm-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+#tab-heatmap .hm-grid{border-collapse:separate;border-spacing:3px;min-width:820px;font-size:12.5px}
+#tab-heatmap .hm-grid th{font-size:10px;font-weight:750;text-transform:uppercase;letter-spacing:.03em;color:var(--cp-text-muted);padding:6px 6px;text-align:center;white-space:nowrap}
+#tab-heatmap .hm-grid th.hm-ch{cursor:pointer;border-radius:6px}
+#tab-heatmap .hm-grid th.hm-ch:hover{background:var(--cp-surface-soft);color:var(--cp-text)}
+#tab-heatmap .hm-grid th.hm-ch[data-active="1"]{color:var(--cp-accent)}
+#tab-heatmap .hm-grid th.hm-rank,#tab-heatmap .hm-grid th.hm-tname,#tab-heatmap .hm-grid th.hm-seg{text-align:left}
+#tab-heatmap .hm-grid td{padding:7px 8px;text-align:center;border-radius:6px;font-variant-numeric:tabular-nums;font-weight:700;color:var(--cp-text);white-space:nowrap}
+#tab-heatmap .hm-grid td.hm-rank{color:var(--cp-text-muted);font-weight:800;text-align:right;padding-right:4px}
+#tab-heatmap .hm-grid td.hm-tname{text-align:left;font-weight:750;color:var(--cp-text)}
+#tab-heatmap .hm-grid td.hm-seg{text-align:left}
+#tab-heatmap .hm-grid td.hm-seg span{display:inline-block;font-size:10.5px;font-weight:700;padding:2px 8px;border-radius:20px;background:var(--cp-surface-soft);color:var(--cp-text-muted);white-space:nowrap}
+#tab-heatmap .hm-hot{color:var(--cp-accent);margin-left:6px;font-size:11px}
+#tab-heatmap .hm-legend{display:flex;flex-wrap:wrap;gap:16px;margin-top:14px}
+#tab-heatmap .hm-k{display:inline-flex;align-items:center;font-size:12px;color:var(--cp-text-muted)}
+#tab-heatmap .hm-k i{width:16px;height:11px;border-radius:3px;display:inline-block;margin-right:6px}
+#tab-heatmap .hm-k i.hm-hot{width:auto;height:auto;background:none}
+#tab-heatmap .hm-note{margin-top:12px;font-size:11.5px;color:var(--cp-text-muted);line-height:1.45;max-width:860px}
 </style>
 </head>
 <body>
@@ -616,6 +648,7 @@ h1 { margin-bottom: 8px; font-size: clamp(26px, 4vw, 38px); line-height: 1.15; }
     <button class="tab-btn" data-target="tab-mtd">Month-to-Date &middot; August</button>
     <button class="tab-btn" data-target="tab-trends">Trends</button>
     <button class="tab-btn" data-target="tab-tenants">Top Tenants</button>
+    <button class="tab-btn" data-target="tab-heatmap">Heat Map</button>
   </nav>
 
   <div class="tab-panel" id="tab-weekly">
@@ -811,6 +844,38 @@ h1 { margin-bottom: 8px; font-size: clamp(26px, 4vw, 38px); line-height: 1.15; }
     </section>
   </div><!-- /tab-tenants -->
 
+  <div class="tab-panel" id="tab-heatmap" hidden>
+    <section class="section">
+      <h2>Heat Map &middot; ODSP tool adoption &amp; reliability</h2>
+      <p class="period">Week of <strong>Aug 16-22, 2026</strong>. Pre ODSP MCP / WorkIQ integration benchmark. Colour intensity = higher value.</p>
+
+      <div class="hm-wedge-wrap">
+        <h3 class="hm-h3">Surface &times; tool path</h3>
+        <table class="hm-wedge">
+          <thead><tr><th class="row">Surface</th><th>ODSP surface calls (Graph)</th><th>ODSP MCP tool calls</th><th>Tool success</th></tr></thead>
+          <tbody>
+            <tr><td class="lbl">SPARK</td><td class="on">Live<span class="hm-sub">Graph / native</span></td><td class="zero">0%<span class="hm-sub">not shipped</span></td><td class="pend">&mdash;<span class="hm-sub">source pending</span></td></tr>
+            <tr><td class="lbl">Copilot Cowork</td><td class="on">Live<span class="hm-sub">Graph connector</span></td><td class="zero">0%<span class="hm-sub">not shipped</span></td><td class="good">99.5%<span class="hm-sub">25-tenant mean</span></td></tr>
+            <tr><td class="lbl">Copilot Studio</td><td class="on">Live<span class="hm-sub">Graph connector</span></td><td class="zero">0%<span class="hm-sub">not shipped</span></td><td class="pend">&mdash;<span class="hm-sub">source pending</span></td></tr>
+          </tbody>
+        </table>
+        <p class="hm-wnote">Every surface reaches ODSP through Graph connector / surface calls today. <b>ODSP MCP tool calls are 0% across all three</b> &ndash; the headroom the SPARK / WorkIQ rollout is meant to fill. This is the benchmark to beat.</p>
+      </div>
+
+      <h3 class="hm-h3">Copilot Cowork &middot; top 25 ODSP tenants</h3>
+      <p class="hm-intro">Real Cowork ODSP telemetry, current week. Each numeric cell is shaded by intensity within its own column (log scale for volumes; success on a 98.5&ndash;100% ramp). Click any column header to re-sort. Use it to spot deep-but-narrow vs broad-but-shallow tenants to chase.</p>
+      <div class="hm-scroll"><table class="hm-grid" id="hm-grid"></table></div>
+      <div class="hm-legend">
+        <span class="hm-k"><i style="background:rgba(13,148,136,.6)"></i>Volume intensity</span>
+        <span class="hm-k"><i style="background:rgba(0,120,212,.55)"></i>OneDrive share</span>
+        <span class="hm-k"><i style="background:rgba(22,163,74,.85)"></i>High success</span>
+        <span class="hm-k"><i style="background:rgba(245,158,11,.85)"></i>Lower success</span>
+        <span class="hm-k"><i class="hm-hot">&#9679;</i>Hot lead</span>
+      </div>
+      <p class="hm-note">Spark and Copilot Studio tenant heat rows join once their per-tenant ODSP exports land (same gate as the Top Tenants tab). Success ramp is floored at 98.5% so the narrow real spread is legible; all current Cowork tenants sit 99.0&ndash;100%.</p>
+    </section>
+  </div><!-- /tab-heatmap -->
+
   <footer class="footer">
     <p>Thanks,<br>Ambal Balakrishnan</p>
   </footer>
@@ -833,6 +898,9 @@ h1 { margin-bottom: 8px; font-size: clamp(26px, 4vw, 38px); line-height: 1.15; }
       } else if (btn.dataset.target === 'tab-tenants') {
         title.textContent = '2P ODSP Integration Top Tenants - August 24, 2026';
         sub.innerHTML = 'Top ODSP-active tenants &middot; <strong>Aug 16-22, 2026</strong> &middot; Spark, Cowork and Studio.';
+      } else if (btn.dataset.target === 'tab-heatmap') {
+        title.textContent = '2P ODSP Integration Heat Map - August 24, 2026';
+        sub.innerHTML = 'ODSP tool adoption &amp; reliability heat map &middot; <strong>Aug 16-22, 2026</strong> &middot; pre ODSP MCP / WorkIQ benchmark.';
       } else {
         title.textContent = '2P ODSP Integration Weekly Pulse - August 24, 2026';
         sub.innerHTML = 'Week of <strong>Aug 16-22, 2026</strong> compared with Aug 9-15, 2026. Pre ODSP MCP / WorkIQ integration benchmark.';
@@ -848,11 +916,11 @@ h1 { margin-bottom: 8px; font-size: clamp(26px, 4vw, 38px); line-height: 1.15; }
     }
   })();
   (function () {
-    var TENANTS = [{"name":"Cowork","domain":"coworkevals.onmicrosoft.com","tasks":11873,"users":38,"tc":50709,"succ":99.8,"od":52.1,"sp":3.3,"sh":44.6,"tools":["ReadFileContent","GetDriveItem","SearchDrive"],"seg":"Automation-led","hot":false},{"name":"ADNOC","domain":"adnoc.ae","tasks":7882,"users":1834,"tc":124571,"succ":99.5,"od":49.9,"sp":5.5,"sh":44.6,"tools":["ReadFileContent","GetDriveChildren","SearchDrive"],"seg":"Broad + deep","hot":true},{"name":"Warner Bros. Discovery","domain":"turner.onmicrosoft.com","tasks":3336,"users":747,"tc":29336,"succ":99.6,"od":49.6,"sp":5.3,"sh":45.1,"tools":["ReadFileContent","GetDriveChildren","SearchDrive"],"seg":"Broad adoption","hot":false},{"name":"TDSYNNEX","domain":"tdworldwide.onmicrosoft.com","tasks":3326,"users":816,"tc":28606,"succ":99.5,"od":43.9,"sp":8.6,"sh":47.5,"tools":["ReadFileContent","GetDriveChildren","SearchDrive"],"seg":"Broad adoption","hot":false},{"name":"CDW","domain":"cdw.com","tasks":2686,"users":988,"tc":35352,"succ":99.6,"od":47.7,"sp":6.0,"sh":46.3,"tools":["ReadFileContent","GetDriveChildren","SearchDrive"],"seg":"Broad + deep","hot":true},{"name":"kochind.com","domain":"kochind.onmicrosoft.com","tasks":2359,"users":1027,"tc":24452,"succ":99.7,"od":35.7,"sp":4.9,"sh":59.4,"tools":["ReadFileContent","GetDriveChildren","SearchDrive"],"seg":"Broad + deep","hot":true},{"name":"Bechtel Corporation","domain":"becpsn.onmicrosoft.com","tasks":2263,"users":848,"tc":35300,"succ":99.8,"od":39.2,"sp":4.5,"sh":56.3,"tools":["ReadFileContent","GetDriveChildren","SearchDrive"],"seg":"Broad + deep","hot":true},{"name":"Takeda","domain":"mytakeda.com","tasks":1745,"users":762,"tc":16443,"succ":99.8,"od":45.4,"sp":5.0,"sh":49.6,"tools":["ReadFileContent","GetDriveChildren","SearchDrive"],"seg":"Broad adoption","hot":false},{"name":"Eli Lilly and Company","domain":"lilly.com","tasks":1531,"users":567,"tc":22885,"succ":99.3,"od":39.1,"sp":8.4,"sh":52.5,"tools":["ReadFileContent","GetDriveChildren","SearchDrive"],"seg":"Broad adoption","hot":false},{"name":"Altria","domain":"altria.onmicrosoft.com","tasks":1527,"users":491,"tc":14851,"succ":99.0,"od":43.5,"sp":11.1,"sh":45.4,"tools":["ReadFileContent","GetDriveChildren","SearchDrive"],"seg":"SharePoint-forward","hot":true},{"name":"Amadeus Workplace","domain":"amadeusworkplace.onmicrosoft.com","tasks":1362,"users":829,"tc":12280,"succ":99.9,"od":46.1,"sp":6.2,"sh":47.7,"tools":["ReadFileContent","GetDriveChildren","SearchDrive"],"seg":"Broad adoption","hot":false},{"name":"PIMCO","domain":"pimco.com","tasks":1297,"users":389,"tc":14243,"succ":99.8,"od":53.0,"sp":2.8,"sh":44.2,"tools":["ReadFileContent","GetDriveChildren","SearchDrive"],"seg":"Emerging","hot":false},{"name":"Lumen","domain":"centurylink.onmicrosoft.com","tasks":1216,"users":536,"tc":10561,"succ":99.7,"od":42.0,"sp":4.0,"sh":54.0,"tools":["ReadFileContent","GetDriveChildren","SearchDrive"],"seg":"Broad adoption","hot":false},{"name":"Arthur J. Gallagher & Co.","domain":"ajg0.onmicrosoft.com","tasks":1058,"users":243,"tc":10764,"succ":99.3,"od":36.6,"sp":23.3,"sh":40.1,"tools":["ReadFileContent","GetDriveChildren","SearchDrive"],"seg":"SharePoint-forward","hot":false},{"name":"EY","domain":"EYGS.onmicrosoft.com","tasks":1014,"users":278,"tc":10319,"succ":100.0,"od":43.4,"sp":10.8,"sh":45.7,"tools":["ReadFileContent","GetDriveChildren","SearchDrive"],"seg":"SharePoint-forward","hot":true},{"name":"Blackstone","domain":"BlackstoneLP.onmicrosoft.com","tasks":1009,"users":297,"tc":23391,"succ":99.1,"od":38.0,"sp":1.6,"sh":60.4,"tools":["ReadFileContent","GetDriveChildren","UploadFileContent"],"seg":"Emerging","hot":false},{"name":"Commonwealth Bank of Australia","domain":"commbank.onmicrosoft.com","tasks":998,"users":221,"tc":11405,"succ":99.8,"od":49.1,"sp":3.2,"sh":47.7,"tools":["ReadFileContent","GetDriveChildren","SearchDrive"],"seg":"Emerging","hot":false},{"name":"Kiewit Corporation","domain":"KiewitCorp.onmicrosoft.com","tasks":950,"users":143,"tc":10467,"succ":99.7,"od":59.7,"sp":4.2,"sh":36.1,"tools":["GetDriveChildren","ReadFileContent","SearchDrive"],"seg":"Emerging","hot":false},{"name":"Wynn Resorts, Limited","domain":"wynnresorts.onmicrosoft.com","tasks":921,"users":231,"tc":15357,"succ":99.6,"od":48.6,"sp":4.9,"sh":46.5,"tools":["ReadFileContent","GetDriveChildren","SearchDrive"],"seg":"Emerging","hot":false},{"name":"Banco Itaú SA","domain":"iConectados.onmicrosoft.com","tasks":907,"users":749,"tc":6083,"succ":99.6,"od":31.1,"sp":5.9,"sh":62.9,"tools":["ReadFileContent","GetDriveChildren","SearchDrive"],"seg":"Broad adoption","hot":false},{"name":"株式会社大和総研","domain":"dir.co.jp","tasks":868,"users":265,"tc":8486,"succ":100.0,"od":31.8,"sp":17.9,"sh":50.3,"tools":["ReadFileContent","GetDriveChildren","SearchDrive"],"seg":"SharePoint-forward","hot":true},{"name":"Rockefeller Capital Management","domain":"rockco.com","tasks":863,"users":255,"tc":9583,"succ":99.2,"od":45.7,"sp":4.1,"sh":50.3,"tools":["ReadFileContent","GetDriveChildren","SearchDrive"],"seg":"Emerging","hot":false},{"name":"Advanced Micro Devices Inc.","domain":"amdcloud.onmicrosoft.com","tasks":813,"users":281,"tc":8331,"succ":99.9,"od":46.3,"sp":5.8,"sh":47.9,"tools":["ReadFileContent","GetDriveChildren","SearchDrive"],"seg":"Emerging","hot":false},{"name":"Rockwell Automation, Inc.","domain":"rockwellautomation.onmicrosoft.com","tasks":806,"users":364,"tc":11112,"succ":99.9,"od":38.6,"sp":7.7,"sh":53.7,"tools":["ReadFileContent","GetDriveChildren","UploadFileContent"],"seg":"Emerging","hot":false},{"name":"Planet","domain":"fintrax.com","tasks":778,"users":158,"tc":13818,"succ":99.2,"od":42.6,"sp":4.8,"sh":52.6,"tools":["ReadFileContent","GetDriveChildren","SearchDrive"],"seg":"Emerging","hot":false}];
+    window.TENANTS = [{"name":"Cowork","domain":"coworkevals.onmicrosoft.com","tasks":11873,"users":38,"tc":50709,"succ":99.8,"od":52.1,"sp":3.3,"sh":44.6,"tools":["ReadFileContent","GetDriveItem","SearchDrive"],"seg":"Automation-led","hot":false},{"name":"ADNOC","domain":"adnoc.ae","tasks":7882,"users":1834,"tc":124571,"succ":99.5,"od":49.9,"sp":5.5,"sh":44.6,"tools":["ReadFileContent","GetDriveChildren","SearchDrive"],"seg":"Broad + deep","hot":true},{"name":"Warner Bros. Discovery","domain":"turner.onmicrosoft.com","tasks":3336,"users":747,"tc":29336,"succ":99.6,"od":49.6,"sp":5.3,"sh":45.1,"tools":["ReadFileContent","GetDriveChildren","SearchDrive"],"seg":"Broad adoption","hot":false},{"name":"TDSYNNEX","domain":"tdworldwide.onmicrosoft.com","tasks":3326,"users":816,"tc":28606,"succ":99.5,"od":43.9,"sp":8.6,"sh":47.5,"tools":["ReadFileContent","GetDriveChildren","SearchDrive"],"seg":"Broad adoption","hot":false},{"name":"CDW","domain":"cdw.com","tasks":2686,"users":988,"tc":35352,"succ":99.6,"od":47.7,"sp":6.0,"sh":46.3,"tools":["ReadFileContent","GetDriveChildren","SearchDrive"],"seg":"Broad + deep","hot":true},{"name":"kochind.com","domain":"kochind.onmicrosoft.com","tasks":2359,"users":1027,"tc":24452,"succ":99.7,"od":35.7,"sp":4.9,"sh":59.4,"tools":["ReadFileContent","GetDriveChildren","SearchDrive"],"seg":"Broad + deep","hot":true},{"name":"Bechtel Corporation","domain":"becpsn.onmicrosoft.com","tasks":2263,"users":848,"tc":35300,"succ":99.8,"od":39.2,"sp":4.5,"sh":56.3,"tools":["ReadFileContent","GetDriveChildren","SearchDrive"],"seg":"Broad + deep","hot":true},{"name":"Takeda","domain":"mytakeda.com","tasks":1745,"users":762,"tc":16443,"succ":99.8,"od":45.4,"sp":5.0,"sh":49.6,"tools":["ReadFileContent","GetDriveChildren","SearchDrive"],"seg":"Broad adoption","hot":false},{"name":"Eli Lilly and Company","domain":"lilly.com","tasks":1531,"users":567,"tc":22885,"succ":99.3,"od":39.1,"sp":8.4,"sh":52.5,"tools":["ReadFileContent","GetDriveChildren","SearchDrive"],"seg":"Broad adoption","hot":false},{"name":"Altria","domain":"altria.onmicrosoft.com","tasks":1527,"users":491,"tc":14851,"succ":99.0,"od":43.5,"sp":11.1,"sh":45.4,"tools":["ReadFileContent","GetDriveChildren","SearchDrive"],"seg":"SharePoint-forward","hot":true},{"name":"Amadeus Workplace","domain":"amadeusworkplace.onmicrosoft.com","tasks":1362,"users":829,"tc":12280,"succ":99.9,"od":46.1,"sp":6.2,"sh":47.7,"tools":["ReadFileContent","GetDriveChildren","SearchDrive"],"seg":"Broad adoption","hot":false},{"name":"PIMCO","domain":"pimco.com","tasks":1297,"users":389,"tc":14243,"succ":99.8,"od":53.0,"sp":2.8,"sh":44.2,"tools":["ReadFileContent","GetDriveChildren","SearchDrive"],"seg":"Emerging","hot":false},{"name":"Lumen","domain":"centurylink.onmicrosoft.com","tasks":1216,"users":536,"tc":10561,"succ":99.7,"od":42.0,"sp":4.0,"sh":54.0,"tools":["ReadFileContent","GetDriveChildren","SearchDrive"],"seg":"Broad adoption","hot":false},{"name":"Arthur J. Gallagher & Co.","domain":"ajg0.onmicrosoft.com","tasks":1058,"users":243,"tc":10764,"succ":99.3,"od":36.6,"sp":23.3,"sh":40.1,"tools":["ReadFileContent","GetDriveChildren","SearchDrive"],"seg":"SharePoint-forward","hot":false},{"name":"EY","domain":"EYGS.onmicrosoft.com","tasks":1014,"users":278,"tc":10319,"succ":100.0,"od":43.4,"sp":10.8,"sh":45.7,"tools":["ReadFileContent","GetDriveChildren","SearchDrive"],"seg":"SharePoint-forward","hot":true},{"name":"Blackstone","domain":"BlackstoneLP.onmicrosoft.com","tasks":1009,"users":297,"tc":23391,"succ":99.1,"od":38.0,"sp":1.6,"sh":60.4,"tools":["ReadFileContent","GetDriveChildren","UploadFileContent"],"seg":"Emerging","hot":false},{"name":"Commonwealth Bank of Australia","domain":"commbank.onmicrosoft.com","tasks":998,"users":221,"tc":11405,"succ":99.8,"od":49.1,"sp":3.2,"sh":47.7,"tools":["ReadFileContent","GetDriveChildren","SearchDrive"],"seg":"Emerging","hot":false},{"name":"Kiewit Corporation","domain":"KiewitCorp.onmicrosoft.com","tasks":950,"users":143,"tc":10467,"succ":99.7,"od":59.7,"sp":4.2,"sh":36.1,"tools":["GetDriveChildren","ReadFileContent","SearchDrive"],"seg":"Emerging","hot":false},{"name":"Wynn Resorts, Limited","domain":"wynnresorts.onmicrosoft.com","tasks":921,"users":231,"tc":15357,"succ":99.6,"od":48.6,"sp":4.9,"sh":46.5,"tools":["ReadFileContent","GetDriveChildren","SearchDrive"],"seg":"Emerging","hot":false},{"name":"Banco Itaú SA","domain":"iConectados.onmicrosoft.com","tasks":907,"users":749,"tc":6083,"succ":99.6,"od":31.1,"sp":5.9,"sh":62.9,"tools":["ReadFileContent","GetDriveChildren","SearchDrive"],"seg":"Broad adoption","hot":false},{"name":"株式会社大和総研","domain":"dir.co.jp","tasks":868,"users":265,"tc":8486,"succ":100.0,"od":31.8,"sp":17.9,"sh":50.3,"tools":["ReadFileContent","GetDriveChildren","SearchDrive"],"seg":"SharePoint-forward","hot":true},{"name":"Rockefeller Capital Management","domain":"rockco.com","tasks":863,"users":255,"tc":9583,"succ":99.2,"od":45.7,"sp":4.1,"sh":50.3,"tools":["ReadFileContent","GetDriveChildren","SearchDrive"],"seg":"Emerging","hot":false},{"name":"Advanced Micro Devices Inc.","domain":"amdcloud.onmicrosoft.com","tasks":813,"users":281,"tc":8331,"succ":99.9,"od":46.3,"sp":5.8,"sh":47.9,"tools":["ReadFileContent","GetDriveChildren","SearchDrive"],"seg":"Emerging","hot":false},{"name":"Rockwell Automation, Inc.","domain":"rockwellautomation.onmicrosoft.com","tasks":806,"users":364,"tc":11112,"succ":99.9,"od":38.6,"sp":7.7,"sh":53.7,"tools":["ReadFileContent","GetDriveChildren","UploadFileContent"],"seg":"Emerging","hot":false},{"name":"Planet","domain":"fintrax.com","tasks":778,"users":158,"tc":13818,"succ":99.2,"od":42.6,"sp":4.8,"sh":52.6,"tools":["ReadFileContent","GetDriveChildren","SearchDrive"],"seg":"Emerging","hot":false}];
     var body = document.getElementById('tt-body');
     if (!body) return;
     function render(key) {
-      var rows = TENANTS.slice().sort(function (a, b) { return b[key] - a[key]; });
+      var rows = window.TENANTS.slice().sort(function (a, b) { return b[key] - a[key]; });
       body.innerHTML = rows.map(function (t, i) {
         var mix = '<div class="tt-mix"><i class="od" style="width:' + t.od + '%"></i><i class="sp" style="width:' + t.sp + '%"></i><i class="sh" style="width:' + t.sh + '%"></i></div>';
         var hot = t.hot ? '<span class="tt-hotdot" title="Hot lead">\u25CF</span>' : '';
@@ -888,6 +956,59 @@ h1 { margin-bottom: 8px; font-size: clamp(26px, 4vw, 38px); line-height: 1.15; }
         document.getElementById(t.dataset.sub).hidden = false;
       });
     });
+  })();
+  (function () {
+    var grid = document.getElementById('hm-grid');
+    if (!grid || !window.TENANTS) return;
+    var T = window.TENANTS;
+    var cols = [
+      { key: 'tasks', label: 'ODSP tasks', kind: 'vol', hue: '13,148,136' },
+      { key: 'users', label: 'ODSP users', kind: 'vol', hue: '13,148,136' },
+      { key: 'tc', label: 'Tool calls', kind: 'vol', hue: '13,148,136' },
+      { key: 'succ', label: 'Success', kind: 'succ' },
+      { key: 'od', label: 'OneDrive', kind: 'mix', hue: '0,120,212' },
+      { key: 'sp', label: 'SharePoint', kind: 'mix', hue: '13,148,136' },
+      { key: 'sh', label: 'Shared', kind: 'mix', hue: '128,128,128' }
+    ];
+    function lg(v) { return Math.log10(Math.max(1, v)); }
+    var stats = {};
+    cols.forEach(function (c) {
+      if (c.kind === 'vol') {
+        var vs = T.map(function (t) { return lg(t[c.key]); });
+        stats[c.key] = { min: Math.min.apply(null, vs), max: Math.max.apply(null, vs) };
+      }
+    });
+    function volAlpha(c, v) { var s = stats[c.key]; var n = (lg(v) - s.min) / ((s.max - s.min) || 1); return 0.08 + 0.62 * n; }
+    function succColor(v) {
+      var n = Math.max(0, Math.min(1, (v - 98.5) / 1.5));
+      var r = Math.round(245 + (22 - 245) * n), g = Math.round(158 + (163 - 158) * n), b = Math.round(11 + (74 - 11) * n);
+      return 'rgba(' + r + ',' + g + ',' + b + ',0.88)';
+    }
+    function cell(c, t) {
+      var v = t[c.key], bg = 'transparent', fg = 'var(--cp-text)', txt;
+      if (c.kind === 'vol') { bg = 'rgba(' + c.hue + ',' + volAlpha(c, v).toFixed(3) + ')'; txt = v.toLocaleString(); }
+      else if (c.kind === 'succ') { bg = succColor(v); fg = '#fff'; txt = v.toFixed(1) + '%'; }
+      else { bg = 'rgba(' + c.hue + ',' + (0.06 + 0.6 * Math.min(1, v / 60)).toFixed(3) + ')'; txt = v.toFixed(0) + '%'; }
+      return '<td style="background:' + bg + ';color:' + fg + '">' + txt + '</td>';
+    }
+    var sortKey = 'tasks';
+    function draw() {
+      var rows = T.slice().sort(function (a, b) { return (b[sortKey] || 0) - (a[sortKey] || 0); });
+      var head = '<tr><th class="hm-rank">#</th><th class="hm-tname">Tenant</th>' +
+        cols.map(function (c) { return '<th class="hm-ch" data-k="' + c.key + '"' + (c.key === sortKey ? ' data-active="1"' : '') + '>' + c.label + '</th>'; }).join('') +
+        '<th class="hm-seg">Segment</th></tr>';
+      var bodyH = rows.map(function (t, i) {
+        var hot = t.hot ? '<span class="hm-hot" title="Hot lead">\u25CF</span>' : '';
+        return '<tr><td class="hm-rank">' + (i + 1) + '</td><td class="hm-tname">' + t.name + hot + '</td>' +
+          cols.map(function (c) { return cell(c, t); }).join('') +
+          '<td class="hm-seg"><span>' + t.seg + '</span></td></tr>';
+      }).join('');
+      grid.innerHTML = '<thead>' + head + '</thead><tbody>' + bodyH + '</tbody>';
+      grid.querySelectorAll('.hm-ch').forEach(function (th) {
+        th.addEventListener('click', function () { sortKey = th.dataset.k; draw(); });
+      });
+    }
+    draw();
   })();
 </script>
 </body>
