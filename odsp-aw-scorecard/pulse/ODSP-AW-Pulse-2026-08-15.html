@@ -896,17 +896,27 @@ h1 { margin-bottom: 8px; font-size: clamp(26px, 4vw, 38px); line-height: 1.15; }
       </div>
 
       <div class="tt-subpanel" id="tt-studio" hidden>
+        <div class="tt-allup">
+          <span class="tt-badge ok">All-up Copilot Studio &middot; live &middot; Aug 16-22</span>
+          <span class="tt-allup-cap">ODSP is one connector set inside Copilot Studio's agentic runtime. This is the total Studio footprint this week (across all connectors and knowledge sources), with ODSP's share of each metric. About half of Studio tenants touch ODSP, but ODSP is still a small share of overall task and tool-call volume. Distinct counts are HyperLogLog-based, summed across the 19 FDA regions.</span>
+          <div class="tt-stats">
+            <div class="tt-stat"><b>77.3K</b><span>Studio users &middot; all-up</span><i class="share">ODSP 32.5K &middot; 42.1%</i></div>
+            <div class="tt-stat"><b>16,389</b><span>Studio tenants &middot; all-up</span><i class="share">ODSP 8,204 &middot; 50.1%</i></div>
+            <div class="tt-stat"><b>2.38M</b><span>Studio tasks &middot; all-up</span><i class="share">ODSP 293.1K &middot; 12.3%</i></div>
+            <div class="tt-stat"><b>10.2M</b><span>Studio tool calls &middot; all-up</span><i class="share">ODSP 916.7K &middot; 9.0%</i></div>
+          </div>
+        </div>
         <div class="tt-empty">
           <span class="tt-badge">Distinct counts only &middot; no per-tenant rows</span>
           <h3>Copilot Studio reports tenant counts, not a per-tenant ranking</h3>
-          <p>Studio ODSP telemetry is aggregated across the 17 FDA regions using HyperLogLog distinct-count sketches. That yields accurate totals but cannot enumerate individual tenants, so a leaderboard here would require fabricating rows.</p>
+          <p>Studio ODSP telemetry is aggregated across the 19 FDA regions using HyperLogLog distinct-count sketches. That yields accurate totals but cannot enumerate individual tenants, so a leaderboard here would require fabricating rows.</p>
           <div class="tt-stats">
             <div class="tt-stat"><b>8,204</b><span>ODSP-active tenants</span></div>
             <div class="tt-stat"><b>32,524</b><span>ODSP users</span></div>
             <div class="tt-stat"><b>293,137</b><span>ODSP tasks</span></div>
             <div class="tt-stat"><b>916,708</b><span>ODSP tool calls</span></div>
           </div>
-          <p><b>Next step:</b> run a tenant-grain Kusto pull (tasks, users, tool calls, success by tenant), resolve names, then rank identically to Cowork. <span style="opacity:.85">Week of Aug 16-22, 2026 &middot; source: CS canonical 17-region rollup (HyperLogLog distinct counts), ODSP-attributed scope.</span></p>
+          <p><b>Next step:</b> run a tenant-grain Kusto pull (tasks, users, tool calls, success by tenant), resolve names, then rank identically to Cowork. <span style="opacity:.85">Week of Aug 16-22, 2026 &middot; source: CS canonical 19-region agentic-runtime rollup (CAPAnalytics TraceEvents, HyperLogLog distinct counts). ODSP-attributed scope for the cards above; all-up Studio totals in the strip use the same rollup without the ODSP connector filter.</span></p>
         </div>
       </div>
     </section>
