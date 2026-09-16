@@ -1,0 +1,101 @@
+{
+  "methodology": {
+    "regions": [
+      "fdislandsus.centralus",
+      "fdislandsas.southeastasia",
+      "fdislandsau.australiaeast",
+      "fdislandsbr.brazilsouth",
+      "fdislandsca.canadacentral",
+      "fdislandsch.switzerlandnorth",
+      "fdislandsde.germanywestcentral",
+      "fdislandseu.westeurope",
+      "fdislandsfr.francecentral",
+      "fdislandsin.centralindia",
+      "fdislandsjp.japaneast",
+      "fdislandskr.koreasouth",
+      "fdislandsno.norwayeast",
+      "fdislandsse.swedencentral",
+      "fdislandssg.southeastasia",
+      "fdislandsuk.uksouth",
+      "fdislandsza.southafricanorth"
+    ],
+    "start": "2026-08-30",
+    "endExclusive": "2026-09-06",
+    "grain": "week",
+    "distinctMethod": "regional HLL sketches merged across the fixed 17-region population",
+    "odspKnowledge": "KnowledgeSource in ('SharePoint','SharePointList')"
+  },
+  "weeks": {
+    "2026-08-30": {
+      "Allup": {
+        "Week": "2026-08-30",
+        "Scope": "Allup",
+        "Users": 104143,
+        "Tenants": 16337,
+        "Agents": 77025,
+        "Tasks": 2478106,
+        "ToolCalls": 7314032,
+        "KnowledgeSources": 1996903,
+        "EligibleToolCalls": 0,
+        "ServiceFailures": 0,
+        "PublishedServiceSuccess": null,
+        "ConsentExcludedServiceSuccess": null
+      },
+      "ODSP": {
+        "Week": "2026-08-30",
+        "Scope": "ODSP",
+        "Users": 34974,
+        "Tenants": 7858,
+        "Agents": 23240,
+        "Tasks": 175281,
+        "ToolCalls": 243599,
+        "KnowledgeSources": 521757,
+        "EligibleToolCalls": 231940,
+        "ServiceFailures": 14176,
+        "PublishedServiceSuccess": 94.2,
+        "ConsentExcludedServiceSuccess": 93.9
+      },
+      "Combined": {
+        "ODSPToolCallsAndKnowledge": 765356,
+        "AllupToolCallsAndKnowledge": 9310935,
+        "WeightedComposition": 8.2
+      },
+      "Computed": {
+        "Allup": {
+          "Week": "2026-08-30",
+          "Scope": "Allup",
+          "Users": 104143,
+          "Tenants": 16337,
+          "Agents": 77025,
+          "Tasks": 2478106,
+          "ToolCalls": 7314032,
+          "KnowledgeSources": 1996903,
+          "EligibleToolCalls": 0,
+          "ServiceFailures": 0,
+          "PublishedServiceSuccess": null,
+          "ConsentExcludedServiceSuccess": null
+        },
+        "ODSP": {
+          "Week": "2026-08-30",
+          "Scope": "ODSP",
+          "Users": 34974,
+          "Tenants": 7858,
+          "Agents": 23240,
+          "Tasks": 175281,
+          "ToolCalls": 243599,
+          "KnowledgeSources": 521757,
+          "EligibleToolCalls": 231940,
+          "ServiceFailures": 14176,
+          "PublishedServiceSuccess": 94.2,
+          "ConsentExcludedServiceSuccess": 93.9
+        },
+        "Combined": {
+          "ODSPToolCallsAndKnowledge": 765356,
+          "AllupToolCallsAndKnowledge": 9310935,
+          "WeightedComposition": 8.2
+        }
+      },
+      "PublicationStatus": "PROVISIONAL: no platform-team/Omega calibration supplied"
+    }
+  }
+}
