@@ -1,7 +1,12 @@
 # Current KAv2 Metrics Snapshot
 
 **Last Updated:** 2026-02-14 at 6:21 PM
-**Data Source:** Knowledge Agent Metrics Dashboard
+**Snapshot Status:** Historical Nezha KAv2 snapshot; not current SPARK telemetry
+**Data Source:** Legacy Knowledge Agent Metrics Dashboard (Nezha KAv2)
+**Current Canonical Dashboard:** `https://portal.microsoftgeneva.com/s/7609F13C`
+**Source Guidance Updated:** 2026-09-17
+
+See [`SPARK_TELEMETRY.md`](SPARK_TELEMETRY.md) for the current source hierarchy and raw telemetry details.
 
 ---
 

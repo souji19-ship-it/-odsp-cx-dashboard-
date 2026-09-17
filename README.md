@@ -2,6 +2,8 @@
 
 Automated tool to extract data from Microsoft Nezha reports using Playwright and Edge browser.
 
+> **SPARK source note:** Nezha is retained for supplemental and historical KAv2 extraction. The current canonical SPARK dashboard is Geneva dashboard `7609F13C`. See [`SPARK_TELEMETRY.md`](SPARK_TELEMETRY.md).
+
 ## Setup Complete ✓
 
 All dependencies are installed and ready to use.
