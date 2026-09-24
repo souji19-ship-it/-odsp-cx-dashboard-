@@ -1,97 +1,50 @@
-# Microsoft Reporting Data Scraper
+# OneDrive SharePoint in Agentic Work
 
-Automated tool to extract data from Microsoft Nezha reports using Playwright and Edge browser.
+Tracking how OneDrive and SharePoint (ODSP) integrations perform across M365 agentic surfaces — two families: **ODSP Agents** (Copilot in SharePoint · Copilot in OneDrive · SPARK) and **Agents calling ODSP** (CoWork · Scout · Copilot Studio).
 
-> **SPARK source note:** Nezha is retained for supplemental and historical KAv2 extraction. The current canonical SPARK dashboard is Geneva dashboard `7609F13C`. See [`SPARK_TELEMETRY.md`](SPARK_TELEMETRY.md).
+## Structure
 
-## Setup Complete ✓
+```
+├── Data-Public/                 # Canonical scraped + ingested telemetry (gitignored, single source of truth)
+│   ├── cowork/                  #   CoWork dashboard telemetry + feedback
+│   ├── ideas/                   #   Copilot in SharePoint / OneDrive WAU (IDEAS)
+│   ├── ocv/                     #   OCV per-surface Copilot thumbs (persisted)
+│   └── spark/                   #   SPARK usage + tool health
+├── Data-Private/                # gitignored; never read by Agent/LT Dashboard
+│   ├── Data-Created/            #   Command Center (ODSP-AW-CC.html) + Dashboard/ + Records/ + the WIP deck
+│   └── Data-Given/              #   Sensitive human source (recaps, notes, decks, grounding)
+├── Data-Pipeline/               # Scraping infra (CoWork/SPARK/IDEAS/OCV scrapers + lib/)
+├── OneDrive-SharePoint-in-Agentic-Work-Agent/   # ODSP-AW Agent (queries Data-Public + Kusto)
+├── scripts/                     # Node + PowerShell: validate-cc, cc-maintenance, 7am refresh, archive
+└── automation/                  # Scheduled-prompt registry + agent prompt files
+```
 
-All dependencies are installed and ready to use.
+## Quick Start
 
-## Three Ways to Run
+**Command Center:** Open `Data-Private/Data-Created/ODSP-AW-CC.html` (the cockpit — Tracker, Dashboards, Insights, Data Health, Operations, Archive).
 
-### Option 1: Use Your Existing Edge Profile (Recommended for Corporate)
-
-This uses your regular Edge browser with all your corporate settings and authentication:
-
+**Agent:**
 ```bash
-node scrape-with-profile.js
+cd OneDrive-SharePoint-in-Agentic-Work-Agent
+agency copilot
 ```
 
-**Pros:**
-- Uses your existing corporate authentication
-- No need to log in again if you're already logged in to Edge
-- Respects all corporate policies and settings
-
-**Note:** Close all Edge windows before running this script.
-
-### Option 2: Two-Step Authentication
-
-If Option 1 doesn't work, use this two-step process:
-
-**Step 1:** Authenticate once (saves credentials)
+**Data refresh:**
 ```bash
-node authenticate.js
-```
-- Edge will open
-- Log in manually
-- Navigate to the report page
-- Press ENTER in the terminal when you see the report
-- Your auth state will be saved to `auth.json`
-
-**Step 2:** Run the scraper anytime
-```bash
-node scrape-report.js
-```
-- Uses the saved authentication
-- Extracts data automatically
-- Saves to timestamped CSV files
-
-## What Gets Saved
-
-- **CSV files**: `report-table1-YYYY-MM-DDTHH-MM-SS.csv`
-  - One file per table found on the page
-  - Timestamped so you can track data over time
-- **Debug files** (if no tables found):
-  - `page-screenshot.png` - Full page screenshot
-  - `page-source.html` - Raw HTML for inspection
-
-## Troubleshooting
-
-### Edge is already running
-- Close all Edge windows before running `scrape-with-profile.js`
-- Or use Option 2 instead
-
-### Different Edge Profile
-Edit `scrape-with-profile.js` line 21:
-```javascript
-args: ['--profile-directory=Profile 1']  // Change 'Default' to 'Profile 1', etc.
+cd Data-Pipeline
+node scrape-cowork.js 2026-06-16 weekly   # CoWork
+node scrape-kav2-full.js                   # SPARK
 ```
 
-### No tables found
-The script will save a screenshot and HTML source to help identify the data structure. We can then update the extraction logic.
+## Live Data Access
 
-## Report URL
+| Source | Method | Status |
+|---|---|---|
+| Augloop (SPARK tool calls) | Kusto direct | ✅ |
+| OCV (per-surface thumbs + verbatims) | Kusto → persisted to Data-Public/ocv | ✅ |
+| COGS (token costs) | Kusto (no db perms yet) | ⚠️ |
+| CoWork dashboard (adoption + ODSP tool calls) | Playwright scrape → JSON | ✅ |
+| SPARK / Nezha / IDEAS | Playwright scrape → JSON | ✅ |
 
-Currently configured for:
-- https://www.microsoftnezha.com/nezha/dashboard/p/r2YgM22yDQv/
-
-To change the report URL, edit the `reportUrl` variable in the script you're using.
-
-## Data Directory Structure
-
-```
-msft-reporting/
-├── authenticate.js           # One-time authentication
-├── scrape-report.js         # Main scraper (uses auth.json)
-├── scrape-with-profile.js   # Uses existing Edge profile
-├── auth.json                # Saved authentication (if using Option 2)
-├── report-table1-*.csv      # Extracted data files
-└── page-screenshot.png      # Debug screenshot (if needed)
-```
-
-## Next Steps
-
-1. Try running `node scrape-with-profile.js` first
-2. If that doesn't work, try the two-step process with `authenticate.js`
-3. Once it works, you can schedule this to run periodically to collect data over time
+## Owner
+Ambal Balakrishnan · SharePoint AI Team

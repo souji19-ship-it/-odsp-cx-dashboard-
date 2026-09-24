@@ -1,0 +1,48 @@
+PROMPT — Rebuild the Internal "Ambal" Dashboard + the Monday Pulse (ODSP Integration Success)
+Paste into GitHub Copilot. Build BOTH deliverables into Data-Private/Data-Created/dashboards/ (the internal "Ambal" dashboard + the weekly Monday Pulse), from VERIFIED Data-Public data ONLY — every number carries its source + exact date + method, no fabrication, no synthetic trends; mark anything unmeasured as dark/blocked honestly. Build from FIRST PRINCIPLES (each metric traces to a real Data-Public value: cowork/, spark/, ideas/, ocv/). All times CST. Keep the minimalist, executive-grade aesthetic.
+
+=== CONTEXT — MY ROLE + THE FRAME ===
+I am the Integration Success Leader for ODSP (OneDrive + SharePoint) in agentic work. For ODSP agents to win they must be integrated well across the M365 ecosystem and successfully carry the end-to-end workflow. I measure, on multiple dimensions, how that integration is performing. These two artifacts are how I report it: (1) a COMPREHENSIVE internal dashboard (living + breathing — daily point-in-time + week-over-week), and (2) a weekly Monday PULSE that summarizes the dashboard for the team.
+
+=== THE REPORTING TAXONOMY (4 mutually-exclusive layers — group + label EVERYTHING by this) ===
+1. ODSP Surfaces (first-party): Copilot in OneDrive - Copilot in SharePoint — the end-user AI experiences we ship on ODSP ("what customers actually see").
+2. ODSP Platform / Enabler: SPARK — the chat engine + tools that power our surfaces and feed external agents (its own layer, NOT a standalone agent).
+3. Agents Calling ODSP (external): CoWork - Scout (more coming) — outside agents that reach into ODSP via SPARK's tools (they consume ODSP's tools; they are NOT ODSP).
+4. Builder (separate): Copilot Studio — how new agents get built (NOT an agent; excluded from agent counts).
+Rule of thumb: Surfaces = what we ship - Enabler = the engine underneath (SPARK) - Calling agents = outsiders that reach in - Builder = how agents get built.
+
+=== THE PER-SURFACE MEASUREMENT FRAMEWORK (L1-L5 — every surface gets a scorecard on these) ===
+- L1 ADOPTION — are ODSP capabilities being used in agentic workflows? Weekly usage rate, retention, attach (where available).
+- L2 PERFORMANCE — which tools help or hurt, and what is happening? Tool call volume, tool-call success rate, latency (avg + p95), by tool family.
+- L3 QUALITY — how do users feel about the outcomes? Total thumbs up/down, scenario-level / L2-level DSAT, sentiment, frictions, hard spots.
+- L4 SCENARIO SUCCESS — are users completing ODSP-centric tasks end-to-end? Scenario completion rate, end-to-end user success, ODSP task success by surface. (Hard to instrument — show what exists, mark the rest "not yet instrumented.")
+- L5 VALUE — is the integration worth it? Tokens, COGS, ROI, consumption. (No COGS grant yet — mark L5 "blocked: awaiting the LLMAPI grant.")
+
+=== THE 5-LENS AUDIENCE CADENCE (same data, five lenses — design so each audience finds its slice) ===
+- Roger / Julie (Product, WEEKLY) - Product / Surface lens -> "Where to invest product effort?" : surfaces integrated, adoption & retention by surface, workflow completion per workload, where ODSP is exposed well vs poorly.
+- Luca (Tech Integration, WEEKLY) - Tooling / Orchestration lens -> "Where to direct engineering?" : tool success/failure ranked, best & worst tools, DSAT by tool (volume-normalized), calls/day.
+- Donovan (Customer Voice, WEEKLY) - Quality lens -> "What is the customer feedback?" : thumbs, scenario-level DSAT.
+- Cory / Zach / Dan / Cyrus (Product & Eng Leaders, BI-WEEKLY) - Converged Review -> "Where to invest effort?" : benchmark / heatmap across Adoption - Scenario - Performance - Quality - Value.
+- Adam / Bailey (Product & Eng Execs, MONTHLY) - Invest lens -> "Is it worth the investment?" : benchmark / heatmap + business value (consumption, cost, revenue).
+
+=== BUILD #1 — THE INTERNAL "AMBAL" DASHBOARD (comprehensive; detailed, many views) ===
+1. EXECUTIVE SCORECARD (landing page) — the key KPIs, strengths, and the overall integration-health scorecard; "are we winning?" at a glance.
+2. HEAT MAP — surfaces (rows: CoWork, Scout, Copilot Studio + the ODSP surfaces) x layers (cols: L1 Adoption, L2 Performance, L3 Quality, L4 Scenario, L5 Value), color-coded by week-over-week status: on-track / watch / intervene. The single most valuable global view.
+3. BENCHMARK — best performer per layer: across the calling agents (CoWork / Scout / Copilot Studio) for L1-L5, which workload/agent is winning. "Who's winning."
+4. CROSS-SURFACE COMPARISON — the surfaces side by side on the L1-L5 metrics, color-coded for DSAT / success rate / quality.
+5. PER-SURFACE SCORECARDS — one per surface (build CoWork FIRST; give Scout + Copilot Studio tabs even with no data yet, marked "awaiting data"); each its own L1-L5 deep dive + an integration inventory.
+6. TOOL TABS (per surface) — tools best-to-worst: volume, success rate, DSAT rate, latency, a best-in-class flag; with deep-dive sections.
+7. ROOT-CAUSE / DIAGNOSTIC DRILL-DOWN — the SAME tool across canvases: is it a tool problem, a canvas problem, or an orchestration problem? (a tool x canvas matrix.)
+8. WATCH LIST — across surfaces: surface, layer (L1/L2...), the issue, when it was identified, and the action to take.
+9. ACTION CENTER — prioritized issues + recommendations (what to do next).
+
+=== BUILD #2 — THE MONDAY PULSE (weekly leadership summary of the dashboard) ===
+Take the dashboard's summary and highlight the CHANGING TRENDS for the team. Lead with: what CHANGED last week + the ONE thing the team needs to work on. A few key views:
+- The "ARE WE WINNING?" leadership scorecard — how ODSP integrations perform across the M365 agent experiences (CoWork, Scout, Copilot Studio): COVERAGE (which canvases expose SP/OD tools - integration status), QUALITY, TOOLS, TRENDS (improving WoW? success rates - DSAT - call-volume growth), VALUE (when COGS lands).
+- The per-surface SCORECARD (the headline L1-L5 per surface).
+- The HEAT MAP across all surfaces.
+- The BENCHMARK (best-performing M365 workload per layer).
+- Answer the standing question: "Is OneDrive/SharePoint becoming the DEFAULT CONTENT LAYER for every M365 canvas — and which canvas is still missing?"
+
+=== DATA INTEGRITY (non-negotiable) ===
+Build from first principles; trace every metric to a real Data-Public value with its source + exact date + method. NO fabrication, no synthetic trend lines. Mark dark surfaces (Scout, Copilot Studio) and blocked layers (L5 / COGS) honestly; where week-over-week is not derivable (a single data week), say so rather than inventing a trend. Preserve the FINDINGS markers + the auto-stamped "Last Updated" wiring. Group + label by the 4-layer taxonomy everywhere.

@@ -1,57 +1,26 @@
+# Data-Private — human-provided / sensitive source materials (recaps, notes, decks, grounding screenshots). Never read by the Agent or LT Dashboard. OneDrive-backed-up.
+Data-Private/
+# Data-Public — scraped/ingested telemetry (large, regenerated weekly). Agent / LT Dashboard / Ops safe. OneDrive-backed-up.
+Data-Public/
+
+# Node / build artifacts
 node_modules/
-logs/
-
-# All CSV data files — stored in SharePoint during publish, not in git
-*.csv
-data/
-
-# All log files
 *.log
 
-# Generated dashboard data (rebuild with: node generate-dashboard-data.js)
-dashboard-data.js
-dashboard-data.json
+# Autonomous agent run logs (headless cadence tasks) — local only
+automation/agent-logs/
 
-# Publish state (tracks what's already been uploaded to SharePoint)
-publish-manifest.json
-
-# Generated report artifacts (produced by scrapers at runtime)
-kav2-full-summary-*.json
-kav2-kav2-*.json
-kav2-kav2-growth-analytics-*.json
-kav2-complete-*.json
-ai-all-up-*.json
-fab-report-*.json
-sharepoint-ai-report-*.json
-sharepoint-ai-comparison-*.csv
-status-email-draft.html
-
-# Generated wiki/summary outputs
-wiki-usage-summary.md
-wiki-content-escaped.txt
-
-# Debug screenshots
-*.png
-
-# Claude Code session files (skills/ is committed; local settings are not)
-.claude/settings.local.json
-.playwright-mcp/
-
-# Generated report outputs (text/JSON dumps in root)
-sharepoint-ai-report-*.txt
-page-full-text.txt
-
-# Raw Copilot Studio telemetry caches may contain user, tenant, agent, or conversation IDs.
-odsp-aw-scorecard/data-pipeline/cs-audit-aug15/
-odsp-aw-scorecard/data-pipeline/cs-audit-tool-reach-aug15/
-odsp-aw-scorecard/data-pipeline/cs-canonical-sketches-*/
-odsp-aw-scorecard/data-pipeline/cs-validate-tier-allup-*/
-odsp-aw-scorecard/data-pipeline/cs-validate-tier-aug15/
-odsp-aw-scorecard/data-pipeline/cs-validate-tier.bak-*/
-
-# Windows artifacts
+# OS files
 Thumbs.db
-Desktop.ini
+.DS_Store
+desktop.ini
 
-# Per-tag scraper duration stats (used for LPT scheduling)
-.scrape-stats.json
+# Editor
+.vscode/
+*.swp
+*.swo
+scripts/refresh-log.txt
+
+# Source / working decks (PowerPoint) — internal, often sensitivity-labeled. Keep out of GitHub; the committed deliverables are the HTML cockpit + dashboards.
+*.pptx
+*.ppt

@@ -1,0 +1,27 @@
+# Agency CLI project config — ODSP-AW (OneDrive SharePoint in Agentic Work) Agent
+#
+# This file is read by Agency CLI on startup and provisions the MCP servers
+# the agent needs. Each MCP entry connects to a data source the agent can query.
+#
+# Auth: federated per-user. No secrets in this file.
+
+# Augloop cluster — server-side AI telemetry for CoWork, Scout, SPARK tool calls.
+# Used for cross-surface integration health analysis.
+[mcps.builtins.augloop]
+type = "kusto"
+service_uri = "https://odxaugloop.eastus.kusto.windows.net"
+database = "ODX AugLoop Service"
+
+# OCV cluster — customer feedback (thumbs data, verbatims, classifications).
+# Used for thumbs-down rate tracking and DSAT analysis.
+[mcps.builtins.ocv]
+type = "kusto"
+service_uri = "https://ocvkustov2.westcentralus.kusto.windows.net"
+database = "OneCustomerVoice"
+
+# COGS cluster — LLM token usage and cost telemetry.
+# Used for cost-per-session trends and model efficiency tracking.
+[mcps.builtins.cogs]
+type = "kusto"
+service_uri = "https://inferencedashboardlog.westus2.kusto.windows.net"
+database = "InferenceDashboard"

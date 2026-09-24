@@ -1,0 +1,61 @@
+{
+  "description": "Canonical registry of the ODSP-AW automation cadences. Two kinds: (1) Copilot CLI scheduled prompts that need live conversation/session context (these live in CLI state, not the repo, so they vanish on a state reset); (2) headless agent Windows Scheduled Tasks that run scripts/run-agent-prompt.ps1 so the heavier daily/weekly judgment cadences fire reliably even when no interactive CLI is open. To restore, see automation/RESTORE-SCHEDULES.md.",
+  "repoRoot": "C:/Repo/OneDrive-SharePoint-in-Agentic-Work",
+  "commandCenter": "Data-Private/Data-Created/ODSP-AW-CC.html",
+  "cliSchedules": [
+    {
+      "id": "hourly-cc-maintenance",
+      "cron": "0 * * * *",
+      "summary": "Top-of-hour board audit + effort ticker (judgment only; needs the live CLI conversation to capture Ambal's asks). Deterministic upkeep is the ODSP-AW-Hourly-Maintenance Windows task.",
+      "prompt": "Top-of-hour ODSP-AW Command Center maintenance - lightweight, just the judgment work (the deterministic upkeep also runs as the ODSP-AW-Hourly-Maintenance Windows task, so it happens even when the CLI is closed). (1) AUDIT the \"What I Am Working On\" board (the progressBoard array in C:\\Repo\\OneDrive-SharePoint-in-Agentic-Work\\Data-Private\\Data-Created\\ODSP-AW-CC.html): add a row for EVERY ask Ambal made in the past hour that is missing; keep statuses honest (queued = pending, never a false in-progress); nothing Ambal prompted should ever be lost. (2) DAILY EFFORT TICKER (the effortTicker array): ensure TODAY's row (CST) sits at the TOP with inProgress:true - prepend if missing; refresh today's Operations/Data Wrangling/Insights Generation split + Ambal's prompt count from the day's work log (the board, statusLog + git activity); if the PREVIOUS day's row is still inProgress, close it out and finalize its note. Estimate from the work log - never fabricate a number; mark any reconstructed figure approximate. (3) Then run, in PowerShell: & 'C:\\Repo\\OneDrive-SharePoint-in-Agentic-Work\\scripts\\cc-maintenance.ps1' (validate + snapshot + rebuild the Decisions/Activity archives + index + memo pages). Data scrape/ingest + the full Data Health re-verify now run at the 7am refresh + nightly, not hourly; the storage report is nightly. Do NOT open a browser. Keep it silent and concise."
+    },
+    {
+      "id": "morning-attention",
+      "cron": "0 8 * * *",
+      "summary": "Morning attention - keeps the consolidated 'What Needs You' list (needFromYou) in the Tracker current (8:00 AM CST).",
+      "prompt": "Morning \"What Needs You\" refresh (8:00 AM CST). In C:\\Repo\\OneDrive-SharePoint-in-Agentic-Work\\Data-Private\\Data-Created\\ODSP-AW-CC.html, keep the single consolidated \"What Needs You\" list in the Tracker current (the needFromYou array, rendered as the active-need tbody): (a) add any new item only Ambal can move that surfaced since yesterday; (b) re-verify each open item's status (open / parked / watching / resolved) + priority, marking today's must-acts as top priority so they lead; (c) mark resolved anything Ambal cleared; never show a false status, and nothing Ambal needs should ever be lost. Pull data-freshness blockers from the Data Health tab (e.g., CoWork stale -> the re-auth item nfy7). Then run, in PowerShell: & 'C:\\Repo\\OneDrive-SharePoint-in-Agentic-Work\\scripts\\cc-maintenance.ps1'. Do NOT open a browser. Keep it silent and concise."
+    }
+  ],
+  "agentCadenceTasks": {
+    "note": "Headless agent cadences. Each is a Windows Scheduled Task (user ambalb, LogonType Interactive, RunLevel Limited, StartWhenAvailable) that runs powershell.exe -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File scripts\\run-agent-prompt.ps1 -PromptFile <prompt> -Name <name>. The wrapper invokes copilot -p <prompt> --allow-all-tools --allow-all-paths --no-ask-user -s, then safety-net commits + pushes and logs to automation/agent-logs/ (gitignored). These replaced the equivalent CLI schedules, which only fired when an interactive CLI was open + idle. To recreate, run scripts/register-agent-tasks.ps1.",
+    "tasks": [
+      {
+        "name": "ODSP-AW-Morning-Memo",
+        "trigger": "Daily 8:15 AM",
+        "executionTimeLimitMinutes": 30,
+        "promptFile": "automation/prompts/morning-memo.txt",
+        "wrapperName": "morning-memo",
+        "summary": "ONE consolidated daily morning memo (Verdict, State of the Union, Good/Bad, Act/Watch/Amplify, New Findings, Data Freshness, Pending + What I Need From You)."
+      },
+      {
+        "name": "ODSP-AW-EOD-Closeout",
+        "trigger": "Daily 1:00 AM CST",
+        "executionTimeLimitMinutes": 45,
+        "promptFile": "automation/prompts/eod-closeout.txt",
+        "wrapperName": "eod-closeout",
+        "summary": "Nightly governance reconcile + Data Health re-verify + Audit History row + EOD Partnership Review (also written as an M-series memo) + cc-maintenance + archive-eod."
+      },
+      {
+        "name": "ODSP-AW-Weekly-Reflection",
+        "trigger": "Weekly Thursday 10:30 PM",
+        "executionTimeLimitMinutes": 20,
+        "promptFile": "automation/prompts/weekly-reflection.txt",
+        "wrapperName": "weekly-reflection",
+        "summary": "Weekly reflection memo (Cadence, Skills, Memory). 20-min cap; clears well before the 1am EOD."
+      }
+    ]
+  },
+  "relatedWindowsTasks": [
+    { "name": "ODSP-AW-Daily-Refresh", "when": "7:00 AM CST", "runs": "scripts/refresh-odsp-aw-data.ps1" },
+    { "name": "ODSP-AW-EOD-Archive", "when": "Daily 1:45 AM CST (backstop; the 1am close-out also runs it)", "runs": "scripts/archive-eod.ps1" },
+    { "name": "ODSP-AW-Hourly-Maintenance", "when": "hourly", "runs": "scripts/cc-maintenance.ps1" },
+    { "name": "ODSP-AW-Hourly-Commit", "when": "hourly", "runs": "scripts/hourly-git-commit.ps1" },
+    { "name": "ODSP-AW-OneDrive-Backup", "when": "hourly", "runs": "scripts/backup-to-onedrive.ps1" }
+  ],
+  "retired": [
+    { "id": "nightly-governance-reconcile", "reason": "Replaced by the ODSP-AW-EOD-Closeout headless Windows task." },
+    { "id": "morning-memo / weekly-reflection (CLI)", "reason": "Replaced by the ODSP-AW-Morning-Memo and ODSP-AW-Weekly-Reflection headless Windows tasks." },
+    { "id": "friday-pulse-prep", "reason": "Comms / Inform-Team Pulse card retired; no longer a standing cadence." },
+    { "id": "monthly-mbr", "reason": "Comms MBR card retired; no longer a standing cadence." }
+  ]
+}

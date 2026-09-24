@@ -1,0 +1,32 @@
+# ODSP-AW Agent — .gitignore
+
+# Output artifacts (generated, not committed)
+output/
+
+# Node modules (if scraping locally)
+node_modules/
+
+# Scraped data (large, regenerated on each run)
+data/
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor files
+.vscode/
+*.swp
+*.swo
+*~
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# Data junction (created by setup script; points to repo-root Data-Public/)
+context/data/
+
+# Agency CLI local state
+.agency/
